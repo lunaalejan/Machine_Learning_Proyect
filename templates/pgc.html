@@ -1,0 +1,499 @@
+
+{% extends "base.html" %}
+
+{% block title %}PGC | Predictive Maintenance System{% endblock %}
+
+{% block content %}
+
+<style>
+    .pgc-page {
+        background: #D8D0C3;
+        color: #302D28;
+        min-height: 100vh;
+    }
+
+    .pgc-hero {
+        padding: 85px 7.2% 70px;
+        background: linear-gradient(120deg, #E5DED3, #C4B8A7);
+        border-bottom: 1px solid #B8AC9C;
+    }
+
+    .pgc-container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .pgc-label {
+        color: #79644E;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 18px;
+        text-transform: uppercase;
+    }
+
+    .pgc-hero h1 {
+        color: #292722;
+        font-size: clamp(38px, 5vw, 62px);
+        line-height: 1.2;
+        margin-bottom: 22px;
+    }
+
+    .pgc-hero h1 span {
+        color: #89745C;
+    }
+
+    .pgc-intro {
+        max-width: 750px;
+        color: #625B51;
+        font-size: 16px;
+        line-height: 1.9;
+    }
+
+    .pgc-content {
+        max-width: 1200px;
+        margin: auto;
+        padding: 65px 7.2% 90px;
+    }
+
+    .pgc-section {
+        margin-bottom: 28px;
+        padding: 32px;
+        background: #E5DED3;
+        border: 1px solid #B8AC9C;
+        border-radius: 13px;
+        box-shadow: 0 8px 25px rgba(64, 58, 51, .04);
+    }
+
+    .pgc-section h2 {
+        color: #403A33;
+        font-size: 24px;
+        margin-bottom: 18px;
+    }
+
+    .pgc-section p {
+        color: #625B51;
+        font-size: 14px;
+        line-height: 1.9;
+        margin-bottom: 12px;
+    }
+
+    .pgc-section p:last-child {
+        margin-bottom: 0;
+    }
+
+    .research-question {
+        background: #403A33;
+        border-color: #403A33;
+    }
+
+    .research-question .pgc-label {
+        color: #C4B8A7;
+    }
+
+    .research-question h2 {
+        color: #F5EFE6;
+    }
+
+    .research-question p {
+        color: #E5DED3;
+        font-size: 17px;
+        line-height: 1.9;
+    }
+
+    .objectives-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 22px;
+    }
+
+    .objective-card {
+        background: #D8D0C3;
+        border: 1px solid #B8AC9C;
+        border-radius: 10px;
+        padding: 23px;
+    }
+
+    .objective-number {
+        color: #89745C;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+    }
+
+    .objective-card h3 {
+        color: #403A33;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .objective-card p {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .general-objective {
+        padding: 25px;
+        background: #C4B8A7;
+        border-left: 4px solid #89745C;
+        border-radius: 6px;
+        margin-top: 18px;
+    }
+
+    .general-objective h3 {
+        color: #403A33;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .general-objective p {
+        color: #403A33;
+        font-size: 14px;
+        line-height: 1.9;
+    }
+
+    .pgc-note {
+        padding: 25px 30px;
+        background: #C4B8A7;
+        border-radius: 10px;
+        margin-top: 30px;
+    }
+
+    .pgc-note h3 {
+        color: #403A33;
+        font-size: 17px;
+        margin-bottom: 10px;
+    }
+
+    .pgc-note p {
+        color: #625B51;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 700px) {
+        .pgc-hero {
+            padding: 60px 6%;
+        }
+
+        .pgc-content {
+            padding: 45px 6% 65px;
+        }
+
+        .pgc-section {
+            padding: 23px;
+        }
+
+        .objectives-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .pgc-section h2 {
+            font-size: 21px;
+        }
+    }
+</style>
+
+
+<div class="pgc-page">
+
+    <!-- PAGE INTRODUCTION -->
+
+    <section class="pgc-hero">
+
+        <div class="pgc-container">
+
+            <div class="pgc-label">
+                PROJECT MANAGEMENT
+            </div>
+
+            <h1>
+                Project <span>General Context</span>
+            </h1>
+
+            <p class="pgc-intro">
+                This section presents the context, problem,
+                research question, justification, and objectives
+                of the Predictive Maintenance System project.
+                It establishes the foundation for the development
+                of a software solution supported by Machine Learning.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="pgc-content">
+
+
+        <!-- PROBLEM STATEMENT -->
+
+        <section class="pgc-section">
+
+            <div class="pgc-label">
+                01 · PROBLEM STATEMENT
+            </div>
+
+            <h2>Identification of the Problem</h2>
+
+            <p>
+                Companies use different devices and equipment
+                to carry out their daily activities. However,
+                keeping track of maintenance dates, service
+                history, and equipment conditions can become
+                difficult when this information is managed
+                manually or stored in different places.
+            </p>
+
+            <p>
+                Inadequate maintenance management can lead
+                to missed inspections, unexpected equipment
+                failures, operational interruptions, and
+                increased maintenance costs.
+            </p>
+
+            <p>
+                For this reason, a system is needed to centralize
+                equipment information, record maintenance
+                activities, monitor service schedules, and
+                provide information that helps identify possible
+                equipment failures.
+            </p>
+
+        </section>
+
+
+        <!-- RESEARCH QUESTION -->
+
+        <section class="pgc-section research-question">
+
+            <div class="pgc-label">
+                02 · RESEARCH QUESTION
+            </div>
+
+            <h2>Research Question</h2>
+
+            <p>
+                How can a predictive maintenance system be
+                developed to manage company devices, monitor
+                maintenance schedules, and estimate failure
+                risk based on maintenance history and time
+                elapsed since the last service?
+            </p>
+
+        </section>
+
+
+        <!-- JUSTIFICATION -->
+
+        <section class="pgc-section">
+
+            <div class="pgc-label">
+                03 · JUSTIFICATION
+            </div>
+
+            <h2>Why Is This Project Important?</h2>
+
+            <p>
+                The development of a predictive maintenance
+                system is important because it provides companies
+                with a centralized tool to manage their equipment
+                and maintenance information.
+            </p>
+
+            <p>
+                The system will allow users to register devices,
+                record maintenance activities, review service
+                history, and receive alerts when maintenance
+                is approaching or overdue.
+            </p>
+
+            <p>
+                In addition, the integration of a Machine Learning
+                model will make it possible to analyze available
+                data and identify patterns associated with
+                equipment failure risk. This information can
+                support maintenance planning and decision-making.
+            </p>
+
+            <p>
+                The project is feasible because it can be developed
+                using accessible programming tools, a database,
+                and publicly available datasets for experimentation
+                and model evaluation.
+            </p>
+
+        </section>
+
+
+        <!-- OBJECTIVES -->
+
+        <section class="pgc-section">
+
+            <div class="pgc-label">
+                04 · PROJECT OBJECTIVES
+            </div>
+
+            <h2>Project Objectives</h2>
+
+
+            <!-- GENERAL OBJECTIVE -->
+
+            <div class="general-objective">
+
+                <h3>General Objective</h3>
+
+                <p>
+                    To develop a predictive maintenance system
+                    using Machine Learning that enables companies
+                    to register devices, manage maintenance
+                    schedules, and estimate equipment failure
+                    risk based on available data.
+                </p>
+
+            </div>
+
+
+            <!-- SPECIFIC OBJECTIVES -->
+
+            <div style="margin-top: 30px;">
+
+                <div class="pgc-label">
+                    SPECIFIC OBJECTIVES
+                </div>
+
+                <div class="objectives-grid">
+
+
+                    <article class="objective-card">
+
+                        <div class="objective-number">
+                            OBJECTIVE 01
+                        </div>
+
+                        <h3>
+                            Identify Requirements
+                        </h3>
+
+                        <p>
+                            Identify the functional requirements
+                            needed for device registration and
+                            maintenance management.
+                        </p>
+
+                    </article>
+
+
+                    <article class="objective-card">
+
+                        <div class="objective-number">
+                            OBJECTIVE 02
+                        </div>
+
+                        <h3>
+                            Design the Database
+                        </h3>
+
+                        <p>
+                            Design and implement a database
+                            to store device information,
+                            maintenance dates, and service history.
+                        </p>
+
+                    </article>
+
+
+                    <article class="objective-card">
+
+                        <div class="objective-number">
+                            OBJECTIVE 03
+                        </div>
+
+                        <h3>
+                            Develop the ML Model
+                        </h3>
+
+                        <p>
+                            Develop a Machine Learning model
+                            to analyze available data and
+                            estimate equipment failure risk.
+                        </p>
+
+                    </article>
+
+
+                    <article class="objective-card">
+
+                        <div class="objective-number">
+                            OBJECTIVE 04
+                        </div>
+
+                        <h3>
+                            Implement Alerts
+                        </h3>
+
+                        <p>
+                            Implement an alert system based
+                            on the time elapsed since the last
+                            maintenance and the estimated
+                            failure risk.
+                        </p>
+
+                    </article>
+
+
+                    <article class="objective-card">
+
+                        <div class="objective-number">
+                            OBJECTIVE 05
+                        </div>
+
+                        <h3>
+                            Evaluate the System
+                        </h3>
+
+                        <p>
+                            Evaluate the software through
+                            functional tests for registration,
+                            maintenance tracking, alerts,
+                            and predictions.
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROJECT SCOPE NOTE -->
+
+        <section class="pgc-note">
+
+            <h3>Project Approach</h3>
+
+            <p>
+                The system combines two complementary functions:
+                scheduled maintenance monitoring, based on
+                maintenance dates and elapsed time, and failure
+                risk estimation, supported by a Machine Learning
+                model. These functions provide different types
+                of information to support equipment management.
+            </p>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+{% endblock %}

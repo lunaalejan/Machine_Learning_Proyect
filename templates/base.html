@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Predictive Maintenance System{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background: #D8D0C3;
+            --surface: #E5DED3;
+            --surface-secondary: #C4B8A7;
+            --primary: #403A33;
+            --primary-dark: #292722;
+            --secondary: #897A68;
+            --text: #302D28;
+            --text-secondary: #625B51;
+            --border: #B8AC9C;
+            --accent: #8A7156;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Libre Baskerville', serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVIGATION */
+
+        .header {
+            background: var(--primary);
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .navbar {
+            max-width: 1400px;
+            min-height: 84px;
+            margin: auto;
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #F0E9DF;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            background: var(--surface-secondary);
+            color: var(--primary-dark);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #D8D0C3;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #FFFFFF;
+        }
+
+        .nav-links a.active {
+            border-bottom: 2px solid #C4B8A7;
+            padding-bottom: 7px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            color: #FFFFFF;
+            border: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        /* MAIN */
+
+        main {
+            flex: 1;
+            width: 100%;
+            background: var(--background);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-dark);
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* BUTTONS */
+
+        button, .btn {
+            background: var(--primary);
+            color: #F5EFE6;
+            border: 1px solid var(--primary);
+            border-radius: 7px;
+            padding: 12px 22px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        button:hover, .btn:hover {
+            background: var(--secondary);
+        }
+
+        /* CARDS */
+
+        .card, .content-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: var(--primary);
+            color: #E5DED3;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px 0;
+                gap: 20px;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="navbar">
+
+            <a href="{{ url_for('home') }}" class="brand">
+                <div class="logo">PM</div>
+                <span>Predictive Maintenance</span>
+            </a>
+
+            <button class="menu-toggle" onclick="toggleMenu()">
+                ☰
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+
+                <a href="{{ url_for('home') }}"
+                   class="{% if active_page == 'home' %}active{% endif %}">
+                    Home
+                </a>
+
+                <a href="{{ url_for('pgc') }}"
+                   class="{% if active_page == 'pgc' %}active{% endif %}">
+                    PGC
+                </a>
+
+                <a href="{{ url_for('crisp_dm') }}"
+                   class="{% if active_page == 'crisp_dm' %}active{% endif %}">
+                    CRISP-DM
+                </a>
+
+                <a href="{{ url_for('application') }}"
+                   class="{% if active_page == 'application' %}active{% endif %}">
+                    Application
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+
+        <span>Predictive Maintenance System · Academic Project</span>
+
+        <span>Universidad de Cundinamarca · Chía, Colombia</span>
+
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("navLinks").classList.toggle("show");
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,623 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Predictive Maintenance System{% endblock %}
+
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+
+* {
+    font-family: 'Libre Baskerville', serif;
+}
+    /* HOME - BEIGE & DARK BROWN */
+
+    .hero {
+        min-height: calc(100vh - 84px);
+        padding: 70px 7.2%;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        background:
+            radial-gradient(
+                ellipse at 82% 40%,
+                #B9A994 0%,
+                #D1C5B5 30%,
+                transparent 65%
+            ),
+            linear-gradient(
+                112deg,
+                #D8D0C3,
+                #E5DED3 60%,
+                #CFC3B2
+            );
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: .13;
+        background-image: radial-gradient(
+            #897A68 1px,
+            transparent 1px
+        );
+        background-size: 38px 38px;
+    }
+
+    .hero-container {
+        width: 100%;
+        max-width: 1500px;
+        margin: auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content {
+        max-width: 850px;
+    }
+
+    .hero-label {
+        color: #79644E;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 28px;
+        text-transform: uppercase;
+    }
+
+    .hero h1 {
+        color: #292722;
+        font-size: clamp(42px, 6vw, 78px);
+        line-height: 1.15;
+        margin-bottom: 25px;
+        letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+        color: #89745C;
+        display: block;
+    }
+
+    .hero-description {
+        max-width: 650px;
+        color: #625B51;
+        font-size: 16px;
+        line-height: 1.9;
+        margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .hero-buttons .btn {
+        display: inline-block;
+        padding: 14px 24px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: bold;
+        transition: .3s;
+    }
+
+    .btn-primary {
+        background: #403A33;
+        color: #F5EFE6;
+        border: 1px solid #403A33;
+    }
+
+    .btn-primary:hover {
+        background: #6B5C4C;
+        transform: translateY(-3px);
+    }
+
+    .btn-secondary {
+        background: #E5DED3;
+        color: #403A33;
+        border: 1px solid #897A68;
+    }
+
+    .btn-secondary:hover {
+        background: #C4B8A7;
+        transform: translateY(-3px);
+    }
+
+    /* TECHNOLOGY ILLUSTRATION */
+
+    .hero-visual {
+        position: absolute;
+        right: 3%;
+        top: 50%;
+        transform: translateY(-45%);
+        width: 45%;
+        max-width: 620px;
+        opacity: .85;
+        pointer-events: none;
+    }
+
+    .hero-visual svg {
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 15px 35px #403A3325);
+    }
+
+    /* PROJECT INFORMATION */
+
+    .project-info {
+        padding: 85px 7.2%;
+        background: #C4B8A7;
+        border-top: 1px solid #B8AC9C;
+    }
+
+    .section-label {
+        color: #79644E;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+    }
+
+    .project-info h2 {
+        color: #292722;
+        font-size: 34px;
+        margin-bottom: 35px;
+    }
+
+    .project-details {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 55px;
+    }
+
+    .details-left {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .detail-item span {
+        display: block;
+        color: #79644E;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+        margin-bottom: 7px;
+    }
+
+    .detail-item strong {
+        font-size: 14px;
+        color: #302D28;
+        line-height: 1.7;
+    }
+
+    /* PROJECT TEAM */
+
+    .students-title {
+        color: #79644E;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+        margin-bottom: 18px;
+    }
+
+    .students-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .student-card {
+        background: #E5DED3;
+        border: 1px solid #B8AC9C;
+        border-radius: 12px;
+        padding: 23px;
+        transition: .3s;
+    }
+
+    .student-card:hover {
+        border-color: #897A68;
+        transform: translateY(-4px);
+    }
+
+    .student-card h3 {
+        font-size: 14px;
+        color: #403A33;
+        margin-bottom: 12px;
+        line-height: 1.6;
+    }
+
+    .student-card a {
+        color: #79644E;
+        text-decoration: none;
+        font-size: 12px;
+        word-break: break-word;
+    }
+
+    .student-card a:hover {
+        color: #292722;
+    }
+
+    /* UNIVERSITY INFORMATION */
+
+    .university-footer {
+        margin-top: 45px;
+        padding-top: 25px;
+        border-top: 1px solid #AFA18F;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        color: #625B51;
+        font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+
+        .hero-visual {
+            right: -12%;
+            width: 60%;
+            opacity: .30;
+        }
+
+        .project-details {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .hero {
+            min-height: calc(100vh - 70px);
+            padding: 65px 6%;
+        }
+
+        .hero h1 {
+            font-size: 43px;
+            letter-spacing: -1px;
+        }
+
+        .hero-description {
+            font-size: 14px;
+        }
+
+        .hero-visual {
+            width: 100%;
+            right: -25%;
+            opacity: .18;
+        }
+
+        .project-info {
+            padding: 60px 6%;
+        }
+
+        .project-info h2 {
+            font-size: 27px;
+        }
+
+        .students-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .university-footer {
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+<!-- HOME HERO SECTION -->
+
+<section class="hero" id="home">
+
+    <div class="hero-container">
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+                SYSTEMS ENGINEERING · TECHNOLOGY PROJECT
+            </div>
+
+            <h1>
+                Smarter care for
+                <span>critical equipment.</span>
+            </h1>
+
+            <p class="hero-description">
+                An intelligent predictive maintenance system
+                that helps organizations manage equipment,
+                monitor service schedules, and anticipate
+                potential failures using machine learning.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('pgc') }}"
+                   class="btn btn-primary">
+                    Explore the PGC →
+                </a>
+
+                <a href="{{ url_for('application') }}"
+                   class="btn btn-secondary">
+                    Discover the system
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TECHNOLOGY ILLUSTRATION -->
+
+    <div class="hero-visual">
+
+        <svg viewBox="0 0 620 540"
+             fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+
+            <defs>
+
+                <linearGradient id="gradient"
+                    x1="110" y1="70"
+                    x2="500" y2="470">
+
+                    <stop stop-color="#89745C"/>
+                    <stop offset="1" stop-color="#B49B7C"/>
+
+                </linearGradient>
+
+                <linearGradient id="glass"
+                    x1="180" y1="90"
+                    x2="440" y2="440">
+
+                    <stop stop-color="#C4B8A7"
+                          stop-opacity=".9"/>
+
+                    <stop offset="1"
+                          stop-color="#E5DED3"
+                          stop-opacity=".9"/>
+
+                </linearGradient>
+
+            </defs>
+
+            <circle cx="315" cy="270" r="210"
+                stroke="#897A68"
+                stroke-opacity=".35"
+                stroke-width="2"
+                stroke-dasharray="5 10"/>
+
+            <circle cx="315" cy="270" r="170"
+                stroke="#A18C73"
+                stroke-opacity=".4"/>
+
+            <path d="M90 270H160L190 230L225 310L260 180L300 270H360L390 235L425 270H535"
+                stroke="url(#gradient)"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+            <rect x="176" y="92"
+                width="280" height="330"
+                rx="28"
+                fill="url(#glass)"
+                stroke="#897A68"
+                stroke-width="2"/>
+
+            <rect x="202" y="122"
+                width="228" height="46"
+                rx="10"
+                fill="#C4B8A7"
+                stroke="#897A68"/>
+
+            <circle cx="224" cy="145" r="6"
+                fill="#58745D"/>
+
+            <path d="M243 145H340"
+                stroke="#79644E"
+                stroke-width="5"
+                stroke-linecap="round"/>
+
+            <rect x="202" y="188"
+                width="104" height="93"
+                rx="12"
+                fill="#D8D0C3"
+                stroke="#AFA18F"/>
+
+            <rect x="318" y="188"
+                width="112" height="93"
+                rx="12"
+                fill="#D8D0C3"
+                stroke="#AFA18F"/>
+
+            <path d="M221 250L239 232L255 241L283 211"
+                stroke="#89745C"
+                stroke-width="3"
+                stroke-linecap="round"/>
+
+            <circle cx="374" cy="230"
+                r="27"
+                stroke="#A47B43"
+                stroke-width="7"
+                stroke-dasharray="118 55"
+                transform="rotate(-90 374 230)"/>
+
+            <text x="374" y="235"
+                text-anchor="middle"
+                fill="#403A33"
+                font-size="14"
+                font-weight="700">
+                72%
+            </text>
+
+            <rect x="202" y="299"
+                width="228" height="91"
+                rx="12"
+                fill="#D8D0C3"
+                stroke="#AFA18F"/>
+
+            <path d="M220 365L245 345L267 355L293 326L316 340L341 318L365 332L395 310"
+                stroke="#89745C"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+            <circle cx="126" cy="135" r="8"
+                fill="#A18C73"/>
+
+            <circle cx="494" cy="370" r="10"
+                fill="#89745C"/>
+
+            <circle cx="505" cy="160" r="5"
+                fill="#B49B7C"/>
+
+        </svg>
+
+    </div>
+
+</section>
+
+
+<!-- PROJECT INFORMATION -->
+
+<section class="project-info" id="project-information">
+
+    <div class="section-label">
+        ACADEMIC PROJECT
+    </div>
+
+    <h2>Project Information</h2>
+
+
+    <div class="project-details">
+
+
+        <!-- UNIVERSITY DETAILS -->
+
+        <div class="details-left">
+
+            <div class="detail-item">
+
+                <span>PROJECT TITLE</span>
+
+                <strong>
+                    Development of a Predictive Maintenance System
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>PROGRAM</span>
+
+                <strong>
+                    Systems Engineering and Computing
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>CAMPUS</span>
+
+                <strong>
+                    Chía
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>PROJECT TYPE</span>
+
+                <strong>
+                    Technological
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>ACADEMIC CYCLE</span>
+
+                <strong>
+                    II
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROJECT TEAM -->
+
+        <div class="students-section">
+
+            <div class="students-title">
+                PROJECT TEAM
+            </div>
+
+
+            <div class="students-grid">
+
+
+                <div class="student-card">
+
+                    <h3>
+                        Valery Sofia Quitian Carrillo
+                    </h3>
+
+                    <a href="mailto:vquitian@ucundinamarca.edu.co">
+                        vquitian@ucundinamarca.edu.co
+                    </a>
+
+                </div>
+
+
+                <div class="student-card">
+
+                    <h3>
+                        Luna Alejandra Martínez Méndez
+                    </h3>
+
+                    <a href="mailto:lunaamartinez@ucundinamarca.edu.co">
+                        lunaamartinez@ucundinamarca.edu.co
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- UNIVERSITY INFORMATION -->
+
+    <div class="university-footer">
+
+        <span>
+            Universidad de Cundinamarca
+        </span>
+
+        <span>
+            Systems Engineering and Computing · Chía, Colombia
+        </span>
+
+    </div>
+
+</section>
+
+{% endblock %}
