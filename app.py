@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from flask import (
     Flask,
@@ -88,12 +88,14 @@ def application():
         try:
             # Get form information
             name = request.form.get("name", "").strip()
+
             equipment_type = request.form.get(
                 "equipment_type", ""
             ).strip()
 
             brand = request.form.get("brand", "").strip()
             model = request.form.get("model", "").strip()
+
             serial_number = request.form.get(
                 "serial_number", ""
             ).strip()
@@ -194,6 +196,7 @@ def application():
         error=error
     )
 
+
 # ==============================
 # MAINTENANCE PAGE
 # ==============================
@@ -204,31 +207,60 @@ def maintenance():
     success = None
     error = None
 
+    # REGISTER MAINTENANCE
     if request.method == "POST":
+
         try:
-            equipment_id = request.form.get("equipment_id", type=int)
+            equipment_id = request.form.get(
+                "equipment_id", type=int
+            )
+
             maintenance_date = date.fromisoformat(
                 request.form.get("maintenance_date", "")
             )
-            maintenance_type = request.form.get("maintenance_type", "").strip()
-            description = request.form.get("description", "").strip()
-            performed_by = request.form.get("performed_by", "").strip()
-            cost_value = request.form.get("cost", "").strip()
+
+            maintenance_type = request.form.get(
+                "maintenance_type", ""
+            ).strip()
+
+            description = request.form.get(
+                "description", ""
+            ).strip()
+
+            performed_by = request.form.get(
+                "performed_by", ""
+            ).strip()
+
+            cost_value = request.form.get(
+                "cost", ""
+            ).strip()
 
             # Validate equipment
-            selected_equipment = db.session.get(Equipment, equipment_id)
+            selected_equipment = db.session.get(
+                Equipment, equipment_id
+            )
 
             if selected_equipment is None:
-                raise ValueError("Please select a valid equipment.")
+                raise ValueError(
+                    "Please select a valid equipment."
+                )
 
-            if maintenance_type not in ["Preventive", "Corrective"]:
-                raise ValueError("Please select a valid maintenance type.")
+            # Validate maintenance type
+            if maintenance_type not in [
+                "Preventive",
+                "Corrective"
+            ]:
+                raise ValueError(
+                    "Please select a valid maintenance type."
+                )
 
             # Validate cost
             cost = float(cost_value) if cost_value else None
 
             if cost is not None and cost < 0:
-                raise ValueError("Maintenance cost cannot be negative.")
+                raise ValueError(
+                    "Maintenance cost cannot be negative."
+                )
 
             # Create maintenance record
             new_record = MaintenanceRecord(
@@ -247,36 +279,101 @@ def maintenance():
                 selected_equipment.last_maintenance_date is None
                 or maintenance_date >= selected_equipment.last_maintenance_date
             ):
-                selected_equipment.last_maintenance_date = maintenance_date
+                selected_equipment.last_maintenance_date = (
+                    maintenance_date
+                )
 
             db.session.commit()
 
-            return redirect(url_for("maintenance", saved=1))
+            return redirect(
+                url_for("maintenance", saved=1)
+            )
 
-        except ValueError as e:
+        except ValueError as exc:
             db.session.rollback()
-            error = str(e)
+            error = str(exc)
 
         except Exception:
             db.session.rollback()
-            error = "An error occurred while saving the maintenance record."
+            app.logger.exception(
+                "Maintenance registration failed"
+            )
+            error = (
+                "An error occurred while saving "
+                "the maintenance record."
+            )
 
-    equipment_list = Equipment.query.order_by(Equipment.name.asc()).all()
+    # RETRIEVE EQUIPMENT
+    equipment_list = Equipment.query.order_by(
+        Equipment.name.asc()
+    ).all()
 
+    # RETRIEVE MAINTENANCE HISTORY
     records = MaintenanceRecord.query.order_by(
         MaintenanceRecord.maintenance_date.desc()
     ).all()
 
-    if request.args.get("saved") == "1":
-        success = "Maintenance record registered successfully!"
+    # CALCULATE MAINTENANCE SCHEDULE
+    maintenance_schedule = []
 
+    today = date.today()
+
+    for item in equipment_list:
+
+        # Use last maintenance date or installation date
+        reference_date = (
+            item.last_maintenance_date
+            or item.installation_date
+        )
+
+        if reference_date:
+
+            next_maintenance = reference_date + timedelta(
+                days=item.maintenance_interval_days
+            )
+
+            days_remaining = (
+                next_maintenance - today
+            ).days
+
+            if days_remaining < 0:
+                status = "Overdue"
+
+            elif days_remaining <= 7:
+                status = "Due Soon"
+
+            else:
+                status = "Up to Date"
+
+        else:
+            next_maintenance = None
+            days_remaining = None
+            status = "No Date"
+
+        maintenance_schedule.append({
+            "equipment": item,
+            "next_maintenance": next_maintenance,
+            "days_remaining": days_remaining,
+            "status": status
+        })
+
+    # SUCCESS MESSAGE
+    if request.args.get("saved") == "1":
+        success = (
+            "Maintenance record registered successfully!"
+        )
+
+    # DISPLAY MAINTENANCE PAGE
     return render_template(
         "maintenance.html",
         equipment=equipment_list,
         records=records,
+        maintenance_schedule=maintenance_schedule,
         success=success,
         error=error
     )
+
+
 # ==============================
 # CREATE DATABASE TABLES
 # ==============================

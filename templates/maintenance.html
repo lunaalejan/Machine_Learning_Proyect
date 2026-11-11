@@ -220,7 +220,69 @@
         </form>
     </div>
 
-    <div class="maintenance-card">
+   <!-- UPCOMING MAINTENANCE -->
+
+<div class="maintenance-card">
+
+    <h2>Upcoming Maintenance</h2>
+
+    <div class="table-wrapper">
+
+        <table class="maintenance-table">
+
+            <thead>
+                <tr>
+                    <th>Equipment</th>
+                    <th>Last Reference Date</th>
+                    <th>Next Maintenance</th>
+                    <th>Days Remaining</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in maintenance_schedule %}
+
+                <tr>
+                    <td>{{ item.equipment.name }}</td>
+
+                    <td>
+                        {{ item.equipment.last_maintenance_date or item.equipment.installation_date or '-' }}
+                    </td>
+
+                    <td>
+                        {{ item.next_maintenance or '-' }}
+                    </td>
+
+                    <td>
+                        {{ item.days_remaining if item.days_remaining is not none else '-' }}
+                    </td>
+
+                    <td>
+                        <strong>{{ item.status }}</strong>
+                    </td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="5">
+                        No equipment registered.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+    
 
         <h2>Maintenance History</h2>
 
