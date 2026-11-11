@@ -6,10 +6,18 @@
 
 <style>
     .maintenance-container {
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 45px auto;
         padding: 25px;
         color: #302D28;
+    }
+
+    .page-heading {
+        margin-bottom: 30px;
+    }
+
+    .page-heading h1 {
+        margin-bottom: 12px;
     }
 
     .maintenance-card {
@@ -18,12 +26,52 @@
         border-radius: 16px;
         margin-bottom: 30px;
         border: 1px solid #B8AC9C;
+        box-shadow: 0 4px 12px rgba(64, 58, 51, 0.04);
     }
 
     .maintenance-card h2 {
-        margin-bottom: 25px;
+        margin-bottom: 22px;
         color: #403A33;
     }
+
+    /* SUMMARY CARDS */
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .summary-card {
+        background: #E5DED3;
+        border: 1px solid #B8AC9C;
+        border-radius: 12px;
+        padding: 22px;
+    }
+
+    .summary-card p {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .summary-card h3 {
+        font-size: 28px;
+    }
+
+    .summary-card.overdue {
+        border-left: 5px solid #A13D32;
+    }
+
+    .summary-card.due-soon {
+        border-left: 5px solid #B18435;
+    }
+
+    .summary-card.up-to-date {
+        border-left: 5px solid #547A58;
+    }
+
+    /* FORM */
 
     .maintenance-form {
         display: grid;
@@ -43,6 +91,7 @@
 
     .form-group label {
         font-weight: bold;
+        font-size: 14px;
     }
 
     .form-group input,
@@ -54,6 +103,7 @@
         background: #F8F5F0;
         color: #302D28;
         font-family: inherit;
+        width: 100%;
     }
 
     .form-group textarea {
@@ -69,14 +119,18 @@
         border-radius: 8px;
         cursor: pointer;
         font-weight: bold;
+        font-family: inherit;
+        transition: 0.3s;
     }
 
     .maintenance-button:hover {
         background: #625447;
     }
 
+    /* MESSAGES */
+
     .message {
-        padding: 12px;
+        padding: 13px;
         border-radius: 8px;
         margin-bottom: 20px;
     }
@@ -91,6 +145,8 @@
         color: #8B3028;
     }
 
+    /* TABLES */
+
     .table-wrapper {
         overflow-x: auto;
     }
@@ -99,17 +155,81 @@
         width: 100%;
         border-collapse: collapse;
         background: #F8F5F0;
+        min-width: 650px;
     }
 
     .maintenance-table th,
     .maintenance-table td {
-        padding: 14px;
+        padding: 15px;
         border-bottom: 1px solid #B8AC9C;
         text-align: left;
+        font-size: 13px;
     }
 
     .maintenance-table th {
         background: #C4B8A7;
+        color: #302D28;
+    }
+
+    .maintenance-table tbody tr:hover {
+        background: #EFE9E0;
+    }
+
+    /* STATUS LABELS */
+
+    .status {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .status-overdue {
+        background: #F3DDDA;
+        color: #8B3028;
+    }
+
+    .status-due-soon {
+        background: #F4E8C9;
+        color: #805B1E;
+    }
+
+    .status-up-to-date {
+        background: #DCEBDD;
+        color: #285B35;
+    }
+
+    .status-no-date {
+        background: #E4DFD7;
+        color: #625B51;
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 25px !important;
+        color: #625B51;
+    }
+
+    .section-description {
+        margin-top: -12px;
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+        .maintenance-container {
+            padding: 15px;
+        }
+
+        .maintenance-card {
+            padding: 20px;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     @media (max-width: 650px) {
@@ -125,12 +245,49 @@
 
 <div class="maintenance-container">
 
-    <h1>Maintenance Management</h1>
+    <div class="page-heading">
+        <h1>Maintenance Management</h1>
 
-    <p>
-        Register maintenance activities and review the service history
-        of company equipment.
-    </p>
+        <p>
+            Register maintenance activities, monitor upcoming services
+            and review the maintenance history of company equipment.
+        </p>
+    </div>
+
+    <!-- SUMMARY -->
+
+    {% set ns = namespace(overdue=0, due_soon=0, up_to_date=0) %}
+
+    {% for item in maintenance_schedule %}
+        {% if item.status == 'Overdue' %}
+            {% set ns.overdue = ns.overdue + 1 %}
+        {% elif item.status == 'Due Soon' %}
+            {% set ns.due_soon = ns.due_soon + 1 %}
+        {% elif item.status == 'Up to Date' %}
+            {% set ns.up_to_date = ns.up_to_date + 1 %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="summary-grid">
+
+        <div class="summary-card overdue">
+            <p>Overdue Equipment</p>
+            <h3>{{ ns.overdue }}</h3>
+        </div>
+
+        <div class="summary-card due-soon">
+            <p>Due Soon</p>
+            <h3>{{ ns.due_soon }}</h3>
+        </div>
+
+        <div class="summary-card up-to-date">
+            <p>Up to Date</p>
+            <h3>{{ ns.up_to_date }}</h3>
+        </div>
+
+    </div>
+
+    <!-- REGISTER MAINTENANCE -->
 
     <div class="maintenance-card">
 
@@ -154,7 +311,8 @@
 
                     {% for item in equipment %}
                         <option value="{{ item.id }}">
-                            {{ item.name }} - {{ item.serial_number or 'No serial number' }}
+                            {{ item.name }} -
+                            {{ item.serial_number or 'No serial number' }}
                         </option>
                     {% endfor %}
                 </select>
@@ -162,6 +320,7 @@
 
             <div class="form-group">
                 <label for="maintenance_date">Maintenance Date *</label>
+
                 <input
                     type="date"
                     name="maintenance_date"
@@ -182,6 +341,7 @@
 
             <div class="form-group full">
                 <label for="description">Description</label>
+
                 <textarea
                     name="description"
                     id="description"
@@ -191,6 +351,7 @@
 
             <div class="form-group">
                 <label for="performed_by">Performed By</label>
+
                 <input
                     type="text"
                     name="performed_by"
@@ -201,6 +362,7 @@
 
             <div class="form-group">
                 <label for="cost">Maintenance Cost</label>
+
                 <input
                     type="number"
                     name="cost"
@@ -218,13 +380,126 @@
             </div>
 
         </form>
+
     </div>
+
+    <!-- UPCOMING MAINTENANCE -->
+
+    <div class="maintenance-card">
+
+        <h2>Maintenance Schedule</h2>
+
+        <p class="section-description">
+            Automatically calculated maintenance dates based on the
+            last maintenance date or equipment installation date.
+        </p>
+
+        <div class="table-wrapper">
+
+            <table class="maintenance-table">
+
+                <thead>
+                    <tr>
+                        <th>Equipment</th>
+                        <th>Reference Date</th>
+                        <th>Interval</th>
+                        <th>Next Maintenance</th>
+                        <th>Days Remaining</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in maintenance_schedule %}
+
+                    <tr>
+
+                        <td>{{ item.equipment.name }}</td>
+
+                        <td>
+                            {{ item.equipment.last_maintenance_date or item.equipment.installation_date or '-' }}
+                        </td>
+
+                        <td>
+                            {{ item.equipment.maintenance_interval_days }} days
+                        </td>
+
+                        <td>
+                            {{ item.next_maintenance or '-' }}
+                        </td>
+
+                        <td>
+                            {% if item.days_remaining is not none %}
+                                {{ item.days_remaining }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+
+                            {% if item.status == 'Overdue' %}
+
+                                <span class="status status-overdue">
+                                    Overdue
+                                </span>
+
+                            {% elif item.status == 'Due Soon' %}
+
+                                <span class="status status-due-soon">
+                                    Due Soon
+                                </span>
+
+                            {% elif item.status == 'Up to Date' %}
+
+                                <span class="status status-up-to-date">
+                                    Up to Date
+                                </span>
+
+                            {% else %}
+
+                                <span class="status status-no-date">
+                                    No Date
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="6" class="empty-message">
+                            No equipment registered yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- MAINTENANCE HISTORY -->
 
     <div class="maintenance-card">
 
         <h2>Maintenance History</h2>
 
+        <p class="section-description">
+            Historical records of maintenance activities performed
+            on registered equipment.
+        </p>
+
         <div class="table-wrapper">
+
             <table class="maintenance-table">
 
                 <thead>
@@ -238,23 +513,35 @@
                 </thead>
 
                 <tbody>
+
                     {% for record in records %}
+
                     <tr>
                         <td>{{ record.equipment.name }}</td>
                         <td>{{ record.maintenance_date }}</td>
                         <td>{{ record.maintenance_type }}</td>
                         <td>{{ record.performed_by or '-' }}</td>
-                        <td>{{ record.cost if record.cost is not none else '-' }}</td>
+                        <td>
+                            {{ record.cost if record.cost is not none else '-' }}
+                        </td>
                     </tr>
+
                     {% else %}
+
                     <tr>
-                        <td colspan="5">No maintenance records available.</td>
+                        <td colspan="5" class="empty-message">
+                            No maintenance records available.
+                        </td>
                     </tr>
+
                     {% endfor %}
+
                 </tbody>
 
             </table>
+
         </div>
+
     </div>
 
 </div>

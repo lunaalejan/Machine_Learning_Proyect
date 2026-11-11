@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block title %}Application | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    .app-page {
+        max-width: 1150px;
+        margin: 0 auto;
+        padding: 50px 24px;
+        color: #302D28;
+    }
+
+    .app-heading {
+        margin-bottom: 30px;
+    }
+
+    .app-heading h1 {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+
+    .app-heading p {
+        color: #625B51;
+        line-height: 1.7;
+    }
+
+    .app-panel {
+        background: #E5DED3;
+        border: 1px solid #B8AC9C;
+        border-radius: 14px;
+        padding: 28px;
+        margin-bottom: 30px;
+    }
+
+    .app-panel h2 {
+        margin-top: 0;
+        font-size: 1.4rem;
+    }
+
+    .equipment-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .form-field label {
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .form-field input,
+    .form-field select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+        border: 1px solid #B8AC9C;
+        border-radius: 7px;
+        background: #F5F1EA;
+        color: #302D28;
+        font: inherit;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus {
+        outline: 2px solid #8A7156;
+        border-color: #8A7156;
+    }
+
+    .form-button {
+        grid-column: 1 / -1;
+        padding: 13px 20px;
+        border: none;
+        border-radius: 7px;
+        background: #403A33;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .form-button:hover {
+        background: #292722;
+    }
+
+    .notice {
+        padding: 13px;
+        border-radius: 7px;
+        margin-bottom: 18px;
+        background: #D9E8D5;
+        color: #29472A;
+    }
+
+    .error-notice {
+        background: #F2D8D3;
+        color: #782D25;
+    }
+
+    .equipment-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .equipment-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 650px;
+    }
+
+    .equipment-table th,
+    .equipment-table td {
+        padding: 13px;
+        text-align: left;
+        border-bottom: 1px solid #B8AC9C;
+    }
+
+    .equipment-table th {
+        background: #C4B8A7;
+    }
+
+    .empty-message {
+        color: #625B51;
+        padding: 15px 0;
+    }
+
+    @media (max-width: 650px) {
+        .equipment-form {
+            grid-template-columns: 1fr;
+        }
+
+        .app-panel {
+            padding: 20px;
+        }
+
+        .app-heading h1 {
+            font-size: 1.7rem;
+        }
+    }
+</style>
+
+<div class="app-page">
+
+    <div class="app-heading">
+        <h1>Predictive Maintenance Application</h1>
+
+        <p>
+            Register, organize and monitor company equipment.
+            Keep equipment information and maintenance records
+            in one centralized system.
+        </p>
+    </div>
+
+    <section class="app-panel">
+
+        <h2>Register New Equipment</h2>
+
+        {% if success %}
+            <div class="notice">{{ success }}</div>
+        {% endif %}
+
+        {% if error %}
+            <div class="notice error-notice">{{ error }}</div>
+        {% endif %}
+
+        <form class="equipment-form" method="POST">
+
+            <div class="form-field">
+                <label for="name">Equipment Name *</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Example: Office Computer"
+                    required
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="equipment_type">Equipment Type *</label>
+
+                <select id="equipment_type" name="equipment_type" required>
+                    <option value="">Select a type</option>
+                    <option value="Computer">Computer</option>
+                    <option value="Printer">Printer</option>
+                    <option value="Server">Server</option>
+                    <option value="Industrial Machine">Industrial Machine</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="brand">Brand</label>
+                <input
+                    type="text"
+                    id="brand"
+                    name="brand"
+                    placeholder="Example: Dell"
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="model">Model</label>
+                <input
+                    type="text"
+                    id="model"
+                    name="model"
+                    placeholder="Example: Latitude 5420"
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="serial_number">Serial Number</label>
+                <input
+                    type="text"
+                    id="serial_number"
+                    name="serial_number"
+                    placeholder="Unique serial number"
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="location">Location</label>
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    placeholder="Example: IT Department"
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="installation_date">Installation Date</label>
+                <input
+                    type="date"
+                    id="installation_date"
+                    name="installation_date"
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="maintenance_interval_days">
+                    Maintenance Interval (Days) *
+                </label>
+
+                <input
+                    type="number"
+                    id="maintenance_interval_days"
+                    name="maintenance_interval_days"
+                    min="1"
+                    value="90"
+                    required
+                >
+            </div>
+
+            <button class="form-button" type="submit">
+                Register Equipment
+            </button>
+
+        </form>
+
+    </section>
+
+    <section class="app-panel">
+
+        <h2>Registered Equipment</h2>
+
+        {% if equipment %}
+
+            <div class="equipment-table-wrapper">
+
+                <table class="equipment-table">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Brand</th>
+                            <th>Serial Number</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in equipment %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.equipment_type }}</td>
+                            <td>{{ item.brand or "—" }}</td>
+                            <td>{{ item.serial_number or "—" }}</td>
+                            <td>{{ item.location or "—" }}</td>
+                            <td>{{ item.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <p class="empty-message">
+                No equipment has been registered yet.
+                Use the form above to add your first equipment.
+            </p>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+{% endblock %}
