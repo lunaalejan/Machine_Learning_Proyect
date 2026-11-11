@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Maintenance | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    .maintenance-container {
+        max-width: 1100px;
+        margin: 45px auto;
+        padding: 25px;
+        color: #302D28;
+    }
+
+    .maintenance-card {
+        background: #E5DED3;
+        padding: 30px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+        border: 1px solid #B8AC9C;
+    }
+
+    .maintenance-card h2 {
+        margin-bottom: 25px;
+        color: #403A33;
+    }
+
+    .maintenance-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 13px;
+        border: 1px solid #B8AC9C;
+        border-radius: 8px;
+        background: #F8F5F0;
+        color: #302D28;
+        font-family: inherit;
+    }
+
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .maintenance-button {
+        background: #403A33;
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .maintenance-button:hover {
+        background: #625447;
+    }
+
+    .message {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .success {
+        background: #DCEBDD;
+        color: #285B35;
+    }
+
+    .error {
+        background: #F3DDDA;
+        color: #8B3028;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .maintenance-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #F8F5F0;
+    }
+
+    .maintenance-table th,
+    .maintenance-table td {
+        padding: 14px;
+        border-bottom: 1px solid #B8AC9C;
+        text-align: left;
+    }
+
+    .maintenance-table th {
+        background: #C4B8A7;
+    }
+
+    @media (max-width: 650px) {
+        .maintenance-form {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+    }
+</style>
+
+<div class="maintenance-container">
+
+    <h1>Maintenance Management</h1>
+
+    <p>
+        Register maintenance activities and review the service history
+        of company equipment.
+    </p>
+
+    <div class="maintenance-card">
+
+        <h2>Register New Maintenance</h2>
+
+        {% if success %}
+            <div class="message success">{{ success }}</div>
+        {% endif %}
+
+        {% if error %}
+            <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" class="maintenance-form">
+
+            <div class="form-group full">
+                <label for="equipment_id">Equipment *</label>
+
+                <select name="equipment_id" id="equipment_id" required>
+                    <option value="">Select equipment</option>
+
+                    {% for item in equipment %}
+                        <option value="{{ item.id }}">
+                            {{ item.name }} - {{ item.serial_number or 'No serial number' }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="maintenance_date">Maintenance Date *</label>
+                <input
+                    type="date"
+                    name="maintenance_date"
+                    id="maintenance_date"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="maintenance_type">Maintenance Type *</label>
+
+                <select name="maintenance_type" id="maintenance_type" required>
+                    <option value="">Select type</option>
+                    <option value="Preventive">Preventive</option>
+                    <option value="Corrective">Corrective</option>
+                </select>
+            </div>
+
+            <div class="form-group full">
+                <label for="description">Description</label>
+                <textarea
+                    name="description"
+                    id="description"
+                    placeholder="Describe the maintenance performed..."
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="performed_by">Performed By</label>
+                <input
+                    type="text"
+                    name="performed_by"
+                    id="performed_by"
+                    placeholder="Technician name"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="cost">Maintenance Cost</label>
+                <input
+                    type="number"
+                    name="cost"
+                    id="cost"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                >
+            </div>
+
+            <div class="form-group full">
+                <button type="submit" class="maintenance-button">
+                    Save Maintenance Record
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="maintenance-card">
+
+        <h2>Maintenance History</h2>
+
+        <div class="table-wrapper">
+            <table class="maintenance-table">
+
+                <thead>
+                    <tr>
+                        <th>Equipment</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Performed By</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.equipment.name }}</td>
+                        <td>{{ record.maintenance_date }}</td>
+                        <td>{{ record.maintenance_type }}</td>
+                        <td>{{ record.performed_by or '-' }}</td>
+                        <td>{{ record.cost if record.cost is not none else '-' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">No maintenance records available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
