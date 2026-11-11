@@ -26,21 +26,25 @@
         }
 
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            min-height: 100%;
+        }
+
         body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             background: var(--background);
             color: var(--text);
             font-family: 'Libre Baskerville', serif;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* NAVIGATION */
+        /* HEADER AND NAVIGATION */
 
         .header {
             background: var(--primary);
@@ -74,6 +78,7 @@
         .logo {
             width: 42px;
             height: 42px;
+            flex-shrink: 0;
             background: var(--surface-secondary);
             color: var(--primary-dark);
             border-radius: 10px;
@@ -115,46 +120,12 @@
             cursor: pointer;
         }
 
-        /* MAIN */
+        /* PAGE CONTENT */
 
         main {
             flex: 1;
             width: 100%;
-            background: var(--background);
-        }
-
-        h1, h2, h3, h4 {
-            color: var(--primary-dark);
-        }
-
-        p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* BUTTONS */
-
-        button, .btn {
-            background: var(--primary);
-            color: #F5EFE6;
-            border: 1px solid var(--primary);
-            border-radius: 7px;
-            padding: 12px 22px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        button:hover, .btn:hover {
-            background: var(--secondary);
-        }
-
-        /* CARDS */
-
-        .card, .content-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
+            min-width: 0;
         }
 
         /* FOOTER */
@@ -170,7 +141,7 @@
             font-size: 12px;
         }
 
-        /* RESPONSIVE */
+        /* RESPONSIVE NAVIGATION */
 
         @media (max-width: 768px) {
 
@@ -202,6 +173,7 @@
         }
     </style>
 
+    {% block head %}{% endblock %}
 </head>
 
 <body>
@@ -215,35 +187,44 @@
                 <span>Predictive Maintenance</span>
             </a>
 
-            <button class="menu-toggle" onclick="toggleMenu()">
+            <button class="menu-toggle"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    onclick="toggleMenu(this)">
                 ☰
             </button>
 
             <nav class="nav-links" id="navLinks">
 
                 <a href="{{ url_for('home') }}"
-                   class="{% if active_page == 'home' %}active{% endif %}">
+                   class="{% if request.endpoint == 'home' %}active{% endif %}">
                     Home
                 </a>
 
                 <a href="{{ url_for('pgc') }}"
-                   class="{% if active_page == 'pgc' %}active{% endif %}">
+                   class="{% if request.endpoint == 'pgc' %}active{% endif %}">
                     PGC
                 </a>
 
                 <a href="{{ url_for('crisp_dm') }}"
-                   class="{% if active_page == 'crisp_dm' %}active{% endif %}">
+                   class="{% if request.endpoint == 'crisp_dm' %}active{% endif %}">
                     CRISP-DM
                 </a>
 
                 <a href="{{ url_for('application') }}"
-                   class="{% if active_page == 'application' %}active{% endif %}">
+                   class="{% if request.endpoint == 'application' %}active{% endif %}">
                     Application
                 </a>
 
                 <a href="{{ url_for('maintenance') }}"
-                   class="{% if active_page == 'maintenance' %}active{% endif %}">
+                   class="{% if request.endpoint == 'maintenance' %}active{% endif %}">
                     Maintenance
+                </a>
+
+                <a href="{{ url_for('alerts') }}"
+                   class="{% if request.endpoint in ['alerts', 'mark_alert_read'] %}active{% endif %}">
+                    Alerts
                 </a>
 
             </nav>
@@ -266,10 +247,16 @@
     </footer>
 
     <script>
-        function toggleMenu() {
-            document.getElementById("navLinks").classList.toggle("show");
+        function toggleMenu(button) {
+            const nav = document.getElementById("navLinks");
+            nav.classList.toggle("show");
+
+            const isOpen = nav.classList.contains("show");
+            button.setAttribute("aria-expanded", isOpen);
         }
     </script>
+
+    {% block scripts %}{% endblock %}
 
 </body>
 </html>

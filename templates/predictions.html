@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}Failure Predictions | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    .predictions-container {
+        max-width: 1150px;
+        margin: 45px auto;
+        padding: 25px;
+        color: #302D28;
+    }
+
+    .prediction-card {
+        background: #E5DED3;
+        border: 1px solid #B8AC9C;
+        border-radius: 14px;
+        padding: 28px;
+        margin-top: 25px;
+    }
+
+    .prediction-card h2 {
+        color: #403A33;
+        margin-bottom: 20px;
+    }
+
+    .prediction-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 13px;
+        border: 1px solid #B8AC9C;
+        border-radius: 8px;
+        background: #F8F5F0;
+        color: #302D28;
+        font-family: inherit;
+    }
+
+    .prediction-button {
+        background: #403A33;
+        color: white;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: bold;
+    }
+
+    .prediction-button:hover {
+        background: #625447;
+    }
+
+    .notice {
+        background: #F3EBDD;
+        border-left: 4px solid #8A7156;
+        padding: 15px;
+        margin-top: 20px;
+        line-height: 1.7;
+        font-size: 13px;
+    }
+
+    .result {
+        padding: 18px;
+        border-radius: 9px;
+        margin-top: 20px;
+        background: #DCEBDD;
+        color: #285B35;
+    }
+
+    .error {
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        background: #F3DDDA;
+        color: #8B3028;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .prediction-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #F8F5F0;
+        min-width: 650px;
+    }
+
+    .prediction-table th,
+    .prediction-table td {
+        padding: 14px;
+        border-bottom: 1px solid #B8AC9C;
+        text-align: left;
+        font-size: 13px;
+    }
+
+    .prediction-table th {
+        background: #C4B8A7;
+    }
+
+    @media (max-width: 650px) {
+        .predictions-container {
+            padding: 15px;
+        }
+
+        .prediction-form {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+    }
+</style>
+
+<div class="predictions-container">
+
+    <h1>Failure Prediction</h1>
+
+    <p>
+        Estimate machine failure risk using operational
+        data and the trained Random Forest model.
+    </p>
+
+    <div class="notice">
+        <strong>Dataset information:</strong>
+        This prediction module uses the AI4I 2020 industrial
+        dataset. Its variables are designed for industrial
+        machinery and should not be interpreted as validated
+        predictions for computers or printers.
+    </div>
+
+    <div class="prediction-card">
+
+        <h2>Enter Equipment Data</h2>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if result %}
+            <div class="result">
+                <h3>Prediction Result</h3>
+                <p>
+                    Failure Probability:
+                    <strong>{{ result.failure_probability }}%</strong>
+                </p>
+                <p>
+                    Risk Level:
+                    <strong>{{ result.risk_level }}</strong>
+                </p>
+                <p>
+                    Model: {{ result.model_version }}
+                </p>
+            </div>
+        {% endif %}
+
+        <form method="POST" class="prediction-form">
+
+            <div class="form-group full">
+                <label for="equipment_id">Registered Equipment *</label>
+
+                <select name="equipment_id" id="equipment_id" required>
+                    <option value="">Select equipment</option>
+
+                    {% for item in equipment %}
+                        <option value="{{ item.id }}"
+                            {% if selected_equipment_id == item.id %}selected{% endif %}>
+                            {{ item.name }} -
+                            {{ item.serial_number or 'No serial number' }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="machine_type">Machine Type</label>
+                <select name="machine_type" id="machine_type" required>
+                    <option value="L">L - Low</option>
+                    <option value="M" selected>M - Medium</option>
+                    <option value="H">H - High</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="air_temperature">Air Temperature (K)</label>
+                <input type="number" name="air_temperature"
+                    id="air_temperature" step="0.01"
+                    value="300" required>
+            </div>
+
+            <div class="form-group">
+                <label for="process_temperature">Process Temperature (K)</label>
+                <input type="number" name="process_temperature"
+                    id="process_temperature" step="0.01"
+                    value="310" required>
+            </div>
+
+            <div class="form-group">
+                <label for="rotational_speed">Rotational Speed (rpm)</label>
+                <input type="number" name="rotational_speed"
+                    id="rotational_speed" step="1"
+                    value="1500" required>
+            </div>
+
+            <div class="form-group">
+                <label for="torque">Torque (Nm)</label>
+                <input type="number" name="torque"
+                    id="torque" step="0.01"
+                    value="40" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tool_wear">Tool Wear (min)</label>
+                <input type="number" name="tool_wear"
+                    id="tool_wear" step="1"
+                    value="100" required>
+            </div>
+
+            <div class="form-group full">
+                <button type="submit" class="prediction-button">
+                    Calculate Failure Risk
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="prediction-card">
+
+        <h2>Prediction History</h2>
+
+        <div class="table-wrapper">
+            <table class="prediction-table">
+
+                <thead>
+                    <tr>
+                        <th>Equipment</th>
+                        <th>Failure Probability</th>
+                        <th>Risk Level</th>
+                        <th>Model Version</th>
+                        <th>Prediction Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for prediction in predictions %}
+                    <tr>
+                        <td>{{ prediction.equipment.name }}</td>
+                        <td>{{ prediction.failure_probability }}%</td>
+                        <td>{{ prediction.risk_level }}</td>
+                        <td>{{ prediction.model_version }}</td>
+                        <td>{{ prediction.predicted_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">
+                            No predictions available.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

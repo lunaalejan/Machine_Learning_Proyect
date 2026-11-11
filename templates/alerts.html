@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}Alert Management | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    .alerts-container {
+        max-width: 1150px;
+        margin: 45px auto;
+        padding: 25px;
+        color: #302D28;
+    }
+
+    .alerts-card {
+        background: #E5DED3;
+        border: 1px solid #B8AC9C;
+        border-radius: 14px;
+        padding: 28px;
+        margin-top: 25px;
+    }
+
+    .alerts-card h2 {
+        margin-bottom: 20px;
+        color: #403A33;
+    }
+
+    .alerts-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .alerts-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #F8F5F0;
+        min-width: 750px;
+    }
+
+    .alerts-table th,
+    .alerts-table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #B8AC9C;
+        font-size: 13px;
+    }
+
+    .alerts-table th {
+        background: #C4B8A7;
+    }
+
+    .alert-type {
+        font-weight: bold;
+    }
+
+    .alert-overdue {
+        color: #A13D32;
+    }
+
+    .alert-due-soon {
+        color: #805B1E;
+    }
+
+    .alert-status {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .active {
+        background: #F3DDDA;
+        color: #8B3028;
+    }
+
+    .resolved {
+        background: #DCEBDD;
+        color: #285B35;
+    }
+
+    .read-button {
+        background: #403A33;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 9px 12px;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    .read-button:hover {
+        background: #625447;
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 25px;
+        color: #625B51;
+    }
+
+    .success-message {
+        background: #DCEBDD;
+        color: #285B35;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 650px) {
+        .alerts-container {
+            padding: 15px;
+        }
+
+        .alerts-card {
+            padding: 18px;
+        }
+    }
+</style>
+
+<div class="alerts-container">
+
+    <h1>Alert Management</h1>
+
+    <p>
+        Monitor maintenance notifications and review
+        equipment alerts generated automatically by the system.
+    </p>
+
+    <div class="alerts-card">
+
+        <h2>Maintenance Alerts</h2>
+
+        {% if success %}
+            <div class="success-message">
+                {{ success }}
+            </div>
+        {% endif %}
+
+        <div class="alerts-table-wrapper">
+
+            <table class="alerts-table">
+
+                <thead>
+                    <tr>
+                        <th>Equipment</th>
+                        <th>Alert Type</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Read</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for alert in alerts %}
+
+                    <tr>
+
+                        <td>{{ alert.equipment.name }}</td>
+
+                        <td class="alert-type">
+                            {% if alert.alert_type == 'maintenance_overdue' %}
+                                <span class="alert-overdue">
+                                    Overdue Maintenance
+                                </span>
+                            {% elif alert.alert_type == 'maintenance_due_soon' %}
+                                <span class="alert-due-soon">
+                                    Due Soon
+                                </span>
+                            {% else %}
+                                {{ alert.alert_type }}
+                            {% endif %}
+                        </td>
+
+                        <td>{{ alert.message }}</td>
+
+                        <td>
+                            {{ alert.created_at.strftime('%Y-%m-%d') }}
+                        </td>
+
+                        <td>
+                            <span class="alert-status
+                                {% if alert.status == 'active' %}
+                                    active
+                                {% else %}
+                                    resolved
+                                {% endif %}">
+                                {{ alert.status }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ 'Yes' if alert.is_read else 'No' }}
+                        </td>
+
+                        <td>
+                            {% if not alert.is_read %}
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('mark_alert_read', alert_id=alert.id) }}"
+                                >
+                                    <button class="read-button" type="submit">
+                                        Mark as Read
+                                    </button>
+                                </form>
+                            {% else %}
+                                Read
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="7" class="empty-message">
+                            No alerts available.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
