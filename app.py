@@ -317,10 +317,17 @@ def maintenance():
     maintenance_schedule = []
 
     today = date.today()
+    alerts_changed = False
+
+    # Alert types managed automatically by the system
+    automatic_alert_types = [
+        "maintenance_due_soon",
+        "maintenance_overdue"
+    ]
 
     for item in equipment_list:
 
-        # Use last maintenance date or installation date
+        # Get last maintenance date or installation date
         reference_date = (
             item.last_maintenance_date
             or item.installation_date
@@ -338,18 +345,23 @@ def maintenance():
 
             if days_remaining < 0:
                 status = "Overdue"
+                desired_alert_type = "maintenance_overdue"
 
             elif days_remaining <= 7:
                 status = "Due Soon"
+                desired_alert_type = "maintenance_due_soon"
 
             else:
                 status = "Up to Date"
+                desired_alert_type = None
 
         else:
             next_maintenance = None
             days_remaining = None
             status = "No Date"
+            desired_alert_type = None
 
+        # Add equipment schedule information
         maintenance_schedule.append({
             "equipment": item,
             "next_maintenance": next_maintenance,
@@ -357,6 +369,65 @@ def maintenance():
             "status": status
         })
 
+        # Find active automatic alerts for this equipment
+        active_alerts = Alert.query.filter(
+            Alert.equipment_id == item.id,
+            Alert.status == "active",
+            Alert.alert_type.in_(automatic_alert_types)
+        ).all()
+
+        matching_alerts = [
+            alert for alert in active_alerts
+            if alert.alert_type == desired_alert_type
+        ]
+
+        # Resolve alerts that are no longer applicable
+        for alert in active_alerts:
+
+            if (
+                desired_alert_type is None
+                or alert.alert_type != desired_alert_type
+            ):
+                alert.status = "resolved"
+                alerts_changed = True
+
+        # Keep only one active alert of the required type
+        if desired_alert_type and matching_alerts:
+
+            for duplicate in matching_alerts[1:]:
+                duplicate.status = "resolved"
+                alerts_changed = True
+
+        # Create a new alert if one does not already exist
+        elif desired_alert_type:
+
+            if desired_alert_type == "maintenance_overdue":
+                message = (
+                    f"Maintenance overdue for {item.name}. "
+                    f"It was due on {next_maintenance}."
+                )
+
+            else:
+                message = (
+                    f"Maintenance due soon for {item.name}. "
+                    f"Days remaining: {days_remaining}."
+                )
+
+            new_alert = Alert(
+                equipment_id=item.id,
+                alert_type=desired_alert_type,
+                message=message,
+                status="active",
+                is_read=False
+            )
+
+            db.session.add(new_alert)
+            alerts_changed = True
+
+    # Save automatic alert changes
+    if alerts_changed:
+        db.session.commit()
+        
     # SUCCESS MESSAGE
     if request.args.get("saved") == "1":
         success = (
