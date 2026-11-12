@@ -44,6 +44,7 @@ db.init_app(app)
 
 @app.route("/")
 def home():
+
     return render_template(
         "index.html",
         active_page="home"
@@ -383,6 +384,59 @@ def synchronize_all_automatic_alerts():
 
     if alerts_changed:
         db.session.commit()
+
+# ==============================
+# MAINTENANCE DASHBOARD
+# ==============================
+
+@app.route("/dashboard")
+def dashboard():
+
+    # Synchronize automatic maintenance alerts
+    synchronize_all_automatic_alerts()
+
+    # General system statistics
+    total_equipment = Equipment.query.count()
+    total_maintenance = MaintenanceRecord.query.count()
+    total_predictions = Prediction.query.count()
+
+    total_active_alerts = Alert.query.filter_by(
+        status="active"
+    ).count()
+
+    # Prediction risk statistics
+    low_risk = Prediction.query.filter_by(
+        risk_level="Low"
+    ).count()
+
+    medium_risk = Prediction.query.filter_by(
+        risk_level="Medium"
+    ).count()
+
+    high_risk = Prediction.query.filter_by(
+        risk_level="High"
+    ).count()
+
+    # Latest five predictions
+    latest_predictions = (
+        Prediction.query
+        .order_by(Prediction.predicted_at.desc())
+        .limit(5)
+        .all()
+    )
+
+    return render_template(
+        "dashboard.html",
+        active_page="dashboard",
+        total_equipment=total_equipment,
+        total_maintenance=total_maintenance,
+        total_predictions=total_predictions,
+        total_active_alerts=total_active_alerts,
+        low_risk=low_risk,
+        medium_risk=medium_risk,
+        high_risk=high_risk,
+        latest_predictions=latest_predictions
+    )        
 
 
 # ==============================
