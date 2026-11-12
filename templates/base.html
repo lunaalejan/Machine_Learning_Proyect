@@ -202,6 +202,16 @@
                     Home
                 </a>
 
+                <a href="{{ url_for('dashboard') }}"
+                class="{% if active_page == 'dashboard' %}active{% endif %}">
+                Dashboard
+                </a>
+
+                <a href="{{ url_for('predictions') }}"
+                class="{% if active_page == 'predictions' %}active{% endif %}">
+                Predictions
+                </a>
+
                 <a href="{{ url_for('pgc') }}"
                    class="{% if request.endpoint == 'pgc' %}active{% endif %}">
                     PGC

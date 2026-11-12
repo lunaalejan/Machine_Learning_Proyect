@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+/* =================================
+   DASHBOARD - PREDICTIVE MAINTENANCE
+   ================================= */
+
+.dashboard-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 45px 35px 60px;
+    color: #493b32;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.dashboard-header {
+    margin-bottom: 38px;
+    border-bottom: 1px solid #d8cbbb;
+    padding-bottom: 22px;
+}
+
+.dashboard-header h1 {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: #493b32;
+}
+
+.dashboard-header p {
+    color: #88786a;
+    font-size: 14px;
+    margin: 0;
+}
+
+.dashboard-section {
+    margin-bottom: 38px;
+}
+
+.dashboard-section h2 {
+    font-size: 19px;
+    color: #493b32;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* STATISTICS CARDS */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: #fffdf9;
+    border: 1px solid #e5d9ca;
+    border-radius: 12px;
+    padding: 25px 22px;
+    box-shadow: 0 4px 12px rgba(73, 59, 50, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+}
+
+.dashboard-card h3 {
+    font-size: 12px;
+    font-weight: 400;
+    color: #88786a;
+    margin: 0 0 17px;
+    line-height: 1.5;
+}
+
+.dashboard-card .number {
+    font-size: 32px;
+    font-weight: 600;
+    color: #493b32;
+    margin: 0;
+}
+
+.dashboard-card .card-description {
+    font-size: 11px;
+    color: #a18f7e;
+    margin-top: 10px;
+}
+
+/* RISK CARDS */
+
+.risk-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.risk-card {
+    background: #fffdf9;
+    border: 1px solid #e5d9ca;
+    border-radius: 12px;
+    padding: 23px;
+    box-shadow: 0 4px 12px rgba(73, 59, 50, 0.04);
+}
+
+.risk-card h3 {
+    font-size: 13px;
+    color: #88786a;
+    font-weight: 400;
+    margin: 0 0 12px;
+}
+
+.risk-card .number {
+    font-size: 29px;
+    font-weight: 600;
+    color: #493b32;
+    margin: 0;
+}
+
+.risk-indicator {
+    height: 5px;
+    border-radius: 10px;
+    margin-top: 18px;
+    background: #e9e0d5;
+}
+
+.risk-indicator span {
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.low-risk .risk-indicator span {
+    background: #89947a;
+    width: 100%;
+}
+
+.medium-risk .risk-indicator span {
+    background: #c5a66c;
+    width: 100%;
+}
+
+.high-risk .risk-indicator span {
+    background: #a87565;
+    width: 100%;
+}
+
+/* PREDICTIONS TABLE */
+
+.dashboard-table-container {
+    background: #fffdf9;
+    border: 1px solid #e5d9ca;
+    border-radius: 12px;
+    overflow-x: auto;
+    box-shadow: 0 4px 12px rgba(73, 59, 50, 0.04);
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+.dashboard-table th {
+    background: #eee5d9;
+    color: #493b32;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+    padding: 17px 20px;
+}
+
+.dashboard-table td {
+    padding: 17px 20px;
+    border-bottom: 1px solid #eee7df;
+    font-size: 12px;
+    color: #66574b;
+}
+
+.dashboard-table tr:last-child td {
+    border-bottom: none;
+}
+
+.risk-label {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 10px;
+    background: #eee5d9;
+    color: #493b32;
+}
+
+.empty-state {
+    padding: 35px 20px;
+    text-align: center;
+    color: #88786a;
+    font-size: 13px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-container {
+        padding: 30px 16px 45px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 23px;
+    }
+
+    .dashboard-grid,
+    .risk-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card {
+        padding: 20px;
+    }
+}
+</style>
+
+
+<div class="dashboard-container">
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+        <h1>Maintenance Dashboard</h1>
+        <p>
+            Predictive Maintenance System
+            <br>
+            Equipment monitoring and maintenance overview
+        </p>
+    </header>
+
+
+    <!-- GENERAL STATISTICS -->
+
+    <section class="dashboard-section">
+
+        <h2>System Overview</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="dashboard-card">
+                <h3>Total Equipment</h3>
+                <p class="number">{{ total_equipment }}</p>
+                <p class="card-description">
+                    Registered equipment
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Maintenance Records</h3>
+                <p class="number">{{ total_maintenance }}</p>
+                <p class="card-description">
+                    Recorded maintenance activities
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Total Predictions</h3>
+                <p class="number">{{ total_predictions }}</p>
+                <p class="card-description">
+                    Generated predictions
+                </p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Active Alerts</h3>
+                <p class="number">{{ total_active_alerts }}</p>
+                <p class="card-description">
+                    Alerts requiring attention
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RISK OVERVIEW -->
+
+    <section class="dashboard-section">
+
+        <h2>Prediction Risk Overview</h2>
+
+        <div class="risk-grid">
+
+            <div class="risk-card low-risk">
+                <h3>Low Risk</h3>
+                <p class="number">{{ low_risk }}</p>
+                <div class="risk-indicator">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="risk-card medium-risk">
+                <h3>Medium Risk</h3>
+                <p class="number">{{ medium_risk }}</p>
+                <div class="risk-indicator">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="risk-card high-risk">
+                <h3>High Risk</h3>
+                <p class="number">{{ high_risk }}</p>
+                <div class="risk-indicator">
+                    <span></span>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LATEST PREDICTIONS -->
+
+    <section class="dashboard-section">
+
+        <h2>Latest Predictions</h2>
+
+        <div class="dashboard-table-container">
+
+            {% if latest_predictions %}
+
+            <table class="dashboard-table">
+
+                <thead>
+                    <tr>
+                        <th>Equipment ID</th>
+                        <th>Risk Level</th>
+                        <th>Prediction Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for prediction in latest_predictions %}
+
+                    <tr>
+                        <td>
+                            {{ prediction.equipment_id }}
+                        </td>
+
+                        <td>
+                            <span class="risk-label">
+                                {{ prediction.risk_level }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ prediction.predicted_at }}
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty-state">
+                No predictions registered yet.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
