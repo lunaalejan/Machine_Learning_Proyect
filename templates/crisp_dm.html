@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+{% block title %}CRISP-DM | Predictive Maintenance System{% endblock %}
+
+{% block content %}
+
+<section class="crisp-container">
+
+    <div class="crisp-header">
+        <h1>CRISP-DM Methodology</h1>
+        <p>
+            Cross Industry Standard Process for Data Mining
+        </p>
+        <p>
+            A structured methodology for developing the predictive
+            maintenance model.
+        </p>
+    </div>
+
+    <div class="crisp-stage" id="business-understanding">
+        <h2>01. Business Understanding</h2>
+        <p>Business problem, project objectives and requirements.</p>
+    </div>
+
+    <div class="crisp-stage" id="data-understanding">
+        <h2>02. Data Understanding</h2>
+        <p>Initial data collection, exploration and analysis.</p>
+    </div>
+
+    <div class="crisp-stage" id="data-preparation">
+        <h2>03. Data Preparation</h2>
+        <p>Data cleaning, transformation and preparation.</p>
+    </div>
+
+    <div class="crisp-stage" id="modeling">
+        <h2>04. Modeling</h2>
+        <p>Model selection, training and configuration.</p>
+    </div>
+
+    <div class="crisp-stage" id="evaluation">
+        <h2>05. Evaluation</h2>
+        <p>Model performance evaluation and validation.</p>
+    </div>
+
+    <div class="crisp-stage" id="deployment">
+        <h2>06. Deployment</h2>
+        <p>Implementation of the predictive maintenance system.</p>
+    </div>
+
+</section>
+
+{% endblock %}

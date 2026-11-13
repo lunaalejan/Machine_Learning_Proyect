@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -120,6 +121,69 @@
             cursor: pointer;
         }
 
+        /* CRISP-DM DROPDOWN */
+
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-dropdown-btn {
+            background: transparent;
+            border: none;
+            color: #D8D0C3;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .nav-dropdown-btn:hover,
+        .nav-dropdown-btn.active {
+            color: #FFFFFF;
+        }
+
+        .nav-dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            min-width: 270px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            overflow: hidden;
+        }
+
+        .nav-dropdown-content.show {
+            display: block;
+        }
+
+        .nav-dropdown-content a {
+            display: block;
+            padding: 13px 16px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 12px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+
+        .nav-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-dropdown-content a:hover {
+            background: var(--surface-secondary);
+            color: var(--primary-dark);
+        }
+
         /* PAGE CONTENT */
 
         main {
@@ -159,11 +223,26 @@
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 20px 0;
-                gap: 20px;
+                gap: 15px;
             }
 
             .nav-links.show {
                 display: flex;
+            }
+
+            .nav-dropdown {
+                width: 100%;
+            }
+
+            .nav-dropdown-content {
+                position: static;
+                width: 100%;
+                margin-top: 8px;
+                box-shadow: none;
+            }
+
+            .nav-dropdown-btn {
+                padding: 8px 0;
             }
 
             .footer {
@@ -197,44 +276,97 @@
 
             <nav class="nav-links" id="navLinks">
 
+                <!-- HOME -->
+
                 <a href="{{ url_for('home') }}"
                    class="{% if request.endpoint == 'home' %}active{% endif %}">
                     Home
                 </a>
 
-                <a href="{{ url_for('dashboard') }}"
-                class="{% if active_page == 'dashboard' %}active{% endif %}">
-                Dashboard
-                </a>
-
-                <a href="{{ url_for('predictions') }}"
-                class="{% if active_page == 'predictions' %}active{% endif %}">
-                Predictions
-                </a>
+                <!-- PGC -->
 
                 <a href="{{ url_for('pgc') }}"
                    class="{% if request.endpoint == 'pgc' %}active{% endif %}">
                     PGC
                 </a>
 
-                <a href="{{ url_for('crisp_dm') }}"
-                   class="{% if request.endpoint == 'crisp_dm' %}active{% endif %}">
-                    CRISP-DM
-                </a>
+                <!-- CRISP-DM MENU -->
+
+                <div class="nav-dropdown">
+
+                    <button type="button"
+                            class="nav-dropdown-btn"
+                            id="crispButton"
+                            aria-expanded="false"
+                            aria-controls="crispMenu"
+                            onclick="toggleCrispMenu(event)">
+                        CRISP-DM
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="nav-dropdown-content" id="crispMenu">
+
+                        <a href="{{ url_for('crisp_dm') }}#business-understanding">
+                            1. Business Understanding
+                        </a>
+
+                        <a href="{{ url_for('crisp_dm') }}#data-understanding">
+                            2. Data Understanding
+                        </a>
+
+                        <a href="{{ url_for('crisp_dm') }}#data-preparation">
+                            3. Data Preparation
+                        </a>
+
+                        <a href="{{ url_for('crisp_dm') }}#modeling">
+                            4. Modeling
+                        </a>
+
+                        <a href="{{ url_for('crisp_dm') }}#evaluation">
+                            5. Evaluation
+                        </a>
+
+                        <a href="{{ url_for('crisp_dm') }}#deployment">
+                            6. Deployment
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- APPLICATION -->
 
                 <a href="{{ url_for('application') }}"
                    class="{% if request.endpoint == 'application' %}active{% endif %}">
                     Application
                 </a>
 
-                <a href="{{ url_for('maintenance') }}"
-                   class="{% if request.endpoint == 'maintenance' %}active{% endif %}">
-                    Maintenance
+                <!-- PREDICTIONS -->
+
+                <a href="{{ url_for('predictions') }}"
+                   class="{% if active_page == 'predictions' %}active{% endif %}">
+                    Predictions
                 </a>
+
+                <!-- ALERTS -->
 
                 <a href="{{ url_for('alerts') }}"
                    class="{% if request.endpoint in ['alerts', 'mark_alert_read'] %}active{% endif %}">
                     Alerts
+                </a>
+
+                <!-- DASHBOARD -->
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="{% if active_page == 'dashboard' %}active{% endif %}">
+                    Dashboard
+                </a>
+
+                <!-- MAINTENANCE -->
+
+                <a href="{{ url_for('maintenance') }}"
+                   class="{% if request.endpoint == 'maintenance' %}active{% endif %}">
+                    Maintenance
                 </a>
 
             </nav>
@@ -257,6 +389,9 @@
     </footer>
 
     <script>
+
+        // MOBILE NAVIGATION
+
         function toggleMenu(button) {
             const nav = document.getElementById("navLinks");
             nav.classList.toggle("show");
@@ -264,6 +399,39 @@
             const isOpen = nav.classList.contains("show");
             button.setAttribute("aria-expanded", isOpen);
         }
+
+        // CRISP-DM DROPDOWN
+
+        function toggleCrispMenu(event) {
+            event.stopPropagation();
+
+            const menu = document.getElementById("crispMenu");
+            const button = document.getElementById("crispButton");
+
+            if (!menu || !button) return;
+
+            const isOpen = menu.classList.toggle("show");
+            button.setAttribute("aria-expanded", isOpen);
+        }
+
+        // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+
+        document.addEventListener("click", function(event) {
+
+            const dropdown = document.querySelector(".nav-dropdown");
+            const menu = document.getElementById("crispMenu");
+            const button = document.getElementById("crispButton");
+
+            if (dropdown && menu && !dropdown.contains(event.target)) {
+                menu.classList.remove("show");
+
+                if (button) {
+                    button.setAttribute("aria-expanded", "false");
+                }
+            }
+
+        });
+
     </script>
 
     {% block scripts %}{% endblock %}
