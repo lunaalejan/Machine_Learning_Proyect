@@ -1,0 +1,696 @@
+
+{% extends "base.html" %}
+
+{% block title %}Business Understanding | Predictive Maintenance System{% endblock %}
+
+{% block content %}
+
+<style>
+    .bu-page {
+        max-width: 1150px;
+        margin: 0 auto;
+        padding: 40px 28px 65px;
+        color: #46382d;
+        font-family: 'Libre Baskerville', Georgia, serif;
+    }
+
+    .bu-hero {
+        padding: 45px 35px;
+        margin-bottom: 35px;
+        background: linear-gradient(135deg, #eee5d8, #e2d2bd);
+        border: 1px solid #d6c3aa;
+        border-radius: 14px;
+    }
+
+    .bu-label {
+        display: inline-block;
+        color: #8b6848;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+    }
+
+    .bu-hero h1 {
+        font-size: clamp(27px, 4vw, 40px);
+        line-height: 1.35;
+        margin: 0 0 18px;
+        color: #493729;
+    }
+
+    .bu-hero p {
+        max-width: 850px;
+        font-size: 14px;
+        line-height: 1.9;
+        color: #665344;
+    }
+
+    .bu-section {
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid #dfd3c4;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 24px;
+    }
+
+    .bu-section h2 {
+        font-size: 22px;
+        color: #654a34;
+        margin: 0 0 18px;
+        padding-bottom: 13px;
+        border-bottom: 1px solid #e3d6c6;
+    }
+
+    .bu-section h3 {
+        font-size: 16px;
+        color: #806044;
+        margin: 24px 0 10px;
+    }
+
+    .bu-section p {
+        font-size: 13px;
+        line-height: 1.95;
+        color: #625347;
+        margin-bottom: 13px;
+    }
+
+    .bu-section ul {
+        padding-left: 22px;
+        margin-top: 12px;
+    }
+
+    .bu-section li {
+        font-size: 13px;
+        line-height: 1.9;
+        color: #625347;
+        margin-bottom: 9px;
+    }
+
+    .bu-number {
+        display: block;
+        color: #a17d57;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+        margin-bottom: 10px;
+    }
+
+    .bu-highlight {
+        background: #f0e7da;
+        border-left: 4px solid #a77e53;
+        padding: 20px 23px;
+        border-radius: 5px;
+        margin-top: 18px;
+    }
+
+    .bu-highlight p {
+        margin: 0;
+        color: #594331;
+    }
+
+    .bu-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 20px;
+    }
+
+    .bu-card {
+        background: #f4eee6;
+        border: 1px solid #e1d3c1;
+        border-radius: 9px;
+        padding: 20px;
+    }
+
+    .bu-card h3 {
+        margin-top: 0;
+    }
+
+    .bu-card p {
+        margin-bottom: 0;
+    }
+
+    .bu-table-wrapper {
+        overflow-x: auto;
+        margin-top: 18px;
+    }
+
+    .bu-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+    }
+
+    .bu-table th {
+        background: #e8ddcf;
+        color: #594331;
+        text-align: left;
+        padding: 14px;
+    }
+
+    .bu-table td {
+        padding: 14px;
+        border-bottom: 1px solid #e5d9ca;
+        color: #625347;
+        line-height: 1.7;
+    }
+
+    .bu-note {
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        color: #806e5c;
+        line-height: 1.8;
+        margin-top: 18px;
+    }
+
+    .bu-footer {
+        text-align: center;
+        padding: 25px 10px;
+        color: #8b755f;
+        font-size: 11px;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 700px) {
+        .bu-page {
+            padding: 25px 14px 45px;
+        }
+
+        .bu-hero {
+            padding: 30px 22px;
+        }
+
+        .bu-section {
+            padding: 22px 18px;
+        }
+
+        .bu-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="bu-page">
+
+    <!-- HEADER -->
+
+    <header class="bu-hero">
+
+        <span class="bu-label">
+            CRISP-DM · PHASE 01
+        </span>
+
+        <h1>Business Understanding</h1>
+
+        <p>
+            Understanding the business problem, defining project
+            objectives and establishing the scope of the Predictive
+            Maintenance System.
+        </p>
+
+        <p>
+            This phase establishes the foundation of the project by
+            identifying the maintenance challenges, the purpose of
+            the proposed solution and the expected results.
+        </p>
+
+    </header>
+
+
+    <!-- 1. PROJECT OVERVIEW -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">01 / PROJECT OVERVIEW</span>
+
+        <h2>Project Context</h2>
+
+        <p>
+            Maintenance management plays an important role in
+            ensuring equipment availability, operational continuity
+            and efficient use of resources. Traditional maintenance
+            approaches may rely on scheduled inspections or
+            corrective actions after a failure has occurred.
+        </p>
+
+        <p>
+            Predictive maintenance introduces a data-driven approach
+            that uses equipment information and analytical models
+            to estimate the possibility of future failures.
+            This allows maintenance teams to obtain additional
+            information when planning maintenance activities.
+        </p>
+
+        <p>
+            In this context, the Predictive Maintenance System
+            project proposes a web-based platform that integrates
+            equipment management, maintenance records, alerts,
+            predictions and information visualization.
+        </p>
+
+        <div class="bu-highlight">
+            <p>
+                <strong>Project focus:</strong>
+                Develop a centralized web application that combines
+                maintenance management functionalities with
+                machine learning predictions to support
+                maintenance-related decision-making.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- 2. BUSINESS PROBLEM -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">02 / PROBLEM IDENTIFICATION</span>
+
+        <h2>Business Problem</h2>
+
+        <p>
+            Unexpected equipment failures can generate operational
+            interruptions, additional maintenance expenses and
+            difficulties in planning maintenance activities.
+            When maintenance information is fragmented or when
+            failures are addressed only after they occur,
+            organizations may have limited information
+            to anticipate potential problems.
+        </p>
+
+        <h3>Main Challenges</h3>
+
+        <div class="bu-grid">
+
+            <div class="bu-card">
+                <h3>Unexpected Failures</h3>
+                <p>
+                    Equipment breakdowns can occur without sufficient
+                    warning, affecting availability and operational
+                    continuity.
+                </p>
+            </div>
+
+            <div class="bu-card">
+                <h3>Maintenance Organization</h3>
+                <p>
+                    Equipment information and maintenance history
+                    need to be organized to facilitate monitoring
+                    and follow-up.
+                </p>
+            </div>
+
+            <div class="bu-card">
+                <h3>Limited Predictive Information</h3>
+                <p>
+                    Traditional maintenance records alone may not
+                    provide an estimate of failure risk based
+                    on equipment operating variables.
+                </p>
+            </div>
+
+            <div class="bu-card">
+                <h3>Decision-Making</h3>
+                <p>
+                    Maintenance planning benefits from having
+                    equipment information, alerts and analytical
+                    results available in one place.
+                </p>
+            </div>
+
+        </div>
+
+        <h3>Problem Statement</h3>
+
+        <div class="bu-highlight">
+            <p>
+                The project addresses the need for a centralized
+                maintenance management solution that organizes
+                equipment information and provides predictive
+                insights to help identify potential failure risks
+                and support maintenance planning.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- 3. GENERAL OBJECTIVE -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">03 / PROJECT OBJECTIVES</span>
+
+        <h2>General Objective</h2>
+
+        <p>
+            To develop a web-based Predictive Maintenance System
+            that integrates equipment management, maintenance
+            records, automated alerts and machine learning
+            predictions to support equipment monitoring
+            and maintenance decision-making.
+        </p>
+
+        <h3>Specific Objectives</h3>
+
+        <ul>
+
+            <li>
+                Develop an equipment management module to register
+                and organize relevant equipment information.
+            </li>
+
+            <li>
+                Implement maintenance record management to
+                maintain a history of equipment maintenance
+                activities.
+            </li>
+
+            <li>
+                Integrate an alert mechanism to support
+                maintenance monitoring and follow-up.
+            </li>
+
+            <li>
+                Incorporate a machine learning model capable
+                of estimating failure probability using
+                the variables supported by the model.
+            </li>
+
+            <li>
+                Develop a dashboard to display relevant
+                information and system indicators.
+            </li>
+
+            <li>
+                Integrate the different modules into a
+                centralized web application.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- 4. STAKEHOLDERS -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">04 / PROJECT STAKEHOLDERS</span>
+
+        <h2>Stakeholders and Users</h2>
+
+        <p>
+            The system is intended to support people involved
+            in equipment monitoring and maintenance activities.
+            The following roles represent potential users
+            of the proposed platform.
+        </p>
+
+        <div class="bu-table-wrapper">
+
+            <table class="bu-table">
+
+                <thead>
+                    <tr>
+                        <th>Stakeholder</th>
+                        <th>Interest or Responsibility</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>System Administrator</td>
+                        <td>
+                            Manage system information and
+                            coordinate access to its functionalities.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Maintenance Personnel</td>
+                        <td>
+                            Review equipment information,
+                            maintenance history and alerts.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Equipment Managers</td>
+                        <td>
+                            Monitor equipment status and
+                            consult maintenance information.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Decision-Makers</td>
+                        <td>
+                            Use available system information
+                            to support maintenance planning.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <p class="bu-note">
+            Note: These are proposed stakeholder roles for the
+            project and do not necessarily represent implemented
+            user accounts or permissions.
+        </p>
+
+    </section>
+
+
+    <!-- 5. PROJECT SCOPE -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">05 / PROJECT DEFINITION</span>
+
+        <h2>Project Scope</h2>
+
+        <h3>Included Functionalities</h3>
+
+        <ul>
+
+            <li>
+                Equipment registration and information management.
+            </li>
+
+            <li>
+                Maintenance record registration and consultation.
+            </li>
+
+            <li>
+                Maintenance alerts and status monitoring.
+            </li>
+
+            <li>
+                Failure probability estimation through
+                the integrated machine learning model.
+            </li>
+
+            <li>
+                Dashboard visualization of system information.
+            </li>
+
+            <li>
+                Integration of the functionalities into
+                a web-based application.
+            </li>
+
+        </ul>
+
+        <h3>Technical Scope and Considerations</h3>
+
+        <p>
+            The project uses a machine learning approach based
+            on the AI4I 2020 Predictive Maintenance Dataset.
+            This dataset contains industrial equipment operating
+            variables and failure-related information.
+        </p>
+
+        <p>
+            The prediction module must be interpreted according
+            to the variables and equipment domain represented
+            in the training dataset. Its predictions should not
+            be assumed to be validated for unrelated equipment
+            categories without additional training and validation.
+        </p>
+
+        <div class="bu-highlight">
+            <p>
+                <strong>Important limitation:</strong>
+                The availability of equipment registration
+                functionality does not automatically mean
+                that the machine learning model has been
+                validated for every registered equipment type.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- 6. EXPECTED BENEFITS -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">06 / EXPECTED VALUE</span>
+
+        <h2>Expected Benefits</h2>
+
+        <div class="bu-grid">
+
+            <div class="bu-card">
+                <h3>Centralized Information</h3>
+                <p>
+                    Organize equipment information and
+                    maintenance records in a single platform.
+                </p>
+            </div>
+
+            <div class="bu-card">
+                <h3>Maintenance Monitoring</h3>
+                <p>
+                    Facilitate the review of maintenance
+                    activities and relevant alerts.
+                </p>
+            </div>
+
+            <div class="bu-card">
+                <h3>Predictive Insights</h3>
+                <p>
+                    Provide model-based estimates that
+                    can complement maintenance information.
+                </p>
+            </div>
+
+            <div class="bu-card">
+                <h3>Decision Support</h3>
+                <p>
+                    Present organized information to help
+                    users plan and prioritize maintenance tasks.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 7. SUCCESS CRITERIA -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">07 / PROJECT EXPECTATIONS</span>
+
+        <h2>Success Criteria</h2>
+
+        <p>
+            The project will be considered successful when
+            the developed system demonstrates the following
+            capabilities:
+        </p>
+
+        <ul>
+
+            <li>
+                The application allows equipment information
+                to be registered and consulted.
+            </li>
+
+            <li>
+                Maintenance records can be managed
+                and reviewed.
+            </li>
+
+            <li>
+                The alert mechanism supports the identification
+                of maintenance-related events.
+            </li>
+
+            <li>
+                The prediction module processes supported
+                input variables and returns a model result.
+            </li>
+
+            <li>
+                The dashboard presents relevant system
+                information in an organized way.
+            </li>
+
+            <li>
+                The main application modules operate
+                together as part of the same system.
+            </li>
+
+        </ul>
+
+        <p class="bu-note">
+            These are qualitative project acceptance criteria.
+            Model performance must be evaluated separately
+            using appropriate validation metrics.
+        </p>
+
+    </section>
+
+
+    <!-- 8. FINAL SUMMARY -->
+
+    <section class="bu-section">
+
+        <span class="bu-number">08 / PHASE CONCLUSION</span>
+
+        <h2>Business Understanding Summary</h2>
+
+        <p>
+            The Business Understanding phase establishes the
+            purpose and direction of the Predictive Maintenance
+            System project. It identifies the need to organize
+            equipment and maintenance information while
+            incorporating machine learning predictions
+            as an additional source of decision support.
+        </p>
+
+        <p>
+            Based on this understanding, the next CRISP-DM phase
+            focuses on Data Understanding, where the dataset,
+            its variables, structure and characteristics
+            will be examined.
+        </p>
+
+        <div class="bu-highlight">
+            <p>
+                <strong>Next phase:</strong>
+                Data Understanding — Exploring and analyzing
+                the data used in the predictive maintenance model.
+            </p>
+        </div>
+
+    </section>
+
+
+    <footer class="bu-footer">
+
+        PREDICTIVE MAINTENANCE SYSTEM
+
+        <br>
+
+        CRISP-DM METHODOLOGY · BUSINESS UNDERSTANDING
+
+    </footer>
+
+</div>
+
+{% endblock %}

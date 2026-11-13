@@ -67,24 +67,96 @@ def pgc():
 # CRISP-DM PAGE
 # ==============================
 
+
+# ==============================
+# CRISP-DM METHODOLOGY
+# ==============================
+
 @app.route("/crisp-dm")
 def crisp_dm():
-    return render_template_string("""
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CRISP-DM</title>
-    </head>
-    <body>
-        <h1>CRISP-DM</h1>
-        <p>This section is under development.</p>
-        <a href="/">Return to Home</a>
-    </body>
-    </html>
-    """)
 
+    return render_template(
+        "crisp_dm.html",
+        active_page="crisp_dm"
+    )
+
+
+# ==============================
+# PHASE 1 - BUSINESS UNDERSTANDING
+# ==============================
+
+@app.route("/business-understanding")
+def business_understanding():
+
+    return render_template(
+        "business_understanding.html",
+        active_page="crisp_dm"
+    )
+
+
+# ==============================
+# PHASE 2 - DATA UNDERSTANDING
+# ==============================
+
+@app.route("/data-understanding")
+def data_understanding():
+
+    return render_template(
+        "data_understanding.html",
+        active_page="crisp_dm"
+    )
+
+
+# ==============================
+# PHASE 3 - DATA PREPARATION
+# ==============================
+
+@app.route("/data-preparation")
+def data_preparation():
+
+    return render_template(
+        "data_preparation.html",
+        active_page="crisp_dm"
+    )
+
+
+# ==============================
+# PHASE 4 - MODELING
+# ==============================
+
+@app.route("/modeling")
+def modeling():
+
+    return render_template(
+        "modeling.html",
+        active_page="crisp_dm"
+    )
+
+
+# ==============================
+# PHASE 5 - EVALUATION
+# ==============================
+
+@app.route("/evaluation")
+def evaluation():
+
+    return render_template(
+        "evaluation.html",
+        active_page="crisp_dm"
+    )
+
+
+# ==============================
+# PHASE 6 - DEPLOYMENT
+# ==============================
+
+@app.route("/deployment")
+def deployment():
+
+    return render_template(
+        "deployment.html",
+        active_page="crisp_dm"
+    )
 
 # ==============================
 # EQUIPMENT REGISTRATION
