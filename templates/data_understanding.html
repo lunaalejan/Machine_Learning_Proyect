@@ -1,0 +1,717 @@
+{% extends "base.html" %}
+
+{% block title %}Data Understanding | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    .du-container {
+        font-family: 'Inter', sans-serif;
+        color: #49382d;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 35px 25px 60px;
+    }
+
+    .du-header {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e7dcd0;
+    }
+
+    .du-label {
+        display: inline-block;
+        color: #987452;
+        background: #f1e8dd;
+        padding: 7px 13px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        margin-bottom: 17px;
+        text-transform: uppercase;
+    }
+
+    .du-header h1 {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 32px;
+        color: #49382d;
+        margin: 0 0 14px;
+        line-height: 1.4;
+    }
+
+    .du-header p {
+        color: #837365;
+        font-size: 14px;
+        line-height: 1.8;
+        max-width: 850px;
+        margin: 0;
+    }
+
+    .du-section {
+        margin-bottom: 28px;
+    }
+
+    .du-section-title {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 20px;
+        color: #624a37;
+        margin-bottom: 17px;
+    }
+
+    .du-card {
+        background: #fffdf9;
+        border: 1px solid #e9ded2;
+        border-radius: 13px;
+        padding: 24px;
+        margin-bottom: 18px;
+        box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+    }
+
+    .du-card h3 {
+        font-size: 15px;
+        color: #795b40;
+        margin: 0 0 12px;
+        font-weight: 700;
+    }
+
+    .du-card p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    .du-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .du-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .du-stat {
+        background: #f5eee6;
+        border: 1px solid #e9ded2;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .du-stat strong {
+        display: block;
+        font-family: 'Libre Baskerville', serif;
+        color: #765638;
+        font-size: 25px;
+        margin-bottom: 8px;
+    }
+
+    .du-stat span {
+        color: #837365;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .du-list {
+        padding-left: 20px;
+        margin: 12px 0 0;
+    }
+
+    .du-list li {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.9;
+        margin-bottom: 7px;
+    }
+
+    .du-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .du-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .du-table th {
+        background: #eee4d9;
+        color: #604832;
+        text-align: left;
+        padding: 14px;
+        font-weight: 700;
+    }
+
+    .du-table td {
+        padding: 13px 14px;
+        border-bottom: 1px solid #eee5dc;
+        color: #76685c;
+        line-height: 1.6;
+    }
+
+    .du-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .du-tag {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        background: #f1e8dd;
+        color: #795b40;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .du-highlight {
+        background: #f2e9df;
+        border: 1px solid #e4d4c3;
+        border-radius: 12px;
+        padding: 23px;
+    }
+
+    .du-highlight h3 {
+        font-family: 'Libre Baskerville', serif;
+        color: #674b34;
+        font-size: 17px;
+        margin: 0 0 12px;
+    }
+
+    .du-highlight p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    .du-note {
+        background: #fffaf2;
+        border-left: 4px solid #b18b65;
+        border-radius: 7px;
+        padding: 17px 20px;
+        margin-top: 17px;
+    }
+
+    .du-note p {
+        color: #76685c;
+        font-size: 12px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    .du-phase-footer {
+        border-top: 1px solid #e7dcd0;
+        margin-top: 35px;
+        padding-top: 23px;
+        color: #9a8878;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 700px) {
+        .du-container {
+            padding: 25px 15px 40px;
+        }
+
+        .du-header h1 {
+            font-size: 25px;
+        }
+
+        .du-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .du-stat-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .du-card {
+            padding: 19px;
+        }
+    }
+</style>
+
+<div class="du-container">
+
+    <!-- HEADER -->
+    <header class="du-header">
+        <span class="du-label">CRISP-ML · PHASE 02</span>
+
+        <h1>Data Understanding</h1>
+
+        <p>
+            This stage focuses on understanding the data used in the
+            Predictive Maintenance System. It includes the identification
+            of the data source, dataset structure, relevant variables,
+            initial exploration, and potential data quality limitations.
+        </p>
+    </header>
+
+    <!-- DATA SOURCE -->
+    <section class="du-section">
+        <h2 class="du-section-title">01. Data Source</h2>
+
+        <div class="du-card">
+            <h3>AI4I 2020 Predictive Maintenance Dataset</h3>
+
+            <p>
+                The project uses the AI4I 2020 Predictive Maintenance
+                Dataset, a publicly available dataset designed for
+                predictive maintenance research.
+
+                It contains simulated industrial equipment operating
+                information and failure labels. The dataset provides
+                variables related to temperature, rotational speed,
+                torque, and tool wear, which can be used to study
+                patterns associated with machine failure.
+
+                This dataset serves as the foundation for developing
+                and evaluating the Machine Learning component of
+                the Predictive Maintenance System.
+            </p>
+        </div>
+
+        <div class="du-note">
+            <p>
+                <strong>Data source:</strong>
+                AI4I 2020 Predictive Maintenance Dataset.
+                The project uses the file <strong>ai4i2020.csv</strong>.
+                The dataset is used for academic development and
+                experimentation, not as a direct representation
+                of every real industrial environment.
+            </p>
+        </div>
+    </section>
+
+    <!-- DATASET CHARACTERISTICS -->
+    <section class="du-section">
+        <h2 class="du-section-title">02. Dataset Characteristics</h2>
+
+        <div class="du-stat-grid">
+            <div class="du-stat">
+                <strong>10,000</strong>
+                <span>Records / observations</span>
+            </div>
+
+            <div class="du-stat">
+                <strong>14</strong>
+                <span>Original columns</span>
+            </div>
+
+            <div class="du-stat">
+                <strong>5</strong>
+                <span>Failure mode indicators</span>
+            </div>
+        </div>
+
+        <div class="du-card">
+            <h3>Dataset Structure</h3>
+
+            <p>
+                Each record represents an observation of an industrial
+                machine. The dataset includes identification fields,
+                machine characteristics, operating measurements,
+                a general machine failure indicator, and specific
+                failure mode indicators.
+
+                These variables allow the analysis of equipment
+                operating conditions and their relationship with
+                failure events.
+            </p>
+        </div>
+    </section>
+
+    <!-- DATASET VARIABLES -->
+    <section class="du-section">
+        <h2 class="du-section-title">03. Dataset Variables</h2>
+
+        <div class="du-card">
+            <h3>Description of Original Variables</h3>
+
+            <div class="du-table-wrapper">
+                <table class="du-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>UDI</td>
+                            <td>Unique identifier for each observation.</td>
+                            <td>Identifier</td>
+                        </tr>
+
+                        <tr>
+                            <td>Product ID</td>
+                            <td>Product identification code.</td>
+                            <td>Identifier</td>
+                        </tr>
+
+                        <tr>
+                            <td>Type</td>
+                            <td>Machine quality variant: L, M, or H.</td>
+                            <td>Categorical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Air temperature [K]</td>
+                            <td>Ambient air temperature.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Process temperature [K]</td>
+                            <td>Temperature of the machine process.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Rotational speed [rpm]</td>
+                            <td>Rotational speed of the equipment.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Torque [Nm]</td>
+                            <td>Torque applied by the machine.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tool wear [min]</td>
+                            <td>Accumulated tool wear time.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Machine failure</td>
+                            <td>Indicates whether a machine failure occurred.</td>
+                            <td>Target variable</td>
+                        </tr>
+
+                        <tr>
+                            <td>TWF</td>
+                            <td>Tool Wear Failure indicator.</td>
+                            <td>Binary</td>
+                        </tr>
+
+                        <tr>
+                            <td>HDF</td>
+                            <td>Heat Dissipation Failure indicator.</td>
+                            <td>Binary</td>
+                        </tr>
+
+                        <tr>
+                            <td>PWF</td>
+                            <td>Power Failure indicator.</td>
+                            <td>Binary</td>
+                        </tr>
+
+                        <tr>
+                            <td>OSF</td>
+                            <td>Overstrain Failure indicator.</td>
+                            <td>Binary</td>
+                        </tr>
+
+                        <tr>
+                            <td>RNF</td>
+                            <td>Random Failure indicator.</td>
+                            <td>Binary</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODEL VARIABLES -->
+    <section class="du-section">
+        <h2 class="du-section-title">04. Variables Used by the Prediction Model</h2>
+
+        <div class="du-card">
+            <h3>Selected Input Features</h3>
+
+            <p>
+                The prediction module receives six input variables.
+                These variables describe the machine type and its
+                operating conditions. The model uses them to estimate
+                the probability of a machine failure.
+            </p>
+
+            <div class="du-table-wrapper" style="margin-top: 18px;">
+                <table class="du-table">
+                    <thead>
+                        <tr>
+                            <th>Input variable</th>
+                            <th>Unit / Format</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Type</td>
+                            <td>L / M / H</td>
+                            <td>Identifies the machine variant.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Air temperature</td>
+                            <td>Kelvin (K)</td>
+                            <td>Describes ambient temperature.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Process temperature</td>
+                            <td>Kelvin (K)</td>
+                            <td>Describes process temperature.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Rotational speed</td>
+                            <td>Revolutions per minute (rpm)</td>
+                            <td>Describes machine rotation.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Torque</td>
+                            <td>Newton meters (Nm)</td>
+                            <td>Describes applied rotational force.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tool wear</td>
+                            <td>Minutes (min)</td>
+                            <td>Describes accumulated tool wear.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="du-note">
+                <p>
+                    <strong>Target variable:</strong> Machine failure.
+                    This variable represents the outcome the model
+                    is designed to predict. It is not entered as
+                    a prediction input.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- INITIAL DATA EXPLORATION -->
+    <section class="du-section">
+        <h2 class="du-section-title">05. Initial Data Exploration</h2>
+
+        <div class="du-card">
+            <h3>Exploratory Data Analysis (EDA)</h3>
+
+            <p>
+                Initial data exploration is necessary to understand
+                the distribution of the variables, identify patterns,
+                examine relationships between measurements, and
+                detect possible data quality problems before
+                model development.
+
+                The exploration process should include the following
+                analyses:
+            </p>
+
+            <ul class="du-list">
+                <li>
+                    Examine the distribution of machine failures
+                    and non-failures.
+                </li>
+
+                <li>
+                    Analyze the distribution of air and process
+                    temperatures.
+                </li>
+
+                <li>
+                    Examine rotational speed and torque values.
+                </li>
+
+                <li>
+                    Analyze the distribution of tool wear.
+                </li>
+
+                <li>
+                    Explore relationships between operating
+                    variables and machine failure.
+                </li>
+
+                <li>
+                    Identify possible class imbalance in the
+                    target variable.
+                </li>
+            </ul>
+        </div>
+
+        <div class="du-grid">
+            <div class="du-card">
+                <h3>Failure Distribution</h3>
+                <p>
+                    A comparison between failure and non-failure
+                    observations helps identify whether the target
+                    classes are balanced or imbalanced.
+                </p>
+            </div>
+
+            <div class="du-card">
+                <h3>Operating Variables</h3>
+                <p>
+                    Temperature, rotational speed, torque, and
+                    tool wear distributions help characterize
+                    the operating conditions represented in
+                    the dataset.
+                </p>
+            </div>
+        </div>
+
+        <div class="du-note">
+            <p>
+                <strong>Evidence to include:</strong> Insert the
+                actual graphs generated during the exploratory
+                analysis. No distribution percentages or statistical
+                findings should be reported until they have been
+                calculated from the project's CSV file.
+            </p>
+        </div>
+    </section>
+
+    <!-- DATA QUALITY -->
+    <section class="du-section">
+        <h2 class="du-section-title">06. Data Quality Assessment</h2>
+
+        <div class="du-card">
+            <h3>Data Quality Checks</h3>
+
+            <p>
+                Before using the dataset for model development,
+                its quality must be examined to identify possible
+                inconsistencies that could affect the results.
+                The following checks are part of the analysis:
+            </p>
+
+            <div class="du-table-wrapper" style="margin-top: 18px;">
+                <table class="du-table">
+                    <thead>
+                        <tr>
+                            <th>Quality check</th>
+                            <th>Purpose</th>
+                            <th>Evidence required</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Missing values</td>
+                            <td>Identify incomplete observations.</td>
+                            <td>Null-value count.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Duplicate records</td>
+                            <td>Identify repeated observations.</td>
+                            <td>Duplicate count.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Data types</td>
+                            <td>Verify numerical and categorical formats.</td>
+                            <td>Column data types.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Value ranges</td>
+                            <td>Identify unusual or invalid values.</td>
+                            <td>Descriptive statistics.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Target distribution</td>
+                            <td>Identify possible class imbalance.</td>
+                            <td>Class frequencies.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIMITATIONS -->
+    <section class="du-section">
+        <h2 class="du-section-title">07. Data Limitations</h2>
+
+        <div class="du-card">
+            <h3>Dataset Considerations</h3>
+
+            <ul class="du-list">
+                <li>
+                    The dataset is based on simulated industrial
+                    operating conditions.
+                </li>
+
+                <li>
+                    Its observations may not represent all types
+                    of real industrial equipment.
+                </li>
+
+                <li>
+                    The failure patterns included in the dataset
+                    do not cover every possible real-world failure.
+                </li>
+
+                <li>
+                    The predictive model's performance depends
+                    on the quality and representativeness of
+                    the available data.
+                </li>
+
+                <li>
+                    Additional testing with real operational data
+                    is necessary before applying the model in
+                    a production environment.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CONCLUSION -->
+    <section class="du-section">
+        <div class="du-highlight">
+            <h3>Phase Conclusion</h3>
+
+            <p>
+                The Data Understanding stage establishes the
+                characteristics, structure, and limitations of
+                the AI4I 2020 Predictive Maintenance Dataset.
+
+                It identifies the variables required by the
+                prediction module and defines the exploratory
+                and quality checks needed before model development.
+
+                The information obtained in this stage provides
+                the foundation for the next step: Data Engineering,
+                where the dataset will be cleaned, transformed,
+                and prepared for Machine Learning training.
+            </p>
+        </div>
+    </section>
+
+
+</div>
+
+{% endblock %}

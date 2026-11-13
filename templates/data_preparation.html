@@ -1,0 +1,654 @@
+
+{% extends "base.html" %}
+
+{% block title %}Data Preparation | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    .dp-container {
+        font-family: 'Inter', sans-serif;
+        color: #49382d;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 35px 25px 60px;
+    }
+
+    .dp-header {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e7dcd0;
+    }
+
+    .dp-label {
+        display: inline-block;
+        color: #987452;
+        background: #f1e8dd;
+        padding: 7px 13px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        margin-bottom: 17px;
+        text-transform: uppercase;
+    }
+
+    .dp-header h1 {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 32px;
+        color: #49382d;
+        margin: 0 0 14px;
+        line-height: 1.4;
+    }
+
+    .dp-header p {
+        color: #837365;
+        font-size: 14px;
+        line-height: 1.8;
+        max-width: 850px;
+        margin: 0;
+    }
+
+    .dp-section {
+        margin-bottom: 28px;
+    }
+
+    .dp-section-title {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 20px;
+        color: #624a37;
+        margin-bottom: 17px;
+    }
+
+    .dp-card {
+        background: #fffdf9;
+        border: 1px solid #e9ded2;
+        border-radius: 13px;
+        padding: 24px;
+        margin-bottom: 18px;
+        box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+    }
+
+    .dp-card h3 {
+        font-size: 15px;
+        color: #795b40;
+        margin: 0 0 12px;
+        font-weight: 700;
+    }
+
+    .dp-card p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    .dp-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .dp-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .dp-stat {
+        background: #f5eee6;
+        border: 1px solid #e9ded2;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .dp-stat strong {
+        display: block;
+        font-family: 'Libre Baskerville', serif;
+        color: #765638;
+        font-size: 23px;
+        margin-bottom: 8px;
+    }
+
+    .dp-stat span {
+        color: #837365;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .dp-list {
+        padding-left: 20px;
+        margin: 12px 0 0;
+    }
+
+    .dp-list li {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.9;
+        margin-bottom: 7px;
+    }
+
+    .dp-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .dp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .dp-table th {
+        background: #eee4d9;
+        color: #604832;
+        text-align: left;
+        padding: 14px;
+        font-weight: 700;
+    }
+
+    .dp-table td {
+        padding: 13px 14px;
+        border-bottom: 1px solid #eee5dc;
+        color: #76685c;
+        line-height: 1.6;
+    }
+
+    .dp-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .dp-highlight {
+        background: #f2e9df;
+        border: 1px solid #e4d4c3;
+        border-radius: 12px;
+        padding: 23px;
+    }
+
+    .dp-highlight h3 {
+        font-family: 'Libre Baskerville', serif;
+        color: #674b34;
+        font-size: 17px;
+        margin: 0 0 12px;
+    }
+
+    .dp-highlight p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    .dp-note {
+        background: #fffaf2;
+        border-left: 4px solid #b18b65;
+        border-radius: 7px;
+        padding: 17px 20px;
+        margin-top: 17px;
+    }
+
+    .dp-note p {
+        color: #76685c;
+        font-size: 12px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    .dp-code {
+        background: #f5eee6;
+        border: 1px solid #e9ded2;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 14px;
+        color: #674b34;
+        font-size: 12px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        line-height: 1.7;
+    }
+
+    .dp-phase-footer {
+        border-top: 1px solid #e7dcd0;
+        margin-top: 35px;
+        padding-top: 23px;
+        color: #9a8878;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 700px) {
+        .dp-container {
+            padding: 25px 15px 40px;
+        }
+
+        .dp-header h1 {
+            font-size: 25px;
+        }
+
+        .dp-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dp-stat-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dp-card {
+            padding: 19px;
+        }
+    }
+</style>
+
+<div class="dp-container">
+
+    <!-- HEADER -->
+    <header class="dp-header">
+        <span class="dp-label">CRISP-ML · PHASE 03</span>
+
+        <h1>Data Preparation</h1>
+
+        <p>
+            This stage describes the processes required to transform
+            the AI4I 2020 dataset into a suitable format for Machine
+            Learning. It covers data loading, cleaning, feature
+            selection, transformation, target preparation, and
+            dataset partitioning.
+        </p>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">01. Data Preparation Overview</h2>
+
+        <div class="dp-card">
+            <h3>Purpose of Data Preparation</h3>
+
+            <p>
+                Data preparation is a fundamental stage in the
+                development of the Predictive Maintenance System.
+                Its purpose is to organize and transform the
+                information collected in the AI4I 2020 dataset
+                before using it to train the predictive model.
+
+                This process helps ensure that the input variables
+                have the appropriate structure and format, while
+                reducing the possibility of errors and information
+                leakage during model development.
+            </p>
+        </div>
+
+        <div class="dp-highlight">
+            <h3>Preparation Objective</h3>
+
+            <p>
+                Obtain a consistent dataset containing the relevant
+                machine operating variables and the target variable
+                Machine failure, ready for model training and
+                performance evaluation.
+            </p>
+        </div>
+    </section>
+
+    <!-- DATA LOADING -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">02. Data Loading</h2>
+
+        <div class="dp-card">
+            <h3>Dataset Importation</h3>
+
+            <p>
+                The preparation process begins by loading the
+                ai4i2020.csv file into the Python environment.
+                The Pandas library can be used to read the CSV
+                file and create a DataFrame, allowing the data
+                to be inspected and manipulated.
+
+                Initial inspection includes reviewing the first
+                records, column names, data types, and dimensions
+                of the dataset.
+            </p>
+
+            <div class="dp-code">import pandas as pd
+
+df = pd.read_csv("ai4i2020.csv")
+
+print(df.head())
+print(df.shape)
+print(df.info())</div>
+        </div>
+
+        <div class="dp-note">
+            <p>
+                <strong>Evidence required:</strong> Include the
+                actual output of the dataset dimensions and
+                initial inspection from the project's Python
+                environment.
+            </p>
+        </div>
+    </section>
+
+    <!-- DATA CLEANING -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">03. Data Cleaning</h2>
+
+        <div class="dp-card">
+            <h3>Data Quality and Consistency</h3>
+
+            <p>
+                Before training the model, the dataset must be
+                checked for incomplete records, duplicated
+                observations, incorrect data types, and
+                inconsistent values.
+
+                These checks help determine whether cleaning
+                operations are necessary. Any modification
+                should be based on the actual results of
+                the inspection.
+            </p>
+
+            <ul class="dp-list">
+                <li>Identify missing values.</li>
+                <li>Detect duplicated records.</li>
+                <li>Review column data types.</li>
+                <li>Inspect numerical value ranges.</li>
+                <li>Identify invalid or inconsistent observations.</li>
+                <li>Document any cleaning operation performed.</li>
+            </ul>
+
+            <div class="dp-code"># Missing values
+print(df.isnull().sum())
+
+# Duplicate records
+print(df.duplicated().sum())
+
+# Data types
+print(df.dtypes)
+
+# Descriptive statistics
+print(df.describe())</div>
+        </div>
+
+        <div class="dp-note">
+            <p>
+                <strong>Important:</strong> Do not state that
+                missing values or duplicates were removed unless
+                the dataset inspection confirms that this
+                operation was necessary and was actually performed.
+            </p>
+        </div>
+    </section>
+
+    <!-- FEATURE SELECTION -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">04. Feature Selection</h2>
+
+        <div class="dp-card">
+            <h3>Selection of Relevant Variables</h3>
+
+            <p>
+                Feature selection consists of identifying the
+                variables that provide relevant information
+                for predicting machine failure.
+
+                The prediction module uses six input features
+                corresponding to machine type and operating
+                conditions. Identification fields and failure
+                mode indicators are not included as prediction
+                inputs in the described model interface.
+            </p>
+
+            <div class="dp-table-wrapper" style="margin-top: 18px;">
+                <table class="dp-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Role</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Type</td>
+                            <td>Input feature</td>
+                            <td>Machine variant.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Air temperature</td>
+                            <td>Input feature</td>
+                            <td>Operating temperature.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Process temperature</td>
+                            <td>Input feature</td>
+                            <td>Thermal operating condition.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Rotational speed</td>
+                            <td>Input feature</td>
+                            <td>Machine rotational behavior.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Torque</td>
+                            <td>Input feature</td>
+                            <td>Mechanical operating load.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tool wear</td>
+                            <td>Input feature</td>
+                            <td>Accumulated tool wear.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Machine failure</td>
+                            <td>Target</td>
+                            <td>Outcome to predict.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dp-note">
+            <p>
+                <strong>Information leakage prevention:</strong>
+                Failure mode indicators such as TWF, HDF, PWF,
+                OSF, and RNF are not used as input features in
+                the prediction interface. These variables describe
+                failure information and could reveal information
+                about the target if included improperly.
+            </p>
+        </div>
+    </section>
+
+    <!-- TRANSFORMATION -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">05. Data Transformation</h2>
+
+        <div class="dp-card">
+            <h3>Preparing Variables for the Model</h3>
+
+            <p>
+                Data transformation involves adapting the selected
+                variables to the format expected by the Machine
+                Learning algorithm.
+
+                The machine Type variable is categorical and
+                requires an appropriate numerical representation
+                if the selected model implementation expects
+                numerical inputs. The remaining operating
+                measurements are numerical variables.
+            </p>
+
+            <ul class="dp-list">
+                <li>
+                    Verify that numerical measurements use
+                    appropriate numeric data types.
+                </li>
+
+                <li>
+                    Encode the categorical Type variable using
+                    the same method applied during model training.
+                </li>
+
+                <li>
+                    Preserve the original measurement units.
+                </li>
+
+                <li>
+                    Apply the same transformations to training
+                    data and future prediction inputs.
+                </li>
+            </ul>
+        </div>
+
+        <div class="dp-note">
+            <p>
+                <strong>Consistency requirement:</strong> The
+                transformation used during training must be
+                reproduced in the prediction module. Do not
+                introduce scaling, encoding, or other transformations
+                unless they are part of the actual training pipeline.
+            </p>
+        </div>
+    </section>
+
+    <!-- TARGET PREPARATION -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">06. Target Variable Preparation</h2>
+
+        <div class="dp-card">
+            <h3>Machine Failure Classification</h3>
+
+            <p>
+                The target variable selected for the predictive
+                model is Machine failure. It represents whether
+                a machine failure occurred in the corresponding
+                observation.
+
+                The task is formulated as binary classification,
+                where the model learns to distinguish between
+                failure and non-failure cases.
+            </p>
+
+            <div class="dp-table-wrapper" style="margin-top: 18px;">
+                <table class="dp-table">
+                    <thead>
+                        <tr>
+                            <th>Target value</th>
+                            <th>Class</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>No Failure</td>
+                            <td>No machine failure recorded.</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>Failure</td>
+                            <td>Machine failure recorded.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRAIN TEST SPLIT -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">07. Training and Testing Split</h2>
+
+        <div class="dp-card">
+            <h3>Dataset Partitioning</h3>
+
+            <p>
+                The dataset should be divided into separate
+                subsets to evaluate how well the model performs
+                on observations that were not used during
+                training.
+
+                A training subset is used to fit the model,
+                while a testing subset is reserved for the
+                final evaluation of its predictive performance.
+
+                The partitioning strategy, test proportion,
+                random state, and stratification settings must
+                match the actual training script.
+            </p>
+
+            <ul class="dp-list">
+                <li>
+                    Training set: used to learn patterns from
+                    the input variables.
+                </li>
+
+                <li>
+                    Testing set: used to evaluate predictions
+                    on previously unseen observations.
+                </li>
+
+                <li>
+                    Stratification: may be applied to preserve
+                    the target class proportions in both subsets.
+                </li>
+
+                <li>
+                    Random state: used to make the split
+                    reproducible.
+                </li>
+            </ul>
+        </div>
+
+        <div class="dp-note">
+            <p>
+                <strong>Evidence required:</strong> Document
+                the actual number of training and testing
+                observations, the split proportion, and the
+                configuration used in the project's training
+                script.
+            </p>
+        </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">08. Preparation Summary</h2>
+
+        <div class="dp-highlight">
+            <h3>Stage Conclusion</h3>
+
+            <p>
+                The Data Preparation stage defines the operations
+                required to convert the original AI4I 2020 dataset
+                into a suitable structure for predictive modeling.
+
+                It establishes the input features, target variable,
+                data quality checks, transformation requirements,
+                and training and testing partitioning strategy.
+
+                Once these operations have been implemented
+                and verified in the project's training pipeline,
+                the prepared data can be used in the next stage:
+                Model Engineering, where the classification
+                algorithms are developed and trained.
+            </p>
+        </div>
+    </section>
+
+
+</div>
+
+{% endblock %}
