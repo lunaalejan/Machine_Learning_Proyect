@@ -82,33 +82,20 @@ def crisp_dm():
 
 
 # ==============================
-# PHASE 1 - BUSINESS UNDERSTANDING
+# PHASE 1 - BUSINESS AND DATA UNDERSTANDING
 # ==============================
 
-@app.route("/business-understanding")
-def business_understanding():
+@app.route("/business-data-understanding")
+def business_data_understanding():
 
     return render_template(
-        "business_understanding.html",
+        "business_data_understanding.html",
         active_page="crisp_dm"
     )
 
 
 # ==============================
-# PHASE 2 - DATA UNDERSTANDING
-# ==============================
-
-@app.route("/data-understanding")
-def data_understanding():
-
-    return render_template(
-        "data_understanding.html",
-        active_page="crisp_dm"
-    )
-
-
-# ==============================
-# PHASE 3 - DATA PREPARATION
+# PHASE 2 - DATA PREPARATION
 # ==============================
 
 @app.route("/data-preparation")
@@ -121,7 +108,7 @@ def data_preparation():
 
 
 # ==============================
-# PHASE 4 - MODELING
+# PHASE 3 - MODELING
 # ==============================
 
 @app.route("/modeling")
@@ -134,7 +121,7 @@ def modeling():
 
 
 # ==============================
-# PHASE 5 - EVALUATION
+# PHASE 4 - EVALUATION
 # ==============================
 
 @app.route("/evaluation")
@@ -147,7 +134,7 @@ def evaluation():
 
 
 # ==============================
-# PHASE 6 - DEPLOYMENT
+# PHASE 5 - DEPLOYMENT
 # ==============================
 
 @app.route("/deployment")
@@ -155,6 +142,18 @@ def deployment():
 
     return render_template(
         "deployment.html",
+        active_page="crisp_dm"
+    )
+
+# ==============================
+# PHASE 6 - Monitoring and Maintenance
+# ==============================
+
+@app.route("/monitoring_maintenance")
+def monitoring_maintenance():
+
+    return render_template(
+        "monitoring_maintenance.html",
         active_page="crisp_dm"
     )
 

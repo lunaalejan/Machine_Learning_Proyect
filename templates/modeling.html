@@ -6,241 +6,312 @@
 {% block content %}
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
+.mo-container {
+    font-family: 'Inter', sans-serif;
+    color: #49382d;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 35px 25px 60px;
+}
+
+.mo-header {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e7dcd0;
+}
+
+.mo-label {
+    display: inline-block;
+    color: #987452;
+    background: #f1e8dd;
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    margin-bottom: 17px;
+    text-transform: uppercase;
+}
+
+.mo-header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 32px;
+    color: #49382d;
+    margin: 0 0 14px;
+    line-height: 1.4;
+}
+
+.mo-header p {
+    color: #837365;
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 850px;
+    margin: 0;
+}
+
+.mo-section {
+    margin-bottom: 28px;
+}
+
+.mo-section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    color: #624a37;
+    margin-bottom: 17px;
+}
+
+.mo-card {
+    background: #fffdf9;
+    border: 1px solid #e9ded2;
+    border-radius: 13px;
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+}
+
+.mo-card h3 {
+    font-size: 15px;
+    color: #795b40;
+    margin: 0 0 12px;
+    font-weight: 700;
+}
+
+.mo-card p {
+    color: #76685c;
+    font-size: 13px;
+    line-height: 1.85;
+    margin: 0;
+}
+
+.mo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.mo-model-card {
+    background: #f5eee6;
+    border: 1px solid #e9ded2;
+    border-left: 4px solid #a9825d;
+    border-radius: 9px;
+    padding: 21px;
+}
+
+.mo-model-card h3 {
+    color: #674b34;
+    font-size: 15px;
+    margin: 0 0 10px;
+}
+
+.mo-model-card p {
+    color: #76685c;
+    font-size: 13px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.mo-list {
+    padding-left: 20px;
+    margin: 12px 0 0;
+}
+
+.mo-list li {
+    color: #76685c;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 7px;
+}
+
+.mo-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.mo-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 13px;
+    background: #fffdf9;
+}
+
+.mo-table th {
+    background: #eee4d9;
+    color: #604832;
+    text-align: left;
+    padding: 14px;
+    font-weight: 700;
+    border: none;
+}
+
+.mo-table td {
+    background: #fffdf9;
+    padding: 13px 14px;
+    border-bottom: 1px solid #eee5dc;
+    color: #76685c;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.mo-table tr:last-child td {
+    border-bottom: none;
+}
+
+.mo-highlight {
+    background: #f2e9df;
+    border: 1px solid #e4d4c3;
+    border-radius: 12px;
+    padding: 23px;
+}
+
+.mo-highlight h3 {
+    font-family: 'Libre Baskerville', serif;
+    color: #674b34;
+    font-size: 17px;
+    margin: 0 0 12px;
+}
+
+.mo-highlight p {
+    color: #76685c;
+    font-size: 13px;
+    line-height: 1.85;
+    margin: 0;
+}
+
+.mo-note {
+    background: #fffaf2;
+    border-left: 4px solid #b18b65;
+    border-radius: 7px;
+    padding: 17px 20px;
+    margin-top: 17px;
+}
+
+.mo-note p {
+    color: #76685c;
+    font-size: 12px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.mo-code {
+    background: #f5eee6;
+    border: 1px solid #e9ded2;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 14px;
+    color: #674b34;
+    font-size: 12px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    line-height: 1.7;
+}
+
+.mo-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.mo-stat {
+    background: #fffdf9;
+    border: 1px solid #e9ded2;
+    border-radius: 12px;
+    padding: 19px 15px;
+    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+}
+
+.mo-stat strong {
+    display: block;
+    font-family: 'Libre Baskerville', serif;
+    color: #765638;
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.mo-stat span {
+    color: #837365;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.mo-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 17px 0;
+}
+
+.mo-step-number {
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee4d9;
+    color: #674b34;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.mo-step-content {
+    flex: 1;
+}
+
+.mo-step-content strong {
+    display: block;
+    color: #674b34;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.mo-step-content p {
+    color: #76685c;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.mo-phase-footer {
+    border-top: 1px solid #e7dcd0;
+    margin-top: 35px;
+    padding-top: 23px;
+    color: #9a8878;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+@media (max-width: 700px) {
     .mo-container {
-        font-family: 'Inter', sans-serif;
-        color: #49382d;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 35px 25px 60px;
-    }
-
-    .mo-header {
-        margin-bottom: 35px;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #e7dcd0;
-    }
-
-    .mo-label {
-        display: inline-block;
-        color: #987452;
-        background: #f1e8dd;
-        padding: 7px 13px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 1.2px;
-        margin-bottom: 17px;
-        text-transform: uppercase;
+        padding: 25px 15px 40px;
     }
 
     .mo-header h1 {
-        font-family: 'Libre Baskerville', serif;
-        font-size: 32px;
-        color: #49382d;
-        margin: 0 0 14px;
-        line-height: 1.4;
-    }
-
-    .mo-header p {
-        color: #837365;
-        font-size: 14px;
-        line-height: 1.8;
-        max-width: 850px;
-        margin: 0;
-    }
-
-    .mo-section {
-        margin-bottom: 28px;
-    }
-
-    .mo-section-title {
-        font-family: 'Libre Baskerville', serif;
-        font-size: 20px;
-        color: #624a37;
-        margin-bottom: 17px;
-    }
-
-    .mo-card {
-        background: #fffdf9;
-        border: 1px solid #e9ded2;
-        border-radius: 13px;
-        padding: 24px;
-        margin-bottom: 18px;
-        box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
-    }
-
-    .mo-card h3 {
-        font-size: 15px;
-        color: #795b40;
-        margin: 0 0 12px;
-        font-weight: 700;
-    }
-
-    .mo-card p {
-        color: #76685c;
-        font-size: 13px;
-        line-height: 1.85;
-        margin: 0;
+        font-size: 25px;
     }
 
     .mo-grid {
-        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .mo-stat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px;
     }
 
-    .mo-model-card {
-        background: #f5eee6;
-        border: 1px solid #e9ded2;
-        border-left: 4px solid #a9825d;
-        border-radius: 9px;
-        padding: 21px;
+    .mo-card {
+        padding: 19px;
     }
-
-    .mo-model-card h3 {
-        color: #674b34;
-        font-size: 15px;
-        margin: 0 0 10px;
-    }
-
-    .mo-model-card p {
-        color: #76685c;
-        font-size: 13px;
-        line-height: 1.8;
-        margin: 0;
-    }
-
-    .mo-list {
-        padding-left: 20px;
-        margin: 12px 0 0;
-    }
-
-    .mo-list li {
-        color: #76685c;
-        font-size: 13px;
-        line-height: 1.9;
-        margin-bottom: 7px;
-    }
-
-    .mo-table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    .mo-table {
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        font-size: 13px;
-        background: #fffdf9;
-    }
-
-    .mo-table th {
-        background: #eee4d9;
-        color: #604832;
-        text-align: left;
-        padding: 14px;
-        font-weight: 700;
-        border: none;
-    }
-
-    .mo-table td {
-        background: #fffdf9;
-        padding: 13px 14px;
-        border-bottom: 1px solid #eee5dc;
-        color: #76685c;
-        line-height: 1.6;
-        text-align: left;
-    }
-
-    .mo-table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .mo-highlight {
-        background: #f2e9df;
-        border: 1px solid #e4d4c3;
-        border-radius: 12px;
-        padding: 23px;
-    }
-
-    .mo-highlight h3 {
-        font-family: 'Libre Baskerville', serif;
-        color: #674b34;
-        font-size: 17px;
-        margin: 0 0 12px;
-    }
-
-    .mo-highlight p {
-        color: #76685c;
-        font-size: 13px;
-        line-height: 1.85;
-        margin: 0;
-    }
-
-    .mo-note {
-        background: #fffaf2;
-        border-left: 4px solid #b18b65;
-        border-radius: 7px;
-        padding: 17px 20px;
-        margin-top: 17px;
-    }
-
-    .mo-note p {
-        color: #76685c;
-        font-size: 12px;
-        line-height: 1.8;
-        margin: 0;
-    }
-
-    .mo-code {
-        background: #f5eee6;
-        border: 1px solid #e9ded2;
-        border-radius: 8px;
-        padding: 15px;
-        margin-top: 14px;
-        color: #674b34;
-        font-size: 12px;
-        overflow-x: auto;
-        white-space: pre-wrap;
-        line-height: 1.7;
-    }
-
-    .mo-phase-footer {
-        border-top: 1px solid #e7dcd0;
-        margin-top: 35px;
-        padding-top: 23px;
-        color: #9a8878;
-        font-size: 12px;
-        line-height: 1.8;
-    }
-
-    @media (max-width: 700px) {
-        .mo-container {
-            padding: 25px 15px 40px;
-        }
-
-        .mo-header h1 {
-            font-size: 25px;
-        }
-
-        .mo-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .mo-card {
-            padding: 19px;
-        }
-    }
+}
 </style>
 
 <div class="mo-container">
 
     <!-- HEADER -->
+
     <header class="mo-header">
-        <span class="mo-label">CRISP-ML · PHASE 04</span>
+        <span class="mo-label">CRISP-ML · PHASE 03</span>
 
         <h1>Model Engineering</h1>
 
@@ -248,12 +319,14 @@
             This stage describes the development of the Machine
             Learning model for the Predictive Maintenance System.
             It covers the classification approach, algorithm
-            selection, training process, model configuration,
-            validation, and model serialization.
+            selection, preprocessing pipeline, training process,
+            hyperparameter configuration, validation, and
+            model serialization.
         </p>
     </header>
 
-    <!-- OVERVIEW -->
+    <!-- 01. OVERVIEW -->
+
     <section class="mo-section">
         <h2 class="mo-section-title">01. Modeling Overview</h2>
 
@@ -269,12 +342,12 @@
 
                 The development process uses the prepared AI4I 2020
                 dataset and the selected input variables established
-                during the previous Data Preparation stage.
+                during the previous Data Engineering stage.
 
                 The objective is to build a classification model
                 that can be integrated into the Flask application
-                and used to generate predictions from equipment
-                operating conditions.
+                and generate predictions from equipment operating
+                conditions.
             </p>
         </div>
 
@@ -290,7 +363,8 @@
         </div>
     </section>
 
-    <!-- ML APPROACH -->
+    <!-- 02. ML APPROACH -->
+
     <section class="mo-section">
         <h2 class="mo-section-title">02. Machine Learning Approach</h2>
 
@@ -303,42 +377,24 @@
                 Each observation includes operating measurements
                 and a corresponding machine failure indicator.
 
-                The model learns the relationship between the
-                input variables and the target variable during
-                training. After learning these patterns, it can
-                estimate the failure class for new observations.
+                The model learns the relationship between input
+                variables and the target variable during training.
+                After learning these patterns, it can estimate
+                the failure class for new observations.
             </p>
 
             <ul class="mo-list">
-                <li>
-                    <strong>Learning type:</strong>
-                    Supervised Learning.
-                </li>
-
-                <li>
-                    <strong>Task:</strong>
-                    Binary Classification.
-                </li>
-
-                <li>
-                    <strong>Input:</strong>
-                    Machine operating conditions.
-                </li>
-
-                <li>
-                    <strong>Output:</strong>
-                    Failure or No Failure.
-                </li>
-
-                <li>
-                    <strong>Target:</strong>
-                    Machine failure.
-                </li>
+                <li><strong>Learning type:</strong> Supervised Learning.</li>
+                <li><strong>Task:</strong> Binary Classification.</li>
+                <li><strong>Input:</strong> Machine operating conditions.</li>
+                <li><strong>Output:</strong> Failure or No Failure.</li>
+                <li><strong>Target:</strong> Machine failure.</li>
             </ul>
         </div>
     </section>
 
-    <!-- MODEL SELECTION -->
+    <!-- 03. MODEL SELECTION -->
+
     <section class="mo-section">
         <h2 class="mo-section-title">03. Model Selection</h2>
 
@@ -347,17 +403,17 @@
 
             <p>
                 Random Forest is the classification algorithm
-                initially implemented in the Predictive
-                Maintenance System.
+                implemented in the Predictive Maintenance System.
 
                 It is an ensemble learning method that combines
                 predictions from multiple decision trees to
                 produce a final classification.
 
-                The algorithm is suitable for exploring
-                relationships between numerical and categorical
-                equipment variables and can model complex
-                patterns in the data.
+                This algorithm can model complex relationships
+                between numerical and categorical equipment
+                variables. It also supports class weighting,
+                which is useful when the target classes are
+                imbalanced.
             </p>
         </div>
 
@@ -365,7 +421,6 @@
 
             <div class="mo-model-card">
                 <h3>Decision Trees</h3>
-
                 <p>
                     Tree-based models divide observations
                     according to variable conditions and
@@ -376,11 +431,12 @@
 
             <div class="mo-model-card">
                 <h3>Random Forest</h3>
-
                 <p>
                     Random Forest combines multiple decision
                     trees, helping reduce the instability
                     associated with relying on a single tree.
+                    This is the algorithm implemented in
+                    the current project.
                 </p>
             </div>
 
@@ -388,17 +444,18 @@
 
         <div class="mo-note">
             <p>
-                <strong>Model selection:</strong> Random Forest
-                is the model already implemented in the project.
-                Its final selection should be supported by
-                the evaluation results and, if additional
-                algorithms are tested, by a comparison
-                of their performance.
+                <strong>Model selection:</strong>
+                Random Forest is the implemented algorithm.
+                A comparison with other algorithms has not
+                been documented in the supplied training script.
+                Its performance is evaluated using the
+                independent testing subset.
             </p>
         </div>
     </section>
 
-    <!-- INPUT FEATURES -->
+    <!-- 04. INPUT FEATURES -->
+
     <section class="mo-section">
         <h2 class="mo-section-title">04. Input Features and Target</h2>
 
@@ -406,14 +463,15 @@
             <h3>Variables Used by the Model</h3>
 
             <p>
-                The prediction module receives six input
-                variables describing the equipment type
-                and its operating conditions. The target
-                variable represents whether a failure
-                occurred in the original observation.
+                The training script uses six input variables
+                describing the equipment type and its operating
+                conditions. The target variable represents
+                whether a failure occurred in the original
+                observation.
             </p>
 
             <div class="mo-table-wrapper" style="margin-top: 18px;">
+
                 <table class="mo-table">
                     <thead>
                         <tr>
@@ -431,31 +489,31 @@
                         </tr>
 
                         <tr>
-                            <td>Air temperature</td>
+                            <td>Air temperature [K]</td>
                             <td>Input</td>
                             <td>Ambient temperature in Kelvin.</td>
                         </tr>
 
                         <tr>
-                            <td>Process temperature</td>
+                            <td>Process temperature [K]</td>
                             <td>Input</td>
                             <td>Process temperature in Kelvin.</td>
                         </tr>
 
                         <tr>
-                            <td>Rotational speed</td>
+                            <td>Rotational speed [rpm]</td>
                             <td>Input</td>
                             <td>Machine speed in rpm.</td>
                         </tr>
 
                         <tr>
-                            <td>Torque</td>
+                            <td>Torque [Nm]</td>
                             <td>Input</td>
                             <td>Applied torque in Nm.</td>
                         </tr>
 
                         <tr>
-                            <td>Tool wear</td>
+                            <td>Tool wear [min]</td>
                             <td>Input</td>
                             <td>Accumulated wear in minutes.</td>
                         </tr>
@@ -467,124 +525,192 @@
                         </tr>
                     </tbody>
                 </table>
+
             </div>
-        </div>
-    </section>
-
-    <!-- TRAINING PROCESS -->
-    <section class="mo-section">
-        <h2 class="mo-section-title">05. Model Training Process</h2>
-
-        <div class="mo-card">
-            <h3>Training Workflow</h3>
-
-            <p>
-                Model training consists of providing the algorithm
-                with prepared observations so that it can identify
-                patterns between equipment operating conditions
-                and machine failure.
-
-                The training workflow includes the following
-                activities:
-            </p>
-
-            <ul class="mo-list">
-                <li>
-                    Load the prepared dataset.
-                </li>
-
-                <li>
-                    Separate input features from the target variable.
-                </li>
-
-                <li>
-                    Apply the required data transformations.
-                </li>
-
-                <li>
-                    Divide the dataset into training and testing
-                    subsets.
-                </li>
-
-                <li>
-                    Initialize the Random Forest classifier.
-                </li>
-
-                <li>
-                    Train the model using the training observations.
-                </li>
-
-                <li>
-                    Generate predictions using the testing data.
-                </li>
-
-                <li>
-                    Save the trained model for future use.
-                </li>
-            </ul>
         </div>
 
         <div class="mo-note">
             <p>
-                <strong>Implementation evidence:</strong>
-                The actual training procedure should be documented
-                using the project's train_model.py file.
-                The exact split configuration and preprocessing
-                steps must match the implemented code.
+                <strong>Excluded variables:</strong>
+                UDI and Product ID are identification fields.
+                TWF, HDF, PWF, OSF, and RNF are failure-mode
+                indicators. They are excluded from the input
+                features to prevent the model from receiving
+                information that could reveal the target.
             </p>
         </div>
     </section>
 
-    <!-- HYPERPARAMETERS -->
+    <!-- 05. TRAINING PROCESS -->
+
     <section class="mo-section">
-        <h2 class="mo-section-title">06. Hyperparameter Configuration</h2>
+        <h2 class="mo-section-title">05. Model Training Process</h2>
 
         <div class="mo-card">
-            <h3>Random Forest Configuration</h3>
+            <h3>Actual Training Implementation</h3>
 
             <p>
-                Random Forest uses hyperparameters that control
-                the structure of the decision trees and the
-                behavior of the ensemble.
-
-                These settings influence the complexity of
-                the model, its learning behavior, and its
-                ability to generalize to unseen observations.
+                The training procedure is implemented in
+                machine_learning/train_model.py. The script
+                loads the dataset, prepares the input features,
+                builds a preprocessing pipeline, separates
+                training and testing observations, trains
+                the Random Forest classifier, evaluates its
+                predictions, and saves the complete pipeline.
             </p>
+
+            <div class="mo-stat-grid">
+
+                <div class="mo-stat">
+                    <strong>10,000</strong>
+                    <span>Total observations</span>
+                </div>
+
+                <div class="mo-stat">
+                    <strong>6</strong>
+                    <span>Input features</span>
+                </div>
+
+                <div class="mo-stat">
+                    <strong>8,000</strong>
+                    <span>Training records</span>
+                </div>
+
+                <div class="mo-stat">
+                    <strong>2,000</strong>
+                    <span>Testing records</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mo-card">
+            <h3>Training Workflow</h3>
+
+            <div class="mo-step">
+                <div class="mo-step-number">1</div>
+                <div class="mo-step-content">
+                    <strong>Load the dataset</strong>
+                    <p>
+                        Read ai4i2020.csv using the Pandas library.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mo-step">
+                <div class="mo-step-number">2</div>
+                <div class="mo-step-content">
+                    <strong>Select input features and target</strong>
+                    <p>
+                        Exclude identifiers and failure-mode
+                        indicators. Define Machine failure
+                        as the target variable.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mo-step">
+                <div class="mo-step-number">3</div>
+                <div class="mo-step-content">
+                    <strong>Configure preprocessing</strong>
+                    <p>
+                        Apply OneHotEncoder to categorical
+                        features and passthrough to numerical
+                        features.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mo-step">
+                <div class="mo-step-number">4</div>
+                <div class="mo-step-content">
+                    <strong>Split the dataset</strong>
+                    <p>
+                        Divide the data into 80% training
+                        and 20% testing observations using
+                        stratification.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mo-step">
+                <div class="mo-step-number">5</div>
+                <div class="mo-step-content">
+                    <strong>Train Random Forest</strong>
+                    <p>
+                        Fit the preprocessing pipeline and
+                        classifier using the training data.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mo-step">
+                <div class="mo-step-number">6</div>
+                <div class="mo-step-content">
+                    <strong>Evaluate and save</strong>
+                    <p>
+                        Generate test predictions, calculate
+                        evaluation metrics, create visualizations,
+                        and serialize the trained pipeline.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mo-card">
+            <h3>Implementation Evidence: Dataset Split</h3>
+
+            <p>
+                The following configuration is taken directly
+                from train_model.py.
+            </p>
+
+            <div class="mo-code">X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.20,
+    random_state=42,
+    stratify=y
+)</div>
 
             <div class="mo-table-wrapper" style="margin-top: 18px;">
                 <table class="mo-table">
                     <thead>
                         <tr>
-                            <th>Hyperparameter</th>
-                            <th>Function</th>
+                            <th>Parameter</th>
+                            <th>Implemented value</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr>
-                            <td>n_estimators</td>
-                            <td>Number of decision trees in the forest.</td>
+                            <td>test_size</td>
+                            <td>0.20 (20%)</td>
                         </tr>
 
                         <tr>
-                            <td>max_depth</td>
-                            <td>Maximum depth allowed for each tree.</td>
+                            <td>Training proportion</td>
+                            <td>80%</td>
                         </tr>
 
                         <tr>
                             <td>random_state</td>
-                            <td>Controls reproducibility of random operations.</td>
+                            <td>42</td>
                         </tr>
 
                         <tr>
-                            <td>class_weight</td>
-                            <td>Can adjust the importance assigned to each class.</td>
+                            <td>stratify</td>
+                            <td>y</td>
                         </tr>
 
                         <tr>
-                            <td>min_samples_split</td>
-                            <td>Minimum observations required to split a node.</td>
+                            <td>Training observations</td>
+                            <td>8,000</td>
+                        </tr>
+
+                        <tr>
+                            <td>Testing observations</td>
+                            <td>2,000</td>
                         </tr>
                     </tbody>
                 </table>
@@ -593,78 +719,251 @@
 
         <div class="mo-note">
             <p>
-                <strong>Configuration note:</strong>
-                The table describes available Random Forest
-                hyperparameters. It does not claim that all
-                of them were configured or optimized in the
-                current project. The actual values must be
-                obtained from train_model.py.
+                <strong>Reproducibility:</strong>
+                The random state of 42 makes the partition
+                reproducible. Stratification preserves the
+                target class proportions in the training
+                and testing subsets.
             </p>
         </div>
     </section>
 
-    <!-- VALIDATION -->
+    <!-- 06. PREPROCESSING AND HYPERPARAMETERS -->
+
+    <section class="mo-section">
+        <h2 class="mo-section-title">06. Preprocessing and Hyperparameter Configuration</h2>
+
+        <div class="mo-card">
+            <h3>Data Preprocessing Pipeline</h3>
+
+            <p>
+                The project uses a ColumnTransformer to apply
+                different preprocessing operations according
+                to the feature type. The categorical variable
+                Type is encoded, while numerical variables
+                are passed through without additional scaling.
+            </p>
+
+            <div class="mo-table-wrapper" style="margin-top: 18px;">
+                <table class="mo-table">
+                    <thead>
+                        <tr>
+                            <th>Feature type</th>
+                            <th>Transformation</th>
+                            <th>Configuration</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Categorical</td>
+                            <td>OneHotEncoder</td>
+                            <td>handle_unknown="ignore"</td>
+                        </tr>
+
+                        <tr>
+                            <td>Numerical</td>
+                            <td>Passthrough</td>
+                            <td>Original numeric values</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mo-code">preprocessor = ColumnTransformer(
+    transformers=[
+        (
+            "categorical",
+            OneHotEncoder(handle_unknown="ignore"),
+            categorical_features
+        ),
+        (
+            "numerical",
+            "passthrough",
+            numerical_features
+        )
+    ]
+)</div>
+        </div>
+
+        <div class="mo-card">
+            <h3>Pipeline Implementation</h3>
+
+            <p>
+                The preprocessing component and Random Forest
+                classifier are combined into a single Scikit-learn
+                Pipeline. This ensures that the transformations
+                are fitted using training data and consistently
+                applied to testing data and future predictions.
+            </p>
+
+            <div class="mo-code">pipeline = Pipeline(
+    steps=[
+        ("preprocessor", preprocessor),
+        ("classifier", model)
+    ]
+)
+
+pipeline.fit(X_train, y_train)</div>
+
+            <div class="mo-note">
+                <p>
+                    <strong>Data leakage prevention:</strong>
+                    Because preprocessing is part of the Pipeline,
+                    its fitting occurs during pipeline.fit()
+                    using X_train. The testing data is not used
+                    to fit the encoder.
+                </p>
+            </div>
+        </div>
+
+        <div class="mo-card">
+            <h3>Random Forest Hyperparameters</h3>
+
+            <p>
+                The following values are the exact settings
+                implemented in the project's training script.
+            </p>
+
+            <div class="mo-table-wrapper" style="margin-top: 18px;">
+                <table class="mo-table">
+                    <thead>
+                        <tr>
+                            <th>Hyperparameter</th>
+                            <th>Value</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>n_estimators</td>
+                            <td>200</td>
+                            <td>Number of decision trees.</td>
+                        </tr>
+
+                        <tr>
+                            <td>max_depth</td>
+                            <td>12</td>
+                            <td>Maximum depth of each tree.</td>
+                        </tr>
+
+                        <tr>
+                            <td>min_samples_split</td>
+                            <td>5</td>
+                            <td>Minimum samples required to split a node.</td>
+                        </tr>
+
+                        <tr>
+                            <td>class_weight</td>
+                            <td>balanced</td>
+                            <td>Adjusts class weights according to class frequency.</td>
+                        </tr>
+
+                        <tr>
+                            <td>random_state</td>
+                            <td>42</td>
+                            <td>Reproducibility.</td>
+                        </tr>
+
+                        <tr>
+                            <td>n_jobs</td>
+                            <td>-1</td>
+                            <td>Uses available CPU cores.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mo-code">model = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=12,
+    min_samples_split=5,
+    class_weight="balanced",
+    random_state=42,
+    n_jobs=-1
+)</div>
+        </div>
+
+        <div class="mo-note">
+            <p>
+                <strong>Hyperparameter note:</strong>
+                These are the configured values in train_model.py.
+                The supplied script does not implement an automated
+                hyperparameter search or tuning procedure.
+            </p>
+        </div>
+    </section>
+
+    <!-- 07. VALIDATION -->
+
     <section class="mo-section">
         <h2 class="mo-section-title">07. Model Validation</h2>
 
         <div class="mo-card">
-            <h3>Validation Strategy</h3>
+            <h3>Testing on Unseen Observations</h3>
 
             <p>
-                Model validation helps determine whether the
-                trained classifier can generalize beyond the
-                observations used during training.
+                After training, the model generates predictions
+                using the independent testing subset. These
+                predictions are compared with the actual target
+                values to measure classification performance.
 
-                The testing subset is used to generate
-                predictions that can later be compared
-                with the actual target values.
-
-                This process provides the basis for
-                evaluating the model's performance
-                in the next methodological stage.
+                The script calculates Accuracy, Precision,
+                Recall, F1-score, and ROC-AUC. It also generates
+                a confusion matrix and ROC curve.
             </p>
 
             <ul class="mo-list">
-                <li>
-                    Evaluate predictions on unseen observations.
-                </li>
-
-                <li>
-                    Review correct and incorrect classifications.
-                </li>
-
-                <li>
-                    Examine the model's ability to identify
-                    actual failure cases.
-                </li>
-
-                <li>
-                    Check for possible overfitting.
-                </li>
-
-                <li>
-                    Document the evaluation configuration
-                    and results.
-                </li>
+                <li>Evaluate predictions on 2,000 testing observations.</li>
+                <li>Review correct and incorrect classifications.</li>
+                <li>Examine the model's ability to identify failure cases.</li>
+                <li>Generate classification metrics and visualizations.</li>
             </ul>
+        </div>
+
+        <div class="mo-card">
+            <h3>Validation Implementation</h3>
+
+            <div class="mo-code">predictions = pipeline.predict(X_test)
+
+probabilities = pipeline.predict_proba(X_test)[:, 1]
+
+accuracy = accuracy_score(y_test, predictions)
+precision = precision_score(y_test, predictions)
+recall = recall_score(y_test, predictions)
+f1 = f1_score(y_test, predictions)
+roc_auc = roc_auc_score(y_test, probabilities)</div>
         </div>
 
         <div class="mo-highlight">
             <h3>Connection with Model Evaluation</h3>
 
             <p>
-                The validation results obtained during
-                model development will be analyzed in
-                the next stage, Model Evaluation.
+                The metrics and graphical results generated
+                during the training procedure are analyzed
+                in the next stage, Model Evaluation.
 
-                Metrics such as Accuracy, Precision,
-                Recall, F1-score, and ROC-AUC will be
-                used to assess classification performance.
+                The project uses Accuracy, Precision, Recall,
+                F1-score, ROC-AUC, the confusion matrix,
+                and the ROC curve to examine classification
+                performance.
+            </p>
+        </div>
+
+        <div class="mo-note">
+            <p>
+                <strong>Validation limitation:</strong>
+                The supplied training script uses a single
+                stratified train/test split. It does not
+                implement cross-validation. The testing subset
+                is used for the reported evaluation metrics.
             </p>
         </div>
     </section>
 
-    <!-- MODEL SAVING -->
+    <!-- 08. MODEL SAVING AND INTEGRATION -->
+
     <section class="mo-section">
         <h2 class="mo-section-title">08. Model Saving and Integration</h2>
 
@@ -672,76 +971,119 @@
             <h3>Model Serialization</h3>
 
             <p>
-                After training, the model is saved so that
-                it can be loaded later without repeating
-                the entire training process.
+                After training and evaluation, the complete
+                Pipeline is saved using the Joblib library.
+                Saving the complete pipeline preserves both
+                the preprocessing component and the trained
+                Random Forest classifier.
 
-                The project uses the Joblib library to
-                serialize the trained model into a file
-                that can be accessed by the prediction
-                module.
+                This allows the prediction module to load
+                the same transformations and model without
+                repeating the training process.
             </p>
 
-            <div class="mo-code">failure_model.joblib</div>
+            <div class="mo-code">MODEL_PATH = MODEL_DIR / "failure_model.joblib"
 
-            <p style="margin-top: 17px;">
-                The prediction module loads the saved model
-                and uses it to process new equipment
-                operating values submitted through
-                the Flask application.
-            </p>
+joblib.dump(pipeline, MODEL_PATH)</div>
+
+            <div class="mo-stat-grid">
+
+                <div class="mo-stat">
+                    <strong>Joblib</strong>
+                    <span>Serialization library</span>
+                </div>
+
+                <div class="mo-stat">
+                    <strong>Pipeline</strong>
+                    <span>Saved artifact</span>
+                </div>
+
+                <div class="mo-stat">
+                    <strong>.joblib</strong>
+                    <span>File extension</span>
+                </div>
+
+                <div class="mo-stat">
+                    <strong>Flask</strong>
+                    <span>Application integration</span>
+                </div>
+
+            </div>
+
+            <div class="mo-code">machine_learning/
+    model/
+        failure_model.joblib</div>
         </div>
 
         <div class="mo-grid">
 
             <div class="mo-model-card">
                 <h3>Training Module</h3>
-
                 <p>
-                    train_model.py is responsible for
-                    the model training process and
-                    saving the resulting artifact.
+                    train_model.py loads the dataset, prepares
+                    the features, trains the pipeline, evaluates
+                    predictions, generates graphical evidence,
+                    and saves the model artifact.
                 </p>
             </div>
 
             <div class="mo-model-card">
                 <h3>Prediction Module</h3>
-
                 <p>
-                    predict.py loads the saved model
-                    and generates predictions from
-                    the values supplied by the user.
+                    predict.py loads the saved pipeline and
+                    generates predictions from the equipment
+                    values supplied through the Flask application.
                 </p>
             </div>
 
         </div>
-    </section>
 
-    <!-- CONCLUSION -->
-    <section class="mo-section">
-        <div class="mo-highlight">
-            <h3>Phase Conclusion</h3>
-
+        <div class="mo-note">
             <p>
-                The Model Engineering stage establishes
-                the development and training process
-                of the predictive classification model.
-
-                Random Forest is the algorithm currently
-                implemented in the Predictive Maintenance
-                System. Its trained model is saved using
-                Joblib and integrated into the prediction
-                module developed in Python.
-
-                The next stage, Model Evaluation, will
-                examine the model's predictive performance
-                through classification metrics, graphical
-                evidence, and analysis of its ability
-                to identify machine failures.
+                <strong>Integration:</strong>
+                The saved artifact contains the fitted
+                preprocessing transformations and classifier.
+                Therefore, new prediction inputs must follow
+                the same feature structure used during training.
             </p>
         </div>
     </section>
 
-</div>
+    <!-- CONCLUSION -->
+
+    <section class="mo-section">
+
+        <div class="mo-highlight">
+            <h3>Phase Conclusion</h3>
+
+            <p>
+                The Model Engineering stage establishes the
+                actual development and training procedure
+                of the predictive classification model.
+
+                The project implements a Random Forest classifier
+                integrated with a preprocessing pipeline.
+                The training procedure uses a stratified 80/20
+                split, OneHotEncoder for categorical data,
+                and passthrough for numerical variables.
+
+                The classifier uses 200 estimators, a maximum
+                depth of 12, a minimum split of 5, balanced
+                class weights, and a random state of 42.
+
+                The complete pipeline is saved using Joblib
+                and integrated into the prediction module
+                of the Flask application.
+
+                The next stage, Model Evaluation, examines
+                the model's predictive performance through
+                classification metrics, graphical evidence,
+                and analysis of its ability to identify
+                machine failures.
+            </p>
+        </div>
+
+    </section>
+    
 
 {% endblock %}

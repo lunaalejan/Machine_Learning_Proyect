@@ -6,249 +6,357 @@
 {% block content %}
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
+.dp-container {
+    font-family: 'Inter', sans-serif;
+    color: #49382d;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 35px 25px 60px;
+}
+
+.dp-header {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e7dcd0;
+}
+
+.dp-label {
+    display: inline-block;
+    color: #987452;
+    background: #f1e8dd;
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    margin-bottom: 17px;
+    text-transform: uppercase;
+}
+
+.dp-header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 32px;
+    color: #49382d;
+    margin: 0 0 14px;
+    line-height: 1.4;
+}
+
+.dp-header p {
+    color: #837365;
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 850px;
+    margin: 0;
+}
+
+.dp-section {
+    margin-bottom: 28px;
+}
+
+.dp-section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    color: #624a37;
+    margin-bottom: 17px;
+}
+
+.dp-card {
+    background: #fffdf9;
+    border: 1px solid #e9ded2;
+    border-radius: 13px;
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+}
+
+.dp-card h3 {
+    font-size: 15px;
+    color: #795b40;
+    margin: 0 0 12px;
+    font-weight: 700;
+}
+
+.dp-card p {
+    color: #76685c;
+    font-size: 13px;
+    line-height: 1.85;
+    margin: 0;
+}
+
+.dp-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.dp-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.dp-stat {
+    background: #f5eee6;
+    border: 1px solid #e9ded2;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.dp-stat strong {
+    display: block;
+    font-family: 'Libre Baskerville', serif;
+    color: #765638;
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.dp-stat span {
+    color: #837365;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.dp-list {
+    padding-left: 20px;
+    margin: 12px 0 0;
+}
+
+.dp-list li {
+    color: #76685c;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 7px;
+}
+
+.dp-table-wrapper {
+    overflow-x: auto;
+}
+
+.dp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.dp-table th {
+    background: #eee4d9;
+    color: #604832;
+    text-align: left;
+    padding: 14px;
+    font-weight: 700;
+}
+
+.dp-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #eee5dc;
+    color: #76685c;
+    line-height: 1.6;
+}
+
+.dp-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dp-highlight {
+    background: #f2e9df;
+    border: 1px solid #e4d4c3;
+    border-radius: 12px;
+    padding: 23px;
+}
+
+.dp-highlight h3 {
+    font-family: 'Libre Baskerville', serif;
+    color: #674b34;
+    font-size: 17px;
+    margin: 0 0 12px;
+}
+
+.dp-highlight p {
+    color: #76685c;
+    font-size: 13px;
+    line-height: 1.85;
+    margin: 0;
+}
+
+.dp-note {
+    background: #fffaf2;
+    border-left: 4px solid #b18b65;
+    border-radius: 7px;
+    padding: 17px 20px;
+    margin-top: 17px;
+}
+
+.dp-note p {
+    color: #76685c;
+    font-size: 12px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.dp-code {
+    background: #f5eee6;
+    border: 1px solid #e9ded2;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 14px;
+    color: #674b34;
+    font-size: 12px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    line-height: 1.7;
+}
+
+.dp-phase-footer {
+    border-top: 1px solid #e7dcd0;
+    margin-top: 35px;
+    padding-top: 23px;
+    color: #9a8878;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* DATASET VISUAL METRICS */
+
+.dp-visual-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.dp-visual-stat {
+    background: #fffdf9;
+    border: 1px solid #e9ded2;
+    border-radius: 13px;
+    padding: 20px 15px;
+    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+}
+
+.dp-visual-stat strong {
+    display: block;
+    font-family: 'Libre Baskerville', serif;
+    color: #765638;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.dp-visual-stat span {
+    color: #837365;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.dp-chart-row {
+    margin: 22px 0;
+}
+
+.dp-chart-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+    color: #76685c;
+    font-size: 13px;
+}
+
+.dp-chart-label strong {
+    color: #674b34;
+    text-align: right;
+}
+
+.dp-progress {
+    height: 13px;
+    background: #eee6dc;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.dp-progress-fill {
+    height: 100%;
+    border-radius: 20px;
+}
+
+.dp-quality-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.dp-quality-item {
+    background: #f5eee6;
+    border: 1px solid #e9ded2;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.dp-quality-item span {
+    color: #76685c;
+    font-size: 13px;
+}
+
+.dp-quality-item strong {
+    color: #557665;
+    font-size: 15px;
+}
+
+.dp-chart-caption {
+    color: #9a8878;
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 14px !important;
+}
+
+@media (max-width: 700px) {
     .dp-container {
-        font-family: 'Inter', sans-serif;
-        color: #49382d;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 35px 25px 60px;
-    }
-
-    .dp-header {
-        margin-bottom: 35px;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #e7dcd0;
-    }
-
-    .dp-label {
-        display: inline-block;
-        color: #987452;
-        background: #f1e8dd;
-        padding: 7px 13px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 1.2px;
-        margin-bottom: 17px;
-        text-transform: uppercase;
+        padding: 25px 15px 40px;
     }
 
     .dp-header h1 {
-        font-family: 'Libre Baskerville', serif;
-        font-size: 32px;
-        color: #49382d;
-        margin: 0 0 14px;
-        line-height: 1.4;
+        font-size: 25px;
     }
 
-    .dp-header p {
-        color: #837365;
-        font-size: 14px;
-        line-height: 1.8;
-        max-width: 850px;
-        margin: 0;
-    }
-
-    .dp-section {
-        margin-bottom: 28px;
-    }
-
-    .dp-section-title {
-        font-family: 'Libre Baskerville', serif;
-        font-size: 20px;
-        color: #624a37;
-        margin-bottom: 17px;
-    }
-
-    .dp-card {
-        background: #fffdf9;
-        border: 1px solid #e9ded2;
-        border-radius: 13px;
-        padding: 24px;
-        margin-bottom: 18px;
-        box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
-    }
-
-    .dp-card h3 {
-        font-size: 15px;
-        color: #795b40;
-        margin: 0 0 12px;
-        font-weight: 700;
-    }
-
-    .dp-card p {
-        color: #76685c;
-        font-size: 13px;
-        line-height: 1.85;
-        margin: 0;
-    }
-
-    .dp-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px;
+    .dp-grid,
+    .dp-quality-grid {
+        grid-template-columns: 1fr;
     }
 
     .dp-stat-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 15px;
-        margin-bottom: 20px;
+        grid-template-columns: 1fr;
     }
 
-    .dp-stat {
-        background: #f5eee6;
-        border: 1px solid #e9ded2;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
+    .dp-card {
+        padding: 19px;
     }
 
-    .dp-stat strong {
-        display: block;
-        font-family: 'Libre Baskerville', serif;
-        color: #765638;
-        font-size: 23px;
-        margin-bottom: 8px;
+    .dp-visual-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .dp-stat span {
-        color: #837365;
-        font-size: 12px;
-        line-height: 1.5;
+    .dp-chart-label {
+        flex-direction: column;
+        gap: 4px;
     }
-
-    .dp-list {
-        padding-left: 20px;
-        margin: 12px 0 0;
-    }
-
-    .dp-list li {
-        color: #76685c;
-        font-size: 13px;
-        line-height: 1.9;
-        margin-bottom: 7px;
-    }
-
-    .dp-table-wrapper {
-        overflow-x: auto;
-    }
-
-    .dp-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 13px;
-    }
-
-    .dp-table th {
-        background: #eee4d9;
-        color: #604832;
-        text-align: left;
-        padding: 14px;
-        font-weight: 700;
-    }
-
-    .dp-table td {
-        padding: 13px 14px;
-        border-bottom: 1px solid #eee5dc;
-        color: #76685c;
-        line-height: 1.6;
-    }
-
-    .dp-table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .dp-highlight {
-        background: #f2e9df;
-        border: 1px solid #e4d4c3;
-        border-radius: 12px;
-        padding: 23px;
-    }
-
-    .dp-highlight h3 {
-        font-family: 'Libre Baskerville', serif;
-        color: #674b34;
-        font-size: 17px;
-        margin: 0 0 12px;
-    }
-
-    .dp-highlight p {
-        color: #76685c;
-        font-size: 13px;
-        line-height: 1.85;
-        margin: 0;
-    }
-
-    .dp-note {
-        background: #fffaf2;
-        border-left: 4px solid #b18b65;
-        border-radius: 7px;
-        padding: 17px 20px;
-        margin-top: 17px;
-    }
-
-    .dp-note p {
-        color: #76685c;
-        font-size: 12px;
-        line-height: 1.8;
-        margin: 0;
-    }
-
-    .dp-code {
-        background: #f5eee6;
-        border: 1px solid #e9ded2;
-        border-radius: 8px;
-        padding: 15px;
-        margin-top: 14px;
-        color: #674b34;
-        font-size: 12px;
-        overflow-x: auto;
-        white-space: pre-wrap;
-        line-height: 1.7;
-    }
-
-    .dp-phase-footer {
-        border-top: 1px solid #e7dcd0;
-        margin-top: 35px;
-        padding-top: 23px;
-        color: #9a8878;
-        font-size: 12px;
-        line-height: 1.8;
-    }
-
-    @media (max-width: 700px) {
-        .dp-container {
-            padding: 25px 15px 40px;
-        }
-
-        .dp-header h1 {
-            font-size: 25px;
-        }
-
-        .dp-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .dp-stat-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .dp-card {
-            padding: 19px;
-        }
-    }
+}
 </style>
 
 <div class="dp-container">
 
     <!-- HEADER -->
-    <header class="dp-header">
-        <span class="dp-label">CRISP-ML · PHASE 03</span>
 
-        <h1>Data Preparation</h1>
+    <header class="dp-header">
+
+        <span class="dp-label">CRISP-ML · PHASE 02</span>
+
+        <h1>Data Engineering</h1>
 
         <p>
             This stage describes the processes required to transform
@@ -257,13 +365,17 @@
             selection, transformation, target preparation, and
             dataset partitioning.
         </p>
+
     </header>
 
-    <!-- OVERVIEW -->
+    <!-- 01. OVERVIEW -->
+
     <section class="dp-section">
+
         <h2 class="dp-section-title">01. Data Preparation Overview</h2>
 
         <div class="dp-card">
+
             <h3>Purpose of Data Preparation</h3>
 
             <p>
@@ -278,9 +390,11 @@
                 reducing the possibility of errors and information
                 leakage during model development.
             </p>
+
         </div>
 
         <div class="dp-highlight">
+
             <h3>Preparation Objective</h3>
 
             <p>
@@ -289,73 +403,121 @@
                 Machine failure, ready for model training and
                 performance evaluation.
             </p>
+
         </div>
+
     </section>
 
-    <!-- DATA LOADING -->
+    <!-- 02. DATA LOADING -->
+
     <section class="dp-section">
+
         <h2 class="dp-section-title">02. Data Loading</h2>
 
         <div class="dp-card">
+
             <h3>Dataset Importation</h3>
 
             <p>
-                The preparation process begins by loading the
-                ai4i2020.csv file into the Python environment.
-                The Pandas library can be used to read the CSV
-                file and create a DataFrame, allowing the data
-                to be inspected and manipulated.
-
-                Initial inspection includes reviewing the first
-                records, column names, data types, and dimensions
-                of the dataset.
+                The AI4I 2020 dataset was loaded into the project's
+                Python environment using the Pandas library.
+                The CSV file contains machine operating measurements
+                and failure information used in the predictive
+                maintenance project.
             </p>
 
             <div class="dp-code">import pandas as pd
 
-df = pd.read_csv("ai4i2020.csv")
+df = pd.read_csv("machine_learning/data/ai4i2020.csv")
 
 print(df.head())
 print(df.shape)
 print(df.info())</div>
+
+        </div>
+
+        <div class="dp-card">
+
+            <h3>Dataset Overview</h3>
+
+            <p>
+                The initial inspection confirmed the following
+                dimensions and characteristics of the dataset.
+            </p>
+
+            <div class="dp-visual-grid">
+
+                <div class="dp-visual-stat">
+                    <strong>10,000</strong>
+                    <span>Total records</span>
+                </div>
+
+                <div class="dp-visual-stat">
+                    <strong>14</strong>
+                    <span>Total columns</span>
+                </div>
+
+                <div class="dp-visual-stat">
+                    <strong>0</strong>
+                    <span>Missing values</span>
+                </div>
+
+                <div class="dp-visual-stat">
+                    <strong>0</strong>
+                    <span>Duplicate records</span>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="dp-note">
             <p>
-                <strong>Evidence required:</strong> Include the
-                actual output of the dataset dimensions and
-                initial inspection from the project's Python
-                environment.
+                <strong>Initial inspection:</strong>
+                The dataset contains 10,000 observations and 14 columns.
+                All columns contain 10,000 non-null values.
             </p>
         </div>
+
     </section>
 
-    <!-- DATA CLEANING -->
+    <!-- 03. DATA CLEANING -->
+
     <section class="dp-section">
+
         <h2 class="dp-section-title">03. Data Cleaning</h2>
 
         <div class="dp-card">
+
             <h3>Data Quality and Consistency</h3>
 
             <p>
-                Before training the model, the dataset must be
-                checked for incomplete records, duplicated
-                observations, incorrect data types, and
-                inconsistent values.
-
-                These checks help determine whether cleaning
-                operations are necessary. Any modification
-                should be based on the actual results of
-                the inspection.
+                The dataset was inspected for missing values,
+                duplicated observations, data types, and numerical
+                characteristics before model training.
+                The inspection found no missing values and no
+                duplicated records.
             </p>
 
+            <div class="dp-quality-grid">
+
+                <div class="dp-quality-item">
+                    <span>Missing values</span>
+                    <strong>0 detected</strong>
+                </div>
+
+                <div class="dp-quality-item">
+                    <span>Duplicate records</span>
+                    <strong>0 detected</strong>
+                </div>
+
+            </div>
+
             <ul class="dp-list">
-                <li>Identify missing values.</li>
-                <li>Detect duplicated records.</li>
-                <li>Review column data types.</li>
-                <li>Inspect numerical value ranges.</li>
-                <li>Identify invalid or inconsistent observations.</li>
-                <li>Document any cleaning operation performed.</li>
+                <li>All 14 columns contain 10,000 non-null values.</li>
+                <li>No duplicated records were identified.</li>
+                <li>Numerical and categorical data types were inspected.</li>
+                <li>No missing-value removal or duplicate removal was necessary.</li>
             </ul>
 
             <div class="dp-code"># Missing values
@@ -369,23 +531,28 @@ print(df.dtypes)
 
 # Descriptive statistics
 print(df.describe())</div>
+
         </div>
 
         <div class="dp-note">
             <p>
-                <strong>Important:</strong> Do not state that
-                missing values or duplicates were removed unless
-                the dataset inspection confirms that this
-                operation was necessary and was actually performed.
+                <strong>Data quality result:</strong>
+                The initial inspection found no missing values or
+                duplicate records. Therefore, no removal operation
+                was required for these two conditions.
             </p>
         </div>
+
     </section>
 
-    <!-- FEATURE SELECTION -->
+    <!-- 04. FEATURE SELECTION -->
+
     <section class="dp-section">
+
         <h2 class="dp-section-title">04. Feature Selection</h2>
 
         <div class="dp-card">
+
             <h3>Selection of Relevant Variables</h3>
 
             <p>
@@ -401,7 +568,9 @@ print(df.describe())</div>
             </p>
 
             <div class="dp-table-wrapper" style="margin-top: 18px;">
+
                 <table class="dp-table">
+
                     <thead>
                         <tr>
                             <th>Variable</th>
@@ -411,6 +580,7 @@ print(df.describe())</div>
                     </thead>
 
                     <tbody>
+
                         <tr>
                             <td>Type</td>
                             <td>Input feature</td>
@@ -418,31 +588,31 @@ print(df.describe())</div>
                         </tr>
 
                         <tr>
-                            <td>Air temperature</td>
+                            <td>Air temperature [K]</td>
                             <td>Input feature</td>
                             <td>Operating temperature.</td>
                         </tr>
 
                         <tr>
-                            <td>Process temperature</td>
+                            <td>Process temperature [K]</td>
                             <td>Input feature</td>
                             <td>Thermal operating condition.</td>
                         </tr>
 
                         <tr>
-                            <td>Rotational speed</td>
+                            <td>Rotational speed [rpm]</td>
                             <td>Input feature</td>
                             <td>Machine rotational behavior.</td>
                         </tr>
 
                         <tr>
-                            <td>Torque</td>
+                            <td>Torque [Nm]</td>
                             <td>Input feature</td>
                             <td>Mechanical operating load.</td>
                         </tr>
 
                         <tr>
-                            <td>Tool wear</td>
+                            <td>Tool wear [min]</td>
                             <td>Input feature</td>
                             <td>Accumulated tool wear.</td>
                         </tr>
@@ -452,12 +622,17 @@ print(df.describe())</div>
                             <td>Target</td>
                             <td>Outcome to predict.</td>
                         </tr>
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
 
         <div class="dp-note">
+
             <p>
                 <strong>Information leakage prevention:</strong>
                 Failure mode indicators such as TWF, HDF, PWF,
@@ -466,14 +641,19 @@ print(df.describe())</div>
                 failure information and could reveal information
                 about the target if included improperly.
             </p>
+
         </div>
+
     </section>
 
-    <!-- TRANSFORMATION -->
+    <!-- 05. TRANSFORMATION -->
+
     <section class="dp-section">
+
         <h2 class="dp-section-title">05. Data Transformation</h2>
 
         <div class="dp-card">
+
             <h3>Preparing Variables for the Model</h3>
 
             <p>
@@ -489,6 +669,7 @@ print(df.describe())</div>
             </p>
 
             <ul class="dp-list">
+
                 <li>
                     Verify that numerical measurements use
                     appropriate numeric data types.
@@ -507,131 +688,240 @@ print(df.describe())</div>
                     Apply the same transformations to training
                     data and future prediction inputs.
                 </li>
+
             </ul>
+
         </div>
 
         <div class="dp-note">
+
             <p>
-                <strong>Consistency requirement:</strong> The
-                transformation used during training must be
+                <strong>Consistency requirement:</strong>
+                The transformation used during training must be
                 reproduced in the prediction module. Do not
                 introduce scaling, encoding, or other transformations
                 unless they are part of the actual training pipeline.
             </p>
+
         </div>
+
     </section>
 
-    <!-- TARGET PREPARATION -->
+    <!-- 06. TARGET PREPARATION -->
+
     <section class="dp-section">
+
         <h2 class="dp-section-title">06. Target Variable Preparation</h2>
 
         <div class="dp-card">
+
             <h3>Machine Failure Classification</h3>
 
             <p>
                 The target variable selected for the predictive
                 model is Machine failure. It represents whether
-                a machine failure occurred in the corresponding
-                observation.
+                a machine failure occurred in each observation.
 
                 The task is formulated as binary classification,
-                where the model learns to distinguish between
-                failure and non-failure cases.
+                with two possible outcomes: failure and non-failure.
+            </p>
+
+            <!-- NO FAILURE -->
+
+            <div class="dp-chart-row">
+
+                <div class="dp-chart-label">
+                    <span>No machine failure (0)</span>
+                    <strong>96.61% · 9,661 records</strong>
+                </div>
+
+                <div class="dp-progress">
+
+                    <div class="dp-progress-fill"
+                         style="width: 96.61%; background: #668879;">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FAILURE -->
+
+            <div class="dp-chart-row">
+
+                <div class="dp-chart-label">
+                    <span>Machine failure (1)</span>
+                    <strong>3.39% · 339 records</strong>
+                </div>
+
+                <div class="dp-progress">
+
+                    <div class="dp-progress-fill"
+                         style="width: 3.39%; background: #c58b55;">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p class="dp-chart-caption">
+                Target distribution based on all 10,000 observations
+                in the AI4I 2020 dataset.
             </p>
 
             <div class="dp-table-wrapper" style="margin-top: 18px;">
+
                 <table class="dp-table">
+
                     <thead>
                         <tr>
                             <th>Target value</th>
                             <th>Class</th>
-                            <th>Meaning</th>
+                            <th>Records</th>
+                            <th>Percentage</th>
                         </tr>
                     </thead>
 
                     <tbody>
+
                         <tr>
                             <td>0</td>
                             <td>No Failure</td>
-                            <td>No machine failure recorded.</td>
+                            <td>9,661</td>
+                            <td>96.61%</td>
                         </tr>
 
                         <tr>
                             <td>1</td>
                             <td>Failure</td>
-                            <td>Machine failure recorded.</td>
+                            <td>339</td>
+                            <td>3.39%</td>
                         </tr>
+
                     </tbody>
+
                 </table>
+
             </div>
-        </div>
-    </section>
 
-    <!-- TRAIN TEST SPLIT -->
-    <section class="dp-section">
-        <h2 class="dp-section-title">07. Training and Testing Split</h2>
-
-        <div class="dp-card">
-            <h3>Dataset Partitioning</h3>
-
-            <p>
-                The dataset should be divided into separate
-                subsets to evaluate how well the model performs
-                on observations that were not used during
-                training.
-
-                A training subset is used to fit the model,
-                while a testing subset is reserved for the
-                final evaluation of its predictive performance.
-
-                The partitioning strategy, test proportion,
-                random state, and stratification settings must
-                match the actual training script.
-            </p>
-
-            <ul class="dp-list">
-                <li>
-                    Training set: used to learn patterns from
-                    the input variables.
-                </li>
-
-                <li>
-                    Testing set: used to evaluate predictions
-                    on previously unseen observations.
-                </li>
-
-                <li>
-                    Stratification: may be applied to preserve
-                    the target class proportions in both subsets.
-                </li>
-
-                <li>
-                    Random state: used to make the split
-                    reproducible.
-                </li>
-            </ul>
         </div>
 
         <div class="dp-note">
+
             <p>
-                <strong>Evidence required:</strong> Document
-                the actual number of training and testing
-                observations, the split proportion, and the
-                configuration used in the project's training
-                script.
+                <strong>Class imbalance:</strong>
+                The dataset contains considerably more non-failure
+                observations than failure observations. This
+                imbalance must be considered during model training
+                and evaluation. Accuracy alone is not sufficient
+                to assess failure detection performance.
             </p>
+
         </div>
+
     </section>
 
-    <!-- SUMMARY -->
+    <!-- 07. TRAIN TEST SPLIT -->
+
     <section class="dp-section">
+
+        <h2 class="dp-section-title">07. Training and Testing Split</h2>
+
+        <div class="dp-card">
+
+            <h3>Dataset Partitioning</h3>
+
+            <p>
+                The dataset was divided into separate subsets
+                to evaluate how well the model performs on
+                observations that were not used during training.
+
+                The training subset is used to fit the model,
+                while the testing subset is reserved for the
+                final evaluation of predictive performance.
+            </p>
+
+            <ul class="dp-list">
+
+                <li>
+                    Training set: 8,000 observations (80%).
+                </li>
+
+                <li>
+                    Testing set: 2,000 observations (20%).
+                </li>
+
+                <li>
+                    Stratification preserves the target class
+                    proportions in both subsets.
+                </li>
+
+                <li>
+                    Random state ensures reproducibility.
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="dp-visual-grid">
+
+            <div class="dp-visual-stat">
+                <strong>8,000</strong>
+                <span>Training records · 80%</span>
+            </div>
+
+            <div class="dp-visual-stat">
+                <strong>2,000</strong>
+                <span>Testing records · 20%</span>
+            </div>
+
+            <div class="dp-visual-stat">
+                <strong>42</strong>
+                <span>Random state</span>
+            </div>
+
+            <div class="dp-visual-stat">
+                <strong>Yes</strong>
+                <span>Stratified split</span>
+            </div>
+
+        </div>
+
+        <div class="dp-note">
+
+            <p>
+                <strong>Partitioning configuration:</strong>
+                The dataset was divided using an 80/20 split,
+                test_size=0.20, random_state=42, and stratify=y.
+                This preserves the target class proportions in
+                the training and testing subsets.
+            </p>
+
+        </div>
+
+        <div class="dp-code">X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.20,
+    random_state=42,
+    stratify=y
+)</div>
+
+    </section>
+
+    <!-- 08. SUMMARY -->
+
+    <section class="dp-section">
+
         <h2 class="dp-section-title">08. Preparation Summary</h2>
 
         <div class="dp-highlight">
+
             <h3>Stage Conclusion</h3>
 
             <p>
-                The Data Preparation stage defines the operations
+                The Data Engineering stage defines the operations
                 required to convert the original AI4I 2020 dataset
                 into a suitable structure for predictive modeling.
 
@@ -639,16 +929,21 @@ print(df.describe())</div>
                 data quality checks, transformation requirements,
                 and training and testing partitioning strategy.
 
-                Once these operations have been implemented
-                and verified in the project's training pipeline,
-                the prepared data can be used in the next stage:
+                The initial inspection confirmed that the dataset
+                contains 10,000 observations and 14 columns, with
+                no missing values or duplicate records.
+
+                The target variable presents an imbalanced
+                distribution, with 96.61% non-failure observations
+                and 3.39% failure observations.
+
+                The prepared data is used in the next stage:
                 Model Engineering, where the classification
-                algorithms are developed and trained.
+                algorithm is developed and trained.
             </p>
+
         </div>
-    </section>
 
-
-</div>
+    
 
 {% endblock %}
