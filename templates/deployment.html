@@ -1,0 +1,882 @@
+
+{% extends "base.html" %}
+
+{% block title %}Model Deployment | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    .dep-container {
+        font-family: 'Inter', sans-serif;
+        color: #49382d;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 35px 25px 60px;
+    }
+
+    .dep-header {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e7dcd0;
+    }
+
+    .dep-label {
+        display: inline-block;
+        color: #987452;
+        background: #f1e8dd;
+        padding: 7px 13px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        margin-bottom: 17px;
+        text-transform: uppercase;
+    }
+
+    .dep-header h1 {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 32px;
+        color: #49382d;
+        margin: 0 0 14px;
+        line-height: 1.4;
+    }
+
+    .dep-header p {
+        color: #837365;
+        font-size: 14px;
+        line-height: 1.8;
+        max-width: 850px;
+        margin: 0;
+    }
+
+    .dep-section {
+        margin-bottom: 28px;
+    }
+
+    .dep-section-title {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 20px;
+        color: #624a37;
+        margin-bottom: 17px;
+    }
+
+    .dep-card {
+        background: #fffdf9;
+        border: 1px solid #e9ded2;
+        border-radius: 13px;
+        padding: 24px;
+        margin-bottom: 18px;
+        box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+    }
+
+    .dep-card h3 {
+        font-size: 15px;
+        color: #795b40;
+        margin: 0 0 12px;
+        font-weight: 700;
+    }
+
+    .dep-card p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    .dep-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .dep-highlight {
+        background: #f2e9df;
+        border: 1px solid #e4d4c3;
+        border-radius: 12px;
+        padding: 23px;
+    }
+
+    .dep-highlight h3 {
+        font-family: 'Libre Baskerville', serif;
+        color: #674b34;
+        font-size: 17px;
+        margin: 0 0 12px;
+    }
+
+    .dep-highlight p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    .dep-list {
+        padding-left: 20px;
+        margin: 12px 0 0;
+    }
+
+    .dep-list li {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.9;
+        margin-bottom: 7px;
+    }
+
+    .dep-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .dep-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font-size: 13px;
+        background: #fffdf9;
+    }
+
+    .dep-table th {
+        background: #eee4d9;
+        color: #604832;
+        text-align: left;
+        padding: 14px;
+        font-weight: 700;
+        border: none;
+    }
+
+    .dep-table td {
+        background: #fffdf9;
+        padding: 13px 14px;
+        border-bottom: 1px solid #eee5dc;
+        color: #76685c;
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    .dep-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .dep-flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .dep-flow-item {
+        background: #f5eee6;
+        border: 1px solid #e4d4c3;
+        border-radius: 9px;
+        padding: 15px;
+        text-align: center;
+        min-width: 125px;
+        color: #674b34;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .dep-flow-arrow {
+        color: #a9825d;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .dep-note {
+        background: #fffaf2;
+        border-left: 4px solid #b18b65;
+        border-radius: 7px;
+        padding: 17px 20px;
+        margin-top: 17px;
+    }
+
+    .dep-note p {
+        color: #76685c;
+        font-size: 12px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    .dep-code {
+        background: #f5eee6;
+        border: 1px solid #e9ded2;
+        border-radius: 9px;
+        padding: 16px;
+        overflow-x: auto;
+        color: #604832;
+        font-size: 12px;
+        line-height: 1.8;
+        margin-top: 15px;
+    }
+
+    .dep-phase-footer {
+        border-top: 1px solid #e7dcd0;
+        margin-top: 35px;
+        padding-top: 23px;
+        color: #9a8878;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 700px) {
+        .dep-container {
+            padding: 25px 15px 40px;
+        }
+
+        .dep-header h1 {
+            font-size: 25px;
+        }
+
+        .dep-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dep-card {
+            padding: 19px;
+        }
+
+        .dep-flow {
+            flex-direction: column;
+        }
+
+        .dep-flow-arrow {
+            transform: rotate(90deg);
+        }
+    }
+</style>
+
+
+<div class="dep-container">
+
+    <!-- HEADER -->
+
+    <header class="dep-header">
+
+        <span class="dep-label">CRISP-ML · PHASE 05</span>
+
+        <h1>Model Deployment</h1>
+
+        <p>
+            This stage describes the integration of the trained
+            Random Forest model into the Predictive Maintenance
+            System developed with Flask. It explains how equipment
+            information is received, processed, and used to
+            generate machine failure predictions through
+            the web application.
+        </p>
+
+    </header>
+
+
+    <!-- 01. DEPLOYMENT OVERVIEW -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">01. Deployment Overview</h2>
+
+        <div class="dep-card">
+
+            <h3>Purpose of Model Deployment</h3>
+
+            <p>
+                Model Deployment makes the trained Machine
+                Learning model available through the Flask
+                web application.
+
+                The Random Forest classifier, previously
+                trained using the AI4I 2020 dataset, is
+                serialized and stored as a Joblib file.
+
+                The application loads this model and uses
+                it to process equipment operating conditions
+                and estimate the probability of machine failure.
+            </p>
+
+        </div>
+
+        <div class="dep-highlight">
+
+            <h3>Deployment Objective</h3>
+
+            <p>
+                Integrate the trained model into the web
+                application, allowing users to provide
+                equipment information and receive a
+                predicted failure probability and
+                corresponding risk classification.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 02. SYSTEM ARCHITECTURE -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">02. Deployment Architecture</h2>
+
+        <div class="dep-card">
+
+            <h3>Application Components</h3>
+
+            <p>
+                The deployment architecture connects the
+                Flask application with the trained model
+                and the information provided by users.
+
+                Flask manages application routes and
+                user requests, while the prediction
+                module loads the serialized model
+                and generates the classification result.
+            </p>
+
+            <div class="dep-flow">
+
+                <div class="dep-flow-item">
+                    User
+                    <br>
+                    Equipment Data
+                </div>
+
+                <span class="dep-flow-arrow">→</span>
+
+                <div class="dep-flow-item">
+                    Flask
+                    <br>
+                    Application
+                </div>
+
+                <span class="dep-flow-arrow">→</span>
+
+                <div class="dep-flow-item">
+                    Prediction
+                    <br>
+                    Module
+                </div>
+
+                <span class="dep-flow-arrow">→</span>
+
+                <div class="dep-flow-item">
+                    Random Forest
+                    <br>
+                    Model
+                </div>
+
+                <span class="dep-flow-arrow">→</span>
+
+                <div class="dep-flow-item">
+                    Prediction
+                    <br>
+                    Result
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 03. MODEL INTEGRATION -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">03. Model Integration</h2>
+
+        <div class="dep-card">
+
+            <h3>Trained Model</h3>
+
+            <p>
+                The trained model is stored using Joblib
+                in the machine_learning/model directory.
+
+                The prediction module loads this file
+                when a prediction request is processed.
+                This allows the Flask application to
+                reuse the trained model without
+                executing the training process
+                every time a user makes a prediction.
+            </p>
+
+            <div class="dep-code">
+                machine_learning/<br>
+                &nbsp;&nbsp;model/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;failure_model.joblib<br>
+                &nbsp;&nbsp;predict.py<br>
+                &nbsp;&nbsp;train_model.py
+            </div>
+
+        </div>
+
+        <div class="dep-card">
+
+            <h3>Prediction Function</h3>
+
+            <p>
+                The predict_failure function receives
+                equipment information as a dictionary,
+                validates the required features,
+                prepares the input as a Pandas DataFrame,
+                and calculates the probability of
+                machine failure using predict_proba().
+            </p>
+
+            <div class="dep-code">
+                result = predict_failure(equipment_data)<br><br>
+                failure_probability = result["failure_probability"]<br>
+                risk_level = result["risk_level"]<br>
+                model_version = result["model_version"]
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 04. INPUT FEATURES -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">04. Prediction Input Features</h2>
+
+        <div class="dep-card">
+
+            <h3>Equipment Information</h3>
+
+            <p>
+                The prediction process requires six input
+                variables corresponding to the features
+                used during model training.
+            </p>
+
+            <div class="dep-table-wrapper" style="margin-top:18px;">
+
+                <table class="dep-table">
+
+                    <thead>
+                        <tr>
+                            <th>Input Variable</th>
+                            <th>Description</th>
+                            <th>Data Type</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Type</td>
+                            <td>Equipment product quality category.</td>
+                            <td>Categorical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Air temperature [K]</td>
+                            <td>Ambient air temperature.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Process temperature [K]</td>
+                            <td>Equipment process temperature.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Rotational speed [rpm]</td>
+                            <td>Machine rotational speed.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Torque [Nm]</td>
+                            <td>Machine operating torque.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tool wear [min]</td>
+                            <td>Accumulated tool wear time.</td>
+                            <td>Numerical</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 05. PREDICTION OUTPUT -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">05. Prediction Output</h2>
+
+        <div class="dep-card">
+
+            <h3>Model Results</h3>
+
+            <p>
+                After receiving the six input variables,
+                the model estimates the probability
+                of machine failure.
+
+                The prediction function converts this
+                probability into a percentage and assigns
+                a risk category according to the
+                thresholds defined in the application.
+            </p>
+
+            <div class="dep-table-wrapper" style="margin-top:18px;">
+
+                <table class="dep-table">
+
+                    <thead>
+                        <tr>
+                            <th>Risk Level</th>
+                            <th>Failure Probability</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Low</td>
+                            <td>Below 30%</td>
+                            <td>Lower estimated failure risk.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Medium</td>
+                            <td>30% to below 70%</td>
+                            <td>Moderate estimated failure risk.</td>
+                        </tr>
+
+                        <tr>
+                            <td>High</td>
+                            <td>70% or higher</td>
+                            <td>Higher estimated failure risk.</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="dep-note">
+
+            <p>
+                <strong>Important:</strong>
+                These risk categories are application-defined
+                thresholds based on the predicted probability.
+                They are not independently validated
+                maintenance intervention thresholds.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 06. DEPLOYMENT PROCESS -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">06. Deployment Process</h2>
+
+        <div class="dep-card">
+
+            <h3>Application Workflow</h3>
+
+            <ul class="dep-list">
+
+                <li>
+                    The user accesses the Predictive
+                    Maintenance web application.
+                </li>
+
+                <li>
+                    The user enters the required
+                    equipment operating conditions.
+                </li>
+
+                <li>
+                    The Flask application receives
+                    and validates the submitted information.
+                </li>
+
+                <li>
+                    The prediction module loads the
+                    trained Random Forest model.
+                </li>
+
+                <li>
+                    The model calculates the estimated
+                    failure probability.
+                </li>
+
+                <li>
+                    The application displays the
+                    probability and risk classification.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- 07. DEPENDENCIES AND ENVIRONMENT -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">07. Dependencies and Environment</h2>
+
+        <div class="dep-card">
+
+            <h3>Software Requirements</h3>
+
+            <p>
+                The application uses Python and a set
+                of libraries to support data processing,
+                model execution, and web application
+                functionality.
+            </p>
+
+            <div class="dep-table-wrapper" style="margin-top:18px;">
+
+                <table class="dep-table">
+
+                    <thead>
+                        <tr>
+                            <th>Technology</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Python</td>
+                            <td>Programming language.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Flask</td>
+                            <td>Web application framework.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Scikit-learn</td>
+                            <td>Machine Learning model and preprocessing.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Pandas</td>
+                            <td>Data manipulation and input preparation.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Joblib</td>
+                            <td>Model serialization and loading.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Matplotlib</td>
+                            <td>Generation of evaluation visualizations.</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="mon-note">
+        </div>
+
+        <div class="dep-note">
+
+            <p>
+                <strong>Environment:</strong>
+                The project uses a Python virtual environment
+                and a requirements.txt file to manage
+                its software dependencies.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 08. ERROR HANDLING -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">08. Error Handling and Reliability</h2>
+
+        <div class="dep-grid">
+
+            <div class="dep-card">
+
+                <h3>Input Validation</h3>
+
+                <p>
+                    The prediction module checks that the
+                    equipment information is provided
+                    as a dictionary and that all six
+                    required features are available
+                    before making a prediction.
+                </p>
+
+            </div>
+
+            <div class="dep-card">
+
+                <h3>Model Availability</h3>
+
+                <p>
+                    Before loading the trained model,
+                    the prediction module verifies
+                    that the Joblib file exists.
+
+                    If the model file is unavailable,
+                    a FileNotFoundError is raised.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="dep-note">
+
+            <p>
+                <strong>Reliability consideration:</strong>
+                Additional application-level error handling
+                should ensure that unexpected failures
+                are reported clearly to users without
+                exposing sensitive technical information.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 09. DEPLOYMENT ENVIRONMENT -->
+
+    <section class="dep-section">
+
+        <h2 class="dep-section-title">09. Application Availability</h2>
+
+        <div class="dep-card">
+
+            <h3>Web Application Access</h3>
+
+            <p>
+                The Predictive Maintenance System is
+                developed as a Flask web application.
+                Its deployment environment makes
+                the system accessible through a
+                web browser without requiring
+                users to execute the Machine Learning
+                scripts manually.
+            </p>
+
+            <ul class="dep-list">
+
+                <li>Web-based application interface.</li>
+
+                <li>Flask routes for application navigation.</li>
+
+                <li>Integration with the trained model.</li>
+
+                <li>Equipment information input and prediction workflow.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="dep-highlight">
+
+            <h3>Deployment Result</h3>
+
+            <p>
+                The trained Random Forest model is
+                integrated into the Predictive Maintenance
+                application, allowing the prediction
+                functionality to be accessed through
+                its web interface.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONCLUSION -->
+
+    <section class="dep-section">
+
+        <div class="dep-highlight">
+
+            <h3>Phase Conclusion</h3>
+
+            <p>
+                The Model Deployment phase describes
+                how the trained Random Forest classifier
+                is integrated into the Flask application.
+
+                The model is stored using Joblib and
+                loaded through the prediction module
+                to process six equipment input variables.
+
+                The application calculates a failure
+                probability and assigns a risk level
+                based on predefined thresholds.
+
+                This integration makes the predictive
+                functionality available through the
+                web application and provides the
+                foundation for the final Monitoring
+                and Maintenance phase.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="dep-phase-footer">
+
+        Predictive Maintenance System · CRISP-ML Methodology
+
+        <br>
+
+        Model Deployment · Random Forest Classifier · AI4I 2020 Dataset
+
+    </div>
+
+</div>
+
+{% endblock %}
