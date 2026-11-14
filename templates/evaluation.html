@@ -1,0 +1,903 @@
+
+{% extends "base.html" %}
+
+{% block title %}Model Evaluation | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    .ev-container {
+        font-family: 'Inter', sans-serif;
+        color: #49382d;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 35px 25px 60px;
+    }
+
+    /* HEADER */
+
+    .ev-header {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e7dcd0;
+    }
+
+    .ev-label {
+        display: inline-block;
+        color: #987452;
+        background: #f1e8dd;
+        padding: 7px 13px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        margin-bottom: 17px;
+        text-transform: uppercase;
+    }
+
+    .ev-header h1 {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 32px;
+        color: #49382d;
+        margin: 0 0 14px;
+        line-height: 1.4;
+    }
+
+    .ev-header p {
+        color: #837365;
+        font-size: 14px;
+        line-height: 1.8;
+        max-width: 850px;
+        margin: 0;
+    }
+
+    /* SECTIONS */
+
+    .ev-section {
+        margin-bottom: 28px;
+    }
+
+    .ev-section-title {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 20px;
+        color: #624a37;
+        margin-bottom: 17px;
+    }
+
+    /* CARDS */
+
+    .ev-card {
+        background: #fffdf9;
+        border: 1px solid #e9ded2;
+        border-radius: 13px;
+        padding: 24px;
+        margin-bottom: 18px;
+        box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
+    }
+
+    .ev-card h3 {
+        font-size: 15px;
+        color: #795b40;
+        margin: 0 0 12px;
+        font-weight: 700;
+    }
+
+    .ev-card p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    /* GRID */
+
+    .ev-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    /* METRICS */
+
+    .ev-metric {
+        background: #f5eee6;
+        border: 1px solid #e9ded2;
+        border-left: 4px solid #a9825d;
+        border-radius: 9px;
+        padding: 20px;
+    }
+
+    .ev-metric h3 {
+        color: #674b34;
+        font-size: 14px;
+        margin: 0 0 9px;
+    }
+
+    .ev-metric .ev-value {
+        color: #795b40;
+        font-size: 27px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .ev-metric p {
+        color: #76685c;
+        font-size: 12px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    /* LISTS */
+
+    .ev-list {
+        padding-left: 20px;
+        margin: 12px 0 0;
+    }
+
+    .ev-list li {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.9;
+        margin-bottom: 7px;
+    }
+
+    /* TABLES */
+
+    .ev-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .ev-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font-size: 13px;
+        background: #fffdf9;
+    }
+
+    .ev-table th {
+        background: #eee4d9;
+        color: #604832;
+        text-align: left;
+        padding: 14px;
+        font-weight: 700;
+        border: none;
+    }
+
+    .ev-table td {
+        background: #fffdf9;
+        padding: 13px 14px;
+        border-bottom: 1px solid #eee5dc;
+        color: #76685c;
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    .ev-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* HIGHLIGHT */
+
+    .ev-highlight {
+        background: #f2e9df;
+        border: 1px solid #e4d4c3;
+        border-radius: 12px;
+        padding: 23px;
+    }
+
+    .ev-highlight h3 {
+        font-family: 'Libre Baskerville', serif;
+        color: #674b34;
+        font-size: 17px;
+        margin: 0 0 12px;
+    }
+
+    .ev-highlight p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0;
+    }
+
+    /* NOTES */
+
+    .ev-note {
+        background: #fffaf2;
+        border-left: 4px solid #b18b65;
+        border-radius: 7px;
+        padding: 17px 20px;
+        margin-top: 17px;
+    }
+
+    .ev-note p {
+        color: #76685c;
+        font-size: 12px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    /* CHART EVIDENCE */
+
+    .ev-evidence {
+        background: #fffdf9;
+        border: 1px solid #e9ded2;
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+        margin-top: 16px;
+    }
+
+    .ev-evidence h3 {
+        color: #795b40;
+        font-size: 15px;
+        margin: 0 0 12px;
+    }
+
+    .ev-evidence p {
+        color: #837365;
+        font-size: 12px;
+        line-height: 1.8;
+        margin: 10px 0 0;
+    }
+
+    .ev-chart {
+        display: block;
+        width: 100%;
+        max-width: 750px;
+        height: auto;
+        margin: 15px auto 0;
+        border-radius: 8px;
+    }
+
+    /* FOOTER */
+
+    .ev-phase-footer {
+        border-top: 1px solid #e7dcd0;
+        margin-top: 35px;
+        padding-top: 23px;
+        color: #9a8878;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 700px) {
+
+        .ev-container {
+            padding: 25px 15px 40px;
+        }
+
+        .ev-header h1 {
+            font-size: 25px;
+        }
+
+        .ev-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .ev-card {
+            padding: 19px;
+        }
+
+    }
+
+</style>
+
+
+<div class="ev-container">
+
+    <!-- HEADER -->
+
+    <header class="ev-header">
+
+        <span class="ev-label">CRISP-ML · PHASE 05</span>
+
+        <h1>Model Evaluation</h1>
+
+        <p>
+            This stage evaluates the performance of the Machine
+            Learning model developed for the Predictive Maintenance
+            System. It examines classification metrics, prediction
+            errors, model generalization, and the ability to identify
+            industrial equipment failures.
+        </p>
+
+    </header>
+
+
+    <!-- 01. EVALUATION OVERVIEW -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">01. Evaluation Overview</h2>
+
+        <div class="ev-card">
+
+            <h3>Purpose of Model Evaluation</h3>
+
+            <p>
+                Model Evaluation determines how effectively the
+                trained classification model predicts machine
+                failures using equipment operating conditions.
+
+                The evaluation process compares predicted values
+                with the actual target values from observations
+                that were not used during model training.
+
+                This stage is particularly important because
+                the system must identify potential failure cases
+                and provide reliable information to support
+                maintenance decisions.
+            </p>
+
+        </div>
+
+        <div class="ev-highlight">
+
+            <h3>Evaluation Objective</h3>
+
+            <p>
+                Assess the predictive performance of the
+                Random Forest classifier, identify its strengths
+                and limitations, and determine whether its
+                results support its use within the application.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 02. EVALUATION STRATEGY -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">02. Evaluation Strategy</h2>
+
+        <div class="ev-card">
+
+            <h3>Testing Process</h3>
+
+            <p>
+                The evaluation process uses a testing subset
+                separated from the training data. The dataset
+                was divided using an 80% training and 20% testing
+                split, with random_state=42 and stratification
+                to preserve the target class distribution.
+            </p>
+
+            <ul class="ev-list">
+
+                <li>Load the trained classification model.</li>
+                <li>Generate predictions using the testing data.</li>
+                <li>Compare predictions with actual target values.</li>
+                <li>Calculate classification performance metrics.</li>
+                <li>Analyze false positives and false negatives.</li>
+                <li>Document the results and limitations.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="ev-card">
+
+            <h3>Evaluation Dataset</h3>
+
+            <div class="ev-table-wrapper">
+
+                <table class="ev-table">
+
+                    <thead>
+                        <tr>
+                            <th>Dataset Subset</th>
+                            <th>Records</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Training</td>
+                            <td>8,000</td>
+                            <td>80%</td>
+                        </tr>
+
+                        <tr>
+                            <td>Testing</td>
+                            <td>2,000</td>
+                            <td>20%</td>
+                        </tr>
+
+                        <tr>
+                            <td>Total</td>
+                            <td>10,000</td>
+                            <td>100%</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 03. CLASSIFICATION METRICS -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">03. Classification Metrics</h2>
+
+        <p style="color:#837365; font-size:13px; margin-bottom:16px;">
+            Actual results obtained from the Random Forest model
+            using the 2,000 testing observations.
+        </p>
+
+        <div class="ev-grid">
+
+            <div class="ev-metric">
+
+                <h3>Accuracy</h3>
+
+                <div class="ev-value">97.15%</div>
+
+                <p>
+                    Proportion of all predictions that were
+                    correctly classified.
+                </p>
+
+            </div>
+
+            <div class="ev-metric">
+
+                <h3>Precision</h3>
+
+                <div class="ev-value">55.91%</div>
+
+                <p>
+                    Of all observations predicted as failures,
+                    the proportion that were actual failures.
+                </p>
+
+            </div>
+
+            <div class="ev-metric">
+
+                <h3>Recall</h3>
+
+                <div class="ev-value">76.47%</div>
+
+                <p>
+                    Proportion of actual machine failures
+                    correctly identified by the model.
+                </p>
+
+            </div>
+
+            <div class="ev-metric">
+
+                <h3>F1-score</h3>
+
+                <div class="ev-value">64.60%</div>
+
+                <p>
+                    Harmonic mean of Precision and Recall.
+                </p>
+
+            </div>
+
+            <div class="ev-metric">
+
+                <h3>ROC-AUC</h3>
+
+                <div class="ev-value">96.58%</div>
+
+                <p>
+                    Measures the model's ability to distinguish
+                    failure and non-failure classes across
+                    different classification thresholds.
+                </p>
+
+            </div>
+
+            <div class="ev-metric">
+
+                <h3>Testing Records</h3>
+
+                <div class="ev-value">2,000</div>
+
+                <p>
+                    Number of observations used to evaluate
+                    the trained model.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="ev-note">
+
+            <p>
+                <strong>Interpretation:</strong>
+                Accuracy is high, but Precision is lower.
+                This indicates that some predicted failures
+                are false alarms. Recall of 76.47% means
+                that the model identified 52 of the 68
+                actual failures in the testing dataset.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 04. CONFUSION MATRIX -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">04. Confusion Matrix</h2>
+
+        <div class="ev-card">
+
+            <h3>Classification Error Analysis</h3>
+
+            <p>
+                The confusion matrix compares the actual machine
+                conditions with the predictions generated by
+                the Random Forest model.
+            </p>
+
+            <div class="ev-table-wrapper" style="margin-top:18px;">
+
+                <table class="ev-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Actual / Predicted</th>
+                            <th>No Failure</th>
+                            <th>Failure</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>No Failure</td>
+                            <td>1,891 - True Negative (TN)</td>
+                            <td>41 - False Positive (FP)</td>
+                        </tr>
+
+                        <tr>
+                            <td>Failure</td>
+                            <td>16 - False Negative (FN)</td>
+                            <td>52 - True Positive (TP)</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="ev-note">
+
+                <p>
+                    <strong>Important:</strong>
+                    False Negatives represent actual machine
+                    failures that the model did not identify.
+                    In this evaluation, 16 failures were missed.
+                    This error deserves particular attention
+                    in predictive maintenance because an
+                    undetected failure may affect industrial
+                    operations.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- REAL CONFUSION MATRIX IMAGE -->
+
+        <div class="ev-evidence">
+
+            <h3>Confusion Matrix Evidence</h3>
+
+            <img
+                src="{{ url_for('static', filename='images/confusion_matrix.png') }}"
+                alt="Random Forest Confusion Matrix"
+                class="ev-chart"
+            >
+
+            <p>
+                Confusion matrix generated from the actual
+                model predictions on the testing dataset.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 05. ROC CURVE -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">05. ROC Curve and AUC</h2>
+
+        <div class="ev-card">
+
+            <h3>Model Discrimination Ability</h3>
+
+            <p>
+                The Receiver Operating Characteristic (ROC)
+                curve illustrates the relationship between
+                the True Positive Rate and the False Positive
+                Rate at different classification thresholds.
+
+                The Area Under the Curve (AUC) provides
+                an overall measure of the model's ability
+                to distinguish between failure and
+                non-failure observations.
+
+                The evaluated model achieved a ROC-AUC
+                score of 0.9658.
+            </p>
+
+        </div>
+
+
+        <!-- REAL ROC CURVE IMAGE -->
+
+        <div class="ev-evidence">
+
+            <h3>ROC Curve Evidence</h3>
+
+            <img
+                src="{{ url_for('static', filename='images/roc_curve.png') }}"
+                alt="Random Forest ROC Curve"
+                class="ev-chart"
+            >
+
+            <p>
+                ROC curve generated using the actual model
+                probability scores and testing observations.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 06. PERFORMANCE ANALYSIS -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">06. Model Performance Analysis</h2>
+
+        <div class="ev-card">
+
+            <h3>Interpretation of Results</h3>
+
+            <p>
+                The Random Forest model achieved an Accuracy
+                of 97.15% and a ROC-AUC of 96.58%, indicating
+                strong overall classification performance.
+
+                However, the dataset contains an imbalance
+                between non-failure and failure observations.
+                There are 9,661 non-failure records and only
+                339 failure records in the complete dataset.
+
+                Therefore, Accuracy alone is not sufficient
+                to assess the model's performance.
+
+                Recall, Precision, and F1-score are especially
+                important for understanding the model's
+                ability to detect machine failures.
+            </p>
+
+            <ul class="ev-list">
+
+                <li>
+                    The model correctly identified 52 actual
+                    machine failures.
+                </li>
+
+                <li>
+                    The model missed 16 actual failure cases.
+                </li>
+
+                <li>
+                    The model generated 41 false positive alerts.
+                </li>
+
+                <li>
+                    Recall of 76.47% shows that the model
+                    detected approximately three quarters
+                    of the actual failures.
+                </li>
+
+                <li>
+                    Precision of 55.91% indicates that
+                    false alarms remain an important
+                    limitation.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- 07. OVERFITTING AND GENERALIZATION -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">07. Overfitting and Generalization</h2>
+
+        <div class="ev-grid">
+
+            <div class="ev-card">
+
+                <h3>Overfitting</h3>
+
+                <p>
+                    Overfitting occurs when a model learns
+                    patterns specific to the training data
+                    but performs poorly on unseen observations.
+
+                    A comparison between training and testing
+                    performance is necessary to determine
+                    whether overfitting is present.
+                </p>
+
+            </div>
+
+            <div class="ev-card">
+
+                <h3>Generalization</h3>
+
+                <p>
+                    Generalization describes the model's
+                    ability to maintain predictive performance
+                    when analyzing observations that were
+                    not included during training.
+
+                    The testing subset provides an initial
+                    measure of this ability.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="ev-note">
+
+            <p>
+                <strong>Evaluation limitation:</strong>
+                Training metrics and cross-validation results
+                have not yet been calculated. Therefore,
+                overfitting and generalization require
+                additional verification.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 08. FINAL ASSESSMENT -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">08. Final Model Assessment</h2>
+
+        <div class="ev-card">
+
+            <h3>Model Selection and Reliability</h3>
+
+            <p>
+                The Random Forest classifier achieved
+                promising results on the testing dataset,
+                with 97.15% Accuracy and 96.58% ROC-AUC.
+
+                The model identified 52 of the 68 actual
+                machine failures. However, 16 failures
+                remained undetected and 41 false positive
+                predictions were generated.
+
+                These results demonstrate the model's
+                potential for predictive maintenance,
+                while also highlighting the importance
+                of improving failure detection and
+                reducing false alarms.
+
+                The model should be considered a decision
+                support tool rather than a replacement
+                for professional maintenance inspections.
+            </p>
+
+        </div>
+
+        <div class="ev-note">
+
+            <p>
+                <strong>Additional evidence:</strong>
+                The project instructions also request model
+                comparison, cross-validation where applicable,
+                and feedback from someone with industrial
+                maintenance knowledge. These elements must
+                be documented only after they have actually
+                been performed.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONCLUSION -->
+
+    <section class="ev-section">
+
+        <div class="ev-highlight">
+
+            <h3>Phase Conclusion</h3>
+
+            <p>
+                The Model Evaluation stage measured the
+                predictive performance of the Random Forest
+                classifier using 2,000 testing observations.
+
+                The model achieved 97.15% Accuracy,
+                55.91% Precision, 76.47% Recall,
+                64.60% F1-score, and 96.58% ROC-AUC.
+
+                The confusion matrix and ROC curve provide
+                visual evidence of the evaluation results.
+
+                Although the model demonstrates promising
+                classification ability, false negatives
+                and false positives remain important
+                considerations for predictive maintenance.
+
+                The next stage, Model Deployment, focuses
+                on integrating the evaluated model into
+                the Flask application and making its
+                prediction functionality available
+                to users.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="ev-phase-footer">
+
+        Predictive Maintenance System · CRISP-ML Methodology
+
+        <br>
+
+        Model Evaluation · Random Forest Classifier · AI4I 2020 Dataset
+
+    </div>
+
+</div>
+
+{% endblock %}
