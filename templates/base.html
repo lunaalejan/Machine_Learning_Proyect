@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}Predictive Maintenance System{% endblock %}</title>
+    <link rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/logo.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -247,6 +250,19 @@
                 text-align: center;
             }
         }
+                .brand-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .brand-logo img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
     </style>
 
     {% block head %}{% endblock %}
@@ -260,9 +276,9 @@
 
         <!-- BRAND -->
 
-        <a href="{{ url_for('home') }}" class="brand">
-            <div class="logo">PM</div>
-            <span>Predictive Maintenance</span>
+        <a href="{{ url_for('home') }}" class="brand-logo">
+            <img src="{{ url_for('static', filename='images/Logo.png') }}"
+                alt="Predictive Maintenance Logo">
         </a>
 
         <!-- MOBILE MENU BUTTON -->
