@@ -12,11 +12,10 @@
         font-family: 'Inter', sans-serif;
         color: #49382d;
         max-width: 1200px;
+        width: calc(100% - 48px);
         margin: 0 auto;
-        padding: 35px 25px 60px;
+        padding: 35px 0 60px;
     }
-
-    /* HEADER */
 
     .ev-header {
         margin-bottom: 35px;
@@ -53,10 +52,8 @@
         margin: 0;
     }
 
-    /* SECTIONS */
-
     .ev-section {
-        margin-bottom: 28px;
+        margin-bottom: 30px;
     }
 
     .ev-section-title {
@@ -64,9 +61,8 @@
         font-size: 20px;
         color: #624a37;
         margin-bottom: 17px;
+        line-height: 1.5;
     }
-
-    /* CARDS */
 
     .ev-card {
         background: #fffdf9;
@@ -88,18 +84,18 @@
         color: #76685c;
         font-size: 13px;
         line-height: 1.85;
-        margin: 0;
+        margin: 0 0 12px;
     }
 
-    /* GRID */
+    .ev-card p:last-child {
+        margin-bottom: 0;
+    }
 
     .ev-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 18px;
     }
-
-    /* METRICS */
 
     .ev-metric {
         background: #f5eee6;
@@ -129,8 +125,6 @@
         margin: 0;
     }
 
-    /* LISTS */
-
     .ev-list {
         padding-left: 20px;
         margin: 12px 0 0;
@@ -143,11 +137,10 @@
         margin-bottom: 7px;
     }
 
-    /* TABLES */
-
     .ev-table-wrapper {
         width: 100%;
         overflow-x: auto;
+        margin-top: 15px;
     }
 
     .ev-table {
@@ -156,6 +149,7 @@
         border-spacing: 0;
         font-size: 13px;
         background: #fffdf9;
+        min-width: 600px;
     }
 
     .ev-table th {
@@ -165,6 +159,7 @@
         padding: 14px;
         font-weight: 700;
         border: none;
+        white-space: nowrap;
     }
 
     .ev-table td {
@@ -180,13 +175,12 @@
         border-bottom: none;
     }
 
-    /* HIGHLIGHT */
-
     .ev-highlight {
         background: #f2e9df;
         border: 1px solid #e4d4c3;
         border-radius: 12px;
         padding: 23px;
+        margin-bottom: 18px;
     }
 
     .ev-highlight h3 {
@@ -200,10 +194,12 @@
         color: #76685c;
         font-size: 13px;
         line-height: 1.85;
-        margin: 0;
+        margin: 0 0 12px;
     }
 
-    /* NOTES */
+    .ev-highlight p:last-child {
+        margin-bottom: 0;
+    }
 
     .ev-note {
         background: #fffaf2;
@@ -219,8 +215,6 @@
         line-height: 1.8;
         margin: 0;
     }
-
-    /* CHART EVIDENCE */
 
     .ev-evidence {
         background: #fffdf9;
@@ -253,7 +247,15 @@
         border-radius: 8px;
     }
 
-    /* FOOTER */
+    .ev-status {
+        display: inline-block;
+        background: #e8f2ec;
+        color: #426b50;
+        border-radius: 20px;
+        padding: 5px 10px;
+        font-size: 11px;
+        font-weight: 700;
+    }
 
     .ev-phase-footer {
         border-top: 1px solid #e7dcd0;
@@ -264,12 +266,10 @@
         line-height: 1.8;
     }
 
-    /* RESPONSIVE */
-
     @media (max-width: 700px) {
-
         .ev-container {
-            padding: 25px 15px 40px;
+            width: calc(100% - 30px);
+            padding: 25px 0 40px;
         }
 
         .ev-header h1 {
@@ -284,31 +284,33 @@
             padding: 19px;
         }
 
+        .ev-section-title {
+            font-size: 18px;
+        }
+
+        .ev-metric .ev-value {
+            font-size: 24px;
+        }
     }
-
 </style>
-
 
 <div class="ev-container">
 
     <!-- HEADER -->
 
     <header class="ev-header">
-
         <span class="ev-label">CRISP-ML · PHASE 04</span>
 
         <h1>Model Evaluation</h1>
 
         <p>
-            This stage evaluates the performance of the Machine
-            Learning model developed for the Predictive Maintenance
-            System. It examines classification metrics, prediction
-            errors, model generalization, and the ability to identify
-            industrial equipment failures.
+            This stage evaluates the performance and generalization
+            ability of the Machine Learning models developed for the
+            Predictive Maintenance System. It compares classification
+            algorithms, analyzes prediction errors, and selects the
+            most suitable model for identifying potential equipment failures.
         </p>
-
     </header>
-
 
     <!-- 01. EVALUATION OVERVIEW -->
 
@@ -317,41 +319,45 @@
         <h2 class="ev-section-title">01. Evaluation Overview</h2>
 
         <div class="ev-card">
-
             <h3>Purpose of Model Evaluation</h3>
 
             <p>
-                Model Evaluation determines how effectively the
-                trained classification model predicts machine
-                failures using equipment operating conditions.
-
-                The evaluation process compares predicted values
-                with the actual target values from observations
-                that were not used during model training.
-
-                This stage is particularly important because
-                the system must identify potential failure cases
-                and provide reliable information to support
-                maintenance decisions.
+                Model Evaluation determines how effectively machine
+                learning algorithms predict equipment failures using
+                operational variables such as air temperature,
+                process temperature, rotational speed, torque,
+                and tool wear.
             </p>
 
+            <p>
+                The evaluation process compares predicted values
+                with actual target values. It examines both
+                classification performance and the model's ability
+                to generalize to observations that were not used
+                during training.
+            </p>
+
+            <p>
+                This stage is essential because incorrect predictions
+                can affect maintenance decisions. In particular,
+                undetected failures and unnecessary alerts must
+                be analyzed before considering real industrial use.
+            </p>
         </div>
 
         <div class="ev-highlight">
-
             <h3>Evaluation Objective</h3>
 
             <p>
-                Assess the predictive performance of the
-                Random Forest classifier, identify its strengths
-                and limitations, and determine whether its
-                results support its use within the application.
+                Compare Logistic Regression, Decision Tree, and
+                Random Forest using stratified five-fold
+                cross-validation, select the best-performing
+                algorithm according to mean F1-score, and evaluate
+                the selected model on an independent test dataset.
             </p>
-
         </div>
 
     </section>
-
 
     <!-- 02. EVALUATION STRATEGY -->
 
@@ -360,185 +366,167 @@
         <h2 class="ev-section-title">02. Evaluation Strategy</h2>
 
         <div class="ev-card">
-
-            <h3>Testing Process</h3>
+            <h3>Testing and Model Selection Process</h3>
 
             <p>
-                The evaluation process uses a testing subset
-                separated from the training data. The dataset
-                was divided using an 80% training and 20% testing
-                split, with random_state=42 and stratification
-                to preserve the target class distribution.
+                The dataset was divided into training and testing
+                subsets using an 80% and 20% split. The process
+                used random_state = 42 and stratification to
+                preserve the proportion of failure and non-failure
+                observations.
             </p>
 
             <ul class="ev-list">
-
-                <li>Load the trained classification model.</li>
-                <li>Generate predictions using the testing data.</li>
-                <li>Compare predictions with actual target values.</li>
-                <li>Calculate classification performance metrics.</li>
-                <li>Analyze false positives and false negatives.</li>
-                <li>Document the results and limitations.</li>
-
+                <li>Prepare the selected input features and target variable.</li>
+                <li>Separate the training and independent testing subsets.</li>
+                <li>Compare three classification algorithms.</li>
+                <li>Apply stratified five-fold cross-validation to the training data.</li>
+                <li>Select the model using the highest mean cross-validation F1-score.</li>
+                <li>Train the selected pipeline using the complete training subset.</li>
+                <li>Evaluate final performance using the independent test subset.</li>
             </ul>
-
         </div>
 
         <div class="ev-card">
-
             <h3>Evaluation Dataset</h3>
 
             <div class="ev-table-wrapper">
-
                 <table class="ev-table">
-
                     <thead>
                         <tr>
                             <th>Dataset Subset</th>
                             <th>Records</th>
                             <th>Percentage</th>
+                            <th>Purpose</th>
                         </tr>
                     </thead>
 
                     <tbody>
-
                         <tr>
                             <td>Training</td>
                             <td>8,000</td>
                             <td>80%</td>
+                            <td>Model training and cross-validation</td>
                         </tr>
 
                         <tr>
                             <td>Testing</td>
                             <td>2,000</td>
                             <td>20%</td>
+                            <td>Independent final evaluation</td>
                         </tr>
 
                         <tr>
-                            <td>Total</td>
-                            <td>10,000</td>
-                            <td>100%</td>
+                            <td><strong>Total</strong></td>
+                            <td><strong>10,000</strong></td>
+                            <td><strong>100%</strong></td>
+                            <td>Complete dataset</td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
+        </div>
 
+        <div class="ev-note">
+            <p>
+                <strong>Data separation:</strong>
+                The independent testing subset was not used for
+                model selection or cross-validation. Preprocessing
+                was included inside each model pipeline to prevent
+                information leakage between training and validation
+                folds.
+            </p>
         </div>
 
     </section>
 
-
-    <!-- 03. CLASSIFICATION METRICS -->
+    <!-- 03. EVALUATION METRICS -->
 
     <section class="ev-section">
 
-        <h2 class="ev-section-title">03. Classification Metrics</h2>
+        <h2 class="ev-section-title">03. Evaluation Metrics</h2>
+
+        <div class="ev-card">
+            <h3>Metrics Used</h3>
+
+            <p>
+                Five evaluation metrics were used to assess the
+                classification models. Because the dataset contains
+                substantially more non-failure observations than
+                failure observations, Accuracy alone is not enough
+                to evaluate model performance.
+            </p>
+
+            <ul class="ev-list">
+                <li><strong>Accuracy:</strong> Proportion of all predictions that were correctly classified.</li>
+                <li><strong>Precision:</strong> Proportion of predicted failures that were actual failures.</li>
+                <li><strong>Recall:</strong> Proportion of actual failures correctly identified.</li>
+                <li><strong>F1-score:</strong> Harmonic mean of Precision and Recall.</li>
+                <li><strong>ROC-AUC:</strong> Ability to distinguish between failure and non-failure classes across different classification thresholds.</li>
+            </ul>
+        </div>
+
+        <h3 style="color:#795b40; font-size:15px; margin:22px 0 14px;">
+            Final Test Results — Random Forest
+        </h3>
 
         <p style="color:#837365; font-size:13px; margin-bottom:16px;">
-            Actual results obtained from the Random Forest model
-            using the 2,000 testing observations.
+            The following results were obtained from the selected
+            model using the 2,000 independent testing observations.
         </p>
 
         <div class="ev-grid">
 
             <div class="ev-metric">
-
                 <h3>Accuracy</h3>
-
                 <div class="ev-value">97.15%</div>
-
-                <p>
-                    Proportion of all predictions that were
-                    correctly classified.
-                </p>
-
+                <p>Proportion of all predictions that were correct.</p>
             </div>
 
             <div class="ev-metric">
-
                 <h3>Precision</h3>
-
                 <div class="ev-value">55.91%</div>
-
-                <p>
-                    Of all observations predicted as failures,
-                    the proportion that were actual failures.
-                </p>
-
+                <p>Of all predicted failures, the proportion that were actual failures.</p>
             </div>
 
             <div class="ev-metric">
-
                 <h3>Recall</h3>
-
                 <div class="ev-value">76.47%</div>
-
-                <p>
-                    Proportion of actual machine failures
-                    correctly identified by the model.
-                </p>
-
+                <p>Proportion of actual machine failures correctly detected.</p>
             </div>
 
             <div class="ev-metric">
-
                 <h3>F1-score</h3>
-
                 <div class="ev-value">64.60%</div>
-
-                <p>
-                    Harmonic mean of Precision and Recall.
-                </p>
-
+                <p>Balance between Precision and Recall.</p>
             </div>
 
             <div class="ev-metric">
-
                 <h3>ROC-AUC</h3>
-
-                <div class="ev-value">96.58%</div>
-
-                <p>
-                    Measures the model's ability to distinguish
-                    failure and non-failure classes across
-                    different classification thresholds.
-                </p>
-
+                <div class="ev-value">96.56%</div>
+                <p>Ability to distinguish failure and non-failure observations across thresholds.</p>
             </div>
 
             <div class="ev-metric">
-
                 <h3>Testing Records</h3>
-
                 <div class="ev-value">2,000</div>
-
-                <p>
-                    Number of observations used to evaluate
-                    the trained model.
-                </p>
-
+                <p>Number of observations used for independent final evaluation.</p>
             </div>
 
         </div>
 
         <div class="ev-note">
-
             <p>
                 <strong>Interpretation:</strong>
-                Accuracy is high, but Precision is lower.
-                This indicates that some predicted failures
-                are false alarms. Recall of 76.47% means
-                that the model identified 52 of the 68
-                actual failures in the testing dataset.
+                The model achieved high Accuracy and ROC-AUC.
+                However, Precision is lower than Recall, indicating
+                that some predicted failures were false alarms.
+                The Recall of 76.47% means that the model detected
+                52 of the 68 actual failures in the testing dataset.
             </p>
-
         </div>
 
     </section>
-
 
     <!-- 04. CONFUSION MATRIX -->
 
@@ -547,31 +535,25 @@
         <h2 class="ev-section-title">04. Confusion Matrix</h2>
 
         <div class="ev-card">
-
             <h3>Classification Error Analysis</h3>
 
             <p>
                 The confusion matrix compares the actual machine
-                conditions with the predictions generated by
-                the Random Forest model.
+                conditions with the predictions generated by the
+                selected Random Forest model.
             </p>
 
-            <div class="ev-table-wrapper" style="margin-top:18px;">
-
+            <div class="ev-table-wrapper">
                 <table class="ev-table">
-
                     <thead>
-
                         <tr>
                             <th>Actual / Predicted</th>
                             <th>No Failure</th>
                             <th>Failure</th>
                         </tr>
-
                     </thead>
 
                     <tbody>
-
                         <tr>
                             <td>No Failure</td>
                             <td>1,891 - True Negative (TN)</td>
@@ -583,35 +565,34 @@
                             <td>16 - False Negative (FN)</td>
                             <td>52 - True Positive (TP)</td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
 
             <div class="ev-note">
-
                 <p>
                     <strong>Important:</strong>
-                    False Negatives represent actual machine
-                    failures that the model did not identify.
-                    In this evaluation, 16 failures were missed.
-                    This error deserves particular attention
-                    in predictive maintenance because an
-                    undetected failure may affect industrial
-                    operations.
+                    False Negatives represent actual machine failures
+                    that the model did not identify. In this evaluation,
+                    16 failures were missed. This is particularly
+                    important because an undetected failure may
+                    affect industrial operations.
                 </p>
-
             </div>
 
+            <div class="ev-note">
+                <p>
+                    <strong>False Positives:</strong>
+                    The model generated 41 false positive predictions.
+                    These represent cases classified as failures
+                    even though the actual condition was non-failure.
+                    They may lead to unnecessary inspections or
+                    maintenance activities.
+                </p>
+            </div>
         </div>
 
-
-        <!-- REAL CONFUSION MATRIX IMAGE -->
-
         <div class="ev-evidence">
-
             <h3>Confusion Matrix Evidence</h3>
 
             <img
@@ -621,14 +602,12 @@
             >
 
             <p>
-                Confusion matrix generated from the actual
-                model predictions on the testing dataset.
+                Confusion matrix generated from actual model
+                predictions on the independent testing dataset.
             </p>
-
         </div>
 
     </section>
-
 
     <!-- 05. ROC CURVE -->
 
@@ -637,31 +616,29 @@
         <h2 class="ev-section-title">05. ROC Curve and AUC</h2>
 
         <div class="ev-card">
-
             <h3>Model Discrimination Ability</h3>
 
             <p>
-                The Receiver Operating Characteristic (ROC)
-                curve illustrates the relationship between
-                the True Positive Rate and the False Positive
-                Rate at different classification thresholds.
-
-                The Area Under the Curve (AUC) provides
-                an overall measure of the model's ability
-                to distinguish between failure and
-                non-failure observations.
-
-                The evaluated model achieved a ROC-AUC
-                score of 0.9658.
+                The Receiver Operating Characteristic (ROC) curve
+                illustrates the relationship between the True
+                Positive Rate and the False Positive Rate at
+                different classification thresholds.
             </p>
 
+            <p>
+                The Area Under the Curve (AUC) provides an overall
+                measure of the model's ability to distinguish
+                between failure and non-failure observations.
+            </p>
+
+            <p>
+                The selected Random Forest model achieved a final
+                test ROC-AUC score of 0.9656, indicating strong
+                discrimination ability on the independent test set.
+            </p>
         </div>
 
-
-        <!-- REAL ROC CURVE IMAGE -->
-
         <div class="ev-evidence">
-
             <h3>ROC Curve Evidence</h3>
 
             <img
@@ -671,233 +648,518 @@
             >
 
             <p>
-                ROC curve generated using the actual model
-                probability scores and testing observations.
+                ROC curve generated using the model's predicted
+                probabilities and independent testing observations.
             </p>
-
         </div>
 
     </section>
 
-
-    <!-- 06. PERFORMANCE ANALYSIS -->
+    <!-- 06. DATA IMBALANCE AND PERFORMANCE -->
 
     <section class="ev-section">
 
-        <h2 class="ev-section-title">06. Model Performance Analysis</h2>
+        <h2 class="ev-section-title">06. Data Imbalance and Performance Analysis</h2>
 
         <div class="ev-card">
-
-            <h3>Interpretation of Results</h3>
+            <h3>Class Distribution</h3>
 
             <p>
-                The Random Forest model achieved an Accuracy
-                of 97.15% and a ROC-AUC of 96.58%, indicating
-                strong overall classification performance.
-
-                However, the dataset contains an imbalance
-                between non-failure and failure observations.
+                The complete dataset contains an imbalance between
+                non-failure and failure observations.
                 There are 9,661 non-failure records and only
-                339 failure records in the complete dataset.
+                339 failure records.
+            </p>
 
-                Therefore, Accuracy alone is not sufficient
-                to assess the model's performance.
+            <div class="ev-table-wrapper">
+                <table class="ev-table">
+                    <thead>
+                        <tr>
+                            <th>Target Class</th>
+                            <th>Records</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
 
-                Recall, Precision, and F1-score are especially
-                important for understanding the model's
-                ability to detect machine failures.
+                    <tbody>
+                        <tr>
+                            <td>No Failure (0)</td>
+                            <td>9,661</td>
+                            <td>96.61%</td>
+                        </tr>
+
+                        <tr>
+                            <td>Failure (1)</td>
+                            <td>339</td>
+                            <td>3.39%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>
+                This imbalance makes failure detection more
+                challenging. A model could achieve high Accuracy
+                by predicting the majority class while failing
+                to identify a considerable number of actual failures.
+            </p>
+
+            <p>
+                For this reason, Precision, Recall, and F1-score
+                are particularly important for evaluating the
+                minority failure class.
+            </p>
+        </div>
+
+        <div class="ev-card">
+            <h3>Interpretation of Model Performance</h3>
+
+            <ul class="ev-list">
+                <li>The model correctly identified 52 actual machine failures.</li>
+                <li>The model missed 16 actual failure cases.</li>
+                <li>The model generated 41 false positive predictions.</li>
+                <li>Recall of 76.47% shows that approximately three quarters of actual failures were detected.</li>
+                <li>Precision of 55.91% indicates that false alarms remain an important limitation.</li>
+                <li>Accuracy of 97.15% should be interpreted together with the other metrics because of class imbalance.</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <!-- 07. MODEL COMPARISON -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">07. Model Comparison and Cross-Validation</h2>
+
+        <div class="ev-card">
+            <h3>Comparison of Machine Learning Algorithms</h3>
+
+            <p>
+                Three classification algorithms were evaluated:
+                Logistic Regression, Decision Tree, and Random Forest.
+                Stratified five-fold cross-validation was applied
+                using only the training dataset.
+            </p>
+
+            <div class="ev-table-wrapper">
+                <table class="ev-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-score</th>
+                            <th>ROC-AUC</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><strong>Random Forest</strong></td>
+                            <td>97.19%</td>
+                            <td>56.72%</td>
+                            <td>73.06%</td>
+                            <td><strong>63.80%</strong></td>
+                            <td>96.61%</td>
+                        </tr>
+
+                        <tr>
+                            <td>Decision Tree</td>
+                            <td>96.80%</td>
+                            <td>53.14%</td>
+                            <td>63.12%</td>
+                            <td>57.22%</td>
+                            <td>81.02%</td>
+                        </tr>
+
+                        <tr>
+                            <td>Logistic Regression</td>
+                            <td>82.25%</td>
+                            <td>13.74%</td>
+                            <td>80.44%</td>
+                            <td>23.46%</td>
+                            <td>89.65%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="margin-top:14px;">
+                <strong>Note:</strong>
+                These values represent the mean cross-validation
+                results obtained during model comparison. They
+                are different from the final independent test results.
+            </p>
+        </div>
+
+        <div class="ev-card">
+            <h3>Cross-Validation Methodology</h3>
+
+            <p>
+                Cross-validation was used to evaluate model
+                performance across different subsets of the
+                training data. This provides a more reliable
+                comparison than relying on a single validation split.
             </p>
 
             <ul class="ev-list">
-
-                <li>
-                    The model correctly identified 52 actual
-                    machine failures.
-                </li>
-
-                <li>
-                    The model missed 16 actual failure cases.
-                </li>
-
-                <li>
-                    The model generated 41 false positive alerts.
-                </li>
-
-                <li>
-                    Recall of 76.47% shows that the model
-                    detected approximately three quarters
-                    of the actual failures.
-                </li>
-
-                <li>
-                    Precision of 55.91% indicates that
-                    false alarms remain an important
-                    limitation.
-                </li>
-
+                <li>Cross-validation technique: Stratified K-Fold.</li>
+                <li>Number of folds: 5.</li>
+                <li>Shuffle enabled with random_state = 42.</li>
+                <li>Evaluation performed on the training subset.</li>
+                <li>Preprocessing included inside each model pipeline.</li>
+                <li>The independent test subset was reserved for final evaluation.</li>
             </ul>
+        </div>
 
+        <div class="ev-highlight">
+            <h3>Selected Model: Random Forest</h3>
+
+            <p>
+                Random Forest achieved the highest mean
+                cross-validation F1-score of 63.80%.
+                It also obtained the highest cross-validation
+                ROC-AUC of 96.61%.
+            </p>
+
+            <p>
+                Therefore, Random Forest was selected for final
+                training and independent testing. The selection
+                criterion was the highest mean cross-validation
+                F1-score, which balances Precision and Recall.
+            </p>
         </div>
 
     </section>
 
-
-    <!-- 07. OVERFITTING AND GENERALIZATION -->
+    <!-- 08. OVERFITTING -->
 
     <section class="ev-section">
 
-        <h2 class="ev-section-title">07. Overfitting and Generalization</h2>
+        <h2 class="ev-section-title">08. Overfitting and Generalization</h2>
 
         <div class="ev-grid">
 
             <div class="ev-card">
-
-                <h3>Overfitting</h3>
+                <h3>Overfitting Analysis</h3>
 
                 <p>
-                    Overfitting occurs when a model learns
-                    patterns specific to the training data
-                    but performs poorly on unseen observations.
-
-                    A comparison between training and testing
-                    performance is necessary to determine
-                    whether overfitting is present.
+                    Overfitting occurs when a model learns patterns
+                    specific to the training data but performs
+                    less effectively on unseen observations.
                 </p>
 
+                <p>
+                    The Random Forest model achieved a training
+                    F1-score of 84.95% and a final testing
+                    F1-score of 64.60%.
+                </p>
+
+                <p>
+                    The difference of approximately 20.35
+                    percentage points suggests a possible
+                    overfitting problem. Additional evaluation
+                    with new data is necessary to understand
+                    the cause and its impact.
+                </p>
             </div>
 
             <div class="ev-card">
-
                 <h3>Generalization</h3>
 
                 <p>
-                    Generalization describes the model's
-                    ability to maintain predictive performance
-                    when analyzing observations that were
-                    not included during training.
-
-                    The testing subset provides an initial
-                    measure of this ability.
+                    Generalization describes the model's ability
+                    to maintain predictive performance when
+                    analyzing observations that were not included
+                    during training.
                 </p>
 
+                <p>
+                    The five-fold cross-validation produced
+                    a mean F1-score of 63.80% for Random Forest.
+                    Its independent test F1-score was 64.60%.
+                </p>
+
+                <p>
+                    These results provide initial evidence of
+                    similar performance between cross-validation
+                    and the independent test set. However,
+                    the difference between training and testing
+                    performance requires further attention.
+                </p>
             </div>
 
         </div>
 
         <div class="ev-note">
-
             <p>
                 <strong>Evaluation limitation:</strong>
-                Training metrics and cross-validation results
-                have not yet been calculated. Therefore,
-                overfitting and generalization require
-                additional verification.
+                The difference between training and testing
+                performance is a possible overfitting signal,
+                not definitive proof. Further testing with
+                additional operational data is recommended
+                before using the model in real industrial environments.
             </p>
-
         </div>
 
     </section>
 
-
-    <!-- 08. FINAL ASSESSMENT -->
+    <!-- 09. MODEL CONFIGURATION -->
 
     <section class="ev-section">
 
-        <h2 class="ev-section-title">08. Final Model Assessment</h2>
+        <h2 class="ev-section-title">09. Model Configuration and Reproducibility</h2>
 
         <div class="ev-card">
-
-            <h3>Model Selection and Reliability</h3>
+            <h3>Selected Random Forest Configuration</h3>
 
             <p>
-                The Random Forest classifier achieved
-                promising results on the testing dataset,
-                with 97.15% Accuracy and 96.58% ROC-AUC.
-
-                The model identified 52 of the 68 actual
-                machine failures. However, 16 failures
-                remained undetected and 41 false positive
-                predictions were generated.
-
-                These results demonstrate the model's
-                potential for predictive maintenance,
-                while also highlighting the importance
-                of improving failure detection and
-                reducing false alarms.
-
-                The model should be considered a decision
-                support tool rather than a replacement
-                for professional maintenance inspections.
+                The selected model was implemented using a
+                preprocessing and classification pipeline.
+                The pipeline applies OneHotEncoder to categorical
+                variables and StandardScaler to numerical variables.
             </p>
 
+            <div class="ev-table-wrapper">
+                <table class="ev-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Configuration</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Algorithm</td>
+                            <td>RandomForestClassifier</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of estimators</td>
+                            <td>200</td>
+                        </tr>
+
+                        <tr>
+                            <td>Maximum depth</td>
+                            <td>12</td>
+                        </tr>
+
+                        <tr>
+                            <td>Minimum samples split</td>
+                            <td>5</td>
+                        </tr>
+
+                        <tr>
+                            <td>Class weight</td>
+                            <td>balanced</td>
+                        </tr>
+
+                        <tr>
+                            <td>Random state</td>
+                            <td>42</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of jobs</td>
+                            <td>-1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="margin-top:14px;">
+                The configuration was defined in the training
+                script. The models were compared using these
+                specified configurations.
+            </p>
         </div>
 
         <div class="ev-note">
-
             <p>
-                <strong>Additional evidence:</strong>
-                The project instructions also request model
-                comparison, cross-validation where applicable,
-                and feedback from someone with industrial
-                maintenance knowledge. These elements must
-                be documented only after they have actually
-                been performed.
+                <strong>Experiment limitation:</strong>
+                The current implementation uses predefined
+                model parameters. Automated hyperparameter
+                optimization with GridSearchCV or RandomizedSearchCV
+                was not performed. This can be considered
+                in future model improvement experiments.
             </p>
-
         </div>
 
     </section>
 
+    <!-- 10. DOMAIN VALIDATION -->
 
-    <!-- CONCLUSION -->
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">10. Domain Validation and Practical Limitations</h2>
+
+        <div class="ev-card">
+            <h3>Industrial Relevance</h3>
+
+            <p>
+                The model is intended to support predictive
+                maintenance by identifying patterns associated
+                with possible equipment failures.
+            </p>
+
+            <p>
+                Its predictions should be interpreted as
+                decision-support information. They do not
+                replace professional inspections, maintenance
+                procedures, or technical diagnosis.
+            </p>
+
+            <p>
+                The AI4I 2020 dataset used in this project is
+                a simulated dataset. Therefore, the reported
+                results should not be interpreted as proof
+                of equivalent performance in a real industrial plant.
+            </p>
+        </div>
+
+        <div class="ev-card">
+            <h3>Domain Expert Feedback</h3>
+
+            <p>
+                Feedback from a person with industrial
+                maintenance knowledge has not yet been collected.
+                This remains a pending validation activity.
+            </p>
+
+            <p>
+                A future consultation should review the relevance
+                of the selected variables, the interpretation
+                of predicted failures, the consequences of
+                false alarms, and the practical usefulness
+                of the model's outputs.
+            </p>
+        </div>
+
+        <div class="ev-note">
+            <p>
+                <strong>Validation status:</strong>
+                Quantitative model evaluation has been completed
+                using the available dataset. Independent validation
+                with real operational data and feedback from an
+                industrial domain expert remain pending.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- 11. FINAL MODEL ASSESSMENT -->
+
+    <section class="ev-section">
+
+        <h2 class="ev-section-title">11. Final Model Assessment</h2>
+
+        <div class="ev-card">
+            <h3>Model Selection and Reliability</h3>
+
+            <p>
+                Three algorithms were compared using stratified
+                five-fold cross-validation. Random Forest was
+                selected because it achieved the highest mean
+                F1-score of 63.80%.
+            </p>
+
+            <p>
+                The selected model was then evaluated on an
+                independent test subset containing 2,000 observations.
+                It achieved 97.15% Accuracy, 55.91% Precision,
+                76.47% Recall, 64.60% F1-score, and 96.56% ROC-AUC.
+            </p>
+
+            <p>
+                The model identified 52 of the 68 actual
+                machine failures. However, 16 failures remained
+                undetected and 41 false positive predictions
+                were generated.
+            </p>
+
+            <p>
+                These results demonstrate the model's potential
+                for predictive maintenance while highlighting
+                the importance of improving failure detection
+                and reducing false alarms.
+            </p>
+
+            <p>
+                The model should be considered a decision-support
+                tool rather than a replacement for professional
+                maintenance inspections.
+            </p>
+        </div>
+
+        <div class="ev-highlight">
+            <h3>Recommendations for Improvement</h3>
+
+            <ul class="ev-list">
+                <li>Evaluate the model using additional real-world operational data.</li>
+                <li>Investigate methods to reduce false negatives and false positive alerts.</li>
+                <li>Review classification thresholds according to maintenance requirements and operational costs.</li>
+                <li>Perform additional experiments with hyperparameter optimization.</li>
+                <li>Collect feedback from industrial maintenance specialists.</li>
+                <li>Monitor model performance after deployment and retrain when justified by new evidence.</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <!-- PHASE CONCLUSION -->
 
     <section class="ev-section">
 
         <div class="ev-highlight">
-
             <h3>Phase Conclusion</h3>
 
             <p>
-                The Model Evaluation stage measured the
-                predictive performance of the Random Forest
-                classifier using 2,000 testing observations.
+                The Model Evaluation stage compared three
+                classification algorithms using stratified
+                five-fold cross-validation.
+            </p>
 
-                The model achieved 97.15% Accuracy,
+            <p>
+                Random Forest was selected because it achieved
+                the highest mean cross-validation F1-score
+                of 63.80%. The final model was evaluated using
+                2,000 independent testing observations.
+            </p>
+
+            <p>
+                The final results were 97.15% Accuracy,
                 55.91% Precision, 76.47% Recall,
-                64.60% F1-score, and 96.58% ROC-AUC.
+                64.60% F1-score, and 96.56% ROC-AUC.
+            </p>
 
+            <p>
                 The confusion matrix and ROC curve provide
                 visual evidence of the evaluation results.
+                The comparison of training and testing
+                performance also identified a possible
+                overfitting limitation.
+            </p>
 
-                Although the model demonstrates promising
-                classification ability, false negatives
-                and false positives remain important
-                considerations for predictive maintenance.
+            <p>
+                Although the selected model demonstrates
+                promising classification ability, false
+                negatives, false positives, class imbalance,
+                and the use of simulated data remain important
+                considerations.
+            </p>
 
+            <p>
                 The next stage, Model Deployment, focuses
                 on integrating the evaluated model into
                 the Flask application and making its
-                prediction functionality available
-                to users.
+                prediction functionality available to users.
             </p>
 
         </div>
 
     </section>
-
-
-    <!-- FOOTER -->
-
-    <div class="ev-phase-footer">
-
-        Predictive Maintenance System · CRISP-ML Methodology
-
-        <br>
-
-        Model Evaluation · Random Forest Classifier · AI4I 2020 Dataset
-
-    </div>
-
-</div>
 
 {% endblock %}

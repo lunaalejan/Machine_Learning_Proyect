@@ -1,0 +1,24 @@
+{
+    "selected_model": "Random Forest",
+    "selection_criterion": "Highest mean cross-validation F1-score",
+    "training_records": 8000,
+    "testing_records": 2000,
+    "cross_validation_folds": 5,
+    "training_accuracy": 0.988,
+    "training_f1": 0.8495297805642633,
+    "test_accuracy": 0.9715,
+    "test_precision": 0.5591397849462365,
+    "test_recall": 0.7647058823529411,
+    "test_f1": 0.6459627329192547,
+    "test_roc_auc": 0.9656329923273658,
+    "confusion_matrix": [
+        [
+            1891,
+            41
+        ],
+        [
+            16,
+            52
+        ]
+    ]
+}

@@ -1,7 +1,7 @@
 
 {% extends "base.html" %}
 
-{% block title %}Data Preparation | Predictive Maintenance{% endblock %}
+{% block title %}Data Engineering | Predictive Maintenance{% endblock %}
 
 {% block content %}
 
@@ -47,7 +47,7 @@
     color: #837365;
     font-size: 14px;
     line-height: 1.8;
-    max-width: 850px;
+    max-width: 900px;
     margin: 0;
 }
 
@@ -82,7 +82,11 @@
     color: #76685c;
     font-size: 13px;
     line-height: 1.85;
-    margin: 0;
+    margin: 0 0 12px;
+}
+
+.dp-card p:last-child {
+    margin-bottom: 0;
 }
 
 .dp-grid {
@@ -93,9 +97,9 @@
 
 .dp-stat-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 15px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .dp-stat {
@@ -134,6 +138,7 @@
 
 .dp-table-wrapper {
     overflow-x: auto;
+    margin-top: 15px;
 }
 
 .dp-table {
@@ -210,46 +215,6 @@
     line-height: 1.7;
 }
 
-.dp-phase-footer {
-    border-top: 1px solid #e7dcd0;
-    margin-top: 35px;
-    padding-top: 23px;
-    color: #9a8878;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-/* DATASET VISUAL METRICS */
-
-.dp-visual-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.dp-visual-stat {
-    background: #fffdf9;
-    border: 1px solid #e9ded2;
-    border-radius: 13px;
-    padding: 20px 15px;
-    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.035);
-}
-
-.dp-visual-stat strong {
-    display: block;
-    font-family: 'Libre Baskerville', serif;
-    color: #765638;
-    font-size: 25px;
-    margin-bottom: 8px;
-}
-
-.dp-visual-stat span {
-    color: #837365;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
 .dp-chart-row {
     margin: 22px 0;
 }
@@ -305,14 +270,16 @@
 
 .dp-quality-item strong {
     color: #557665;
-    font-size: 15px;
+    font-size: 14px;
 }
 
-.dp-chart-caption {
+.dp-phase-footer {
+    border-top: 1px solid #e7dcd0;
+    margin-top: 35px;
+    padding-top: 23px;
     color: #9a8878;
-    font-size: 11px;
-    line-height: 1.7;
-    margin-top: 14px !important;
+    font-size: 12px;
+    line-height: 1.8;
 }
 
 @media (max-width: 700px) {
@@ -330,15 +297,11 @@
     }
 
     .dp-stat-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .dp-card {
         padding: 19px;
-    }
-
-    .dp-visual-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .dp-chart-label {
@@ -350,157 +313,124 @@
 
 <div class="dp-container">
 
-    <!-- HEADER -->
-
     <header class="dp-header">
-
         <span class="dp-label">CRISP-ML · PHASE 02</span>
-
         <h1>Data Engineering</h1>
-
         <p>
-            This stage describes the processes required to transform
-            the AI4I 2020 dataset into a suitable format for Machine
-            Learning. It covers data loading, cleaning, feature
-            selection, transformation, target preparation, and
-            dataset partitioning.
+            This phase explains how the AI4I 2020 dataset is prepared
+            for predictive modeling. It covers data inspection,
+            quality assessment, feature selection, preprocessing,
+            target preparation, data partitioning, and leakage prevention.
         </p>
-
     </header>
 
     <!-- 01. OVERVIEW -->
-
     <section class="dp-section">
-
         <h2 class="dp-section-title">01. Data Preparation Overview</h2>
 
         <div class="dp-card">
-
-            <h3>Purpose of Data Preparation</h3>
-
+            <h3>Purpose of Data Engineering</h3>
             <p>
-                Data preparation is a fundamental stage in the
-                development of the Predictive Maintenance System.
-                Its purpose is to organize and transform the
-                information collected in the AI4I 2020 dataset
-                before using it to train the predictive model.
-
-                This process helps ensure that the input variables
-                have the appropriate structure and format, while
-                reducing the possibility of errors and information
-                leakage during model development.
+                Data Engineering prepares the original dataset so that
+                its variables can be used consistently by Machine Learning
+                algorithms.
             </p>
-
+            <p>
+                The process includes inspecting data quality, selecting
+                relevant variables, encoding categorical data, scaling
+                numerical measurements, preparing the target variable,
+                and separating the data for model development and
+                independent evaluation.
+            </p>
         </div>
 
         <div class="dp-highlight">
-
             <h3>Preparation Objective</h3>
-
             <p>
-                Obtain a consistent dataset containing the relevant
-                machine operating variables and the target variable
-                Machine failure, ready for model training and
-                performance evaluation.
+                Create a consistent input dataset containing relevant
+                machine operating variables and the Machine failure
+                target, while ensuring that preprocessing is fitted
+                without using information from the independent test set.
             </p>
-
         </div>
-
     </section>
 
     <!-- 02. DATA LOADING -->
-
     <section class="dp-section">
-
-        <h2 class="dp-section-title">02. Data Loading</h2>
+        <h2 class="dp-section-title">02. Data Loading and Initial Inspection</h2>
 
         <div class="dp-card">
-
             <h3>Dataset Importation</h3>
-
             <p>
-                The AI4I 2020 dataset was loaded into the project's
-                Python environment using the Pandas library.
-                The CSV file contains machine operating measurements
-                and failure information used in the predictive
-                maintenance project.
+                The AI4I 2020 Predictive Maintenance dataset is stored
+                as a CSV file and loaded into the Python environment
+                using Pandas.
             </p>
 
             <div class="dp-code">import pandas as pd
 
-df = pd.read_csv("machine_learning/data/ai4i2020.csv")
+data = pd.read_csv(
+    "machine_learning/data/ai4i2020.csv"
+)
 
-print(df.head())
-print(df.shape)
-print(df.info())</div>
-
+print(data.shape)
+print(data.info())
+print(data.head())</div>
         </div>
 
         <div class="dp-card">
-
             <h3>Dataset Overview</h3>
-
             <p>
-                The initial inspection confirmed the following
-                dimensions and characteristics of the dataset.
+                The initial inspection identified the following
+                dataset dimensions and data quality characteristics.
             </p>
 
-            <div class="dp-visual-grid">
-
-                <div class="dp-visual-stat">
+            <div class="dp-stat-grid">
+                <div class="dp-stat">
                     <strong>10,000</strong>
                     <span>Total records</span>
                 </div>
 
-                <div class="dp-visual-stat">
+                <div class="dp-stat">
                     <strong>14</strong>
                     <span>Total columns</span>
                 </div>
 
-                <div class="dp-visual-stat">
+                <div class="dp-stat">
                     <strong>0</strong>
-                    <span>Missing values</span>
+                    <span>Missing values detected</span>
                 </div>
 
-                <div class="dp-visual-stat">
+                <div class="dp-stat">
                     <strong>0</strong>
-                    <span>Duplicate records</span>
+                    <span>Duplicate records detected</span>
                 </div>
-
             </div>
 
+            <div class="dp-note">
+                <p>
+                    <strong>Initial inspection:</strong>
+                    The dataset contains 10,000 observations and
+                    14 columns. The initial data quality review
+                    reported no missing values or duplicate records.
+                </p>
+            </div>
         </div>
-
-        <div class="dp-note">
-            <p>
-                <strong>Initial inspection:</strong>
-                The dataset contains 10,000 observations and 14 columns.
-                All columns contain 10,000 non-null values.
-            </p>
-        </div>
-
     </section>
 
-    <!-- 03. DATA CLEANING -->
-
+    <!-- 03. DATA QUALITY -->
     <section class="dp-section">
-
-        <h2 class="dp-section-title">03. Data Cleaning</h2>
+        <h2 class="dp-section-title">03. Data Quality Assessment</h2>
 
         <div class="dp-card">
-
-            <h3>Data Quality and Consistency</h3>
-
+            <h3>Data Consistency Checks</h3>
             <p>
-                The dataset was inspected for missing values,
-                duplicated observations, data types, and numerical
-                characteristics before model training.
-                The inspection found no missing values and no
-                duplicated records.
+                The initial data review considered missing values,
+                duplicate records, variable types, and numerical
+                descriptive statistics.
             </p>
 
             <div class="dp-quality-grid">
-
                 <div class="dp-quality-item">
                     <span>Missing values</span>
                     <strong>0 detected</strong>
@@ -510,269 +440,342 @@ print(df.info())</div>
                     <span>Duplicate records</span>
                     <strong>0 detected</strong>
                 </div>
-
             </div>
 
-            <ul class="dp-list">
-                <li>All 14 columns contain 10,000 non-null values.</li>
-                <li>No duplicated records were identified.</li>
-                <li>Numerical and categorical data types were inspected.</li>
-                <li>No missing-value removal or duplicate removal was necessary.</li>
-            </ul>
+            <div class="dp-code"># Check missing values
+print(data.isnull().sum())
 
-            <div class="dp-code"># Missing values
-print(df.isnull().sum())
+# Check duplicate records
+print(data.duplicated().sum())
 
-# Duplicate records
-print(df.duplicated().sum())
+# Inspect variable types
+print(data.dtypes)
 
-# Data types
-print(df.dtypes)
+# Review numerical statistics
+print(data.describe())</div>
+        </div>
 
-# Descriptive statistics
-print(df.describe())</div>
+        <div class="dp-card">
+            <h3>Data Cleaning Results</h3>
+            <p>
+                The initial inspection found no missing values or
+                duplicated records. Therefore, no missing-value
+                imputation or duplicate-removal operation was required
+                based on these checks.
+            </p>
+            <p>
+                The selected variables were retained in their original
+                measurement units before the preprocessing pipeline
+                applied the transformations required by the models.
+            </p>
+        </div>
 
+        <div class="dp-card">
+            <h3>Outlier Analysis and Limitations</h3>
+            <p>
+                Numerical descriptive statistics were reviewed as part
+                of the initial data inspection. However, the current
+                training script does not implement a dedicated
+                statistical outlier detection or removal procedure.
+            </p>
+            <p>
+                Consequently, no claim is made that outliers were
+                removed or treated. A dedicated outlier analysis
+                could be added in a future version if justified by
+                operating context and domain knowledge.
+            </p>
         </div>
 
         <div class="dp-note">
             <p>
-                <strong>Data quality result:</strong>
-                The initial inspection found no missing values or
-                duplicate records. Therefore, no removal operation
-                was required for these two conditions.
+                <strong>Data quality limitation:</strong>
+                The absence of missing and duplicated records does not
+                independently guarantee that every measurement is
+                physically valid. Further validation against real
+                equipment operating ranges would be required before
+                production use.
             </p>
         </div>
-
     </section>
 
     <!-- 04. FEATURE SELECTION -->
-
     <section class="dp-section">
-
-        <h2 class="dp-section-title">04. Feature Selection</h2>
+        <h2 class="dp-section-title">04. Feature Selection and Engineering</h2>
 
         <div class="dp-card">
-
             <h3>Selection of Relevant Variables</h3>
-
             <p>
-                Feature selection consists of identifying the
-                variables that provide relevant information
-                for predicting machine failure.
-
-                The prediction module uses six input features
-                corresponding to machine type and operating
-                conditions. Identification fields and failure
-                mode indicators are not included as prediction
-                inputs in the described model interface.
+                Six original input features are used by the prediction
+                system. They represent machine type and operating
+                conditions. The target variable is Machine failure.
             </p>
 
-            <div class="dp-table-wrapper" style="margin-top: 18px;">
-
+            <div class="dp-table-wrapper">
                 <table class="dp-table">
-
                     <thead>
                         <tr>
                             <th>Variable</th>
                             <th>Role</th>
-                            <th>Reason</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
 
                     <tbody>
-
                         <tr>
                             <td>Type</td>
                             <td>Input feature</td>
-                            <td>Machine variant.</td>
+                            <td>Machine product quality category.</td>
                         </tr>
-
                         <tr>
                             <td>Air temperature [K]</td>
                             <td>Input feature</td>
-                            <td>Operating temperature.</td>
+                            <td>Air temperature measurement.</td>
                         </tr>
-
                         <tr>
                             <td>Process temperature [K]</td>
                             <td>Input feature</td>
-                            <td>Thermal operating condition.</td>
+                            <td>Process temperature measurement.</td>
                         </tr>
-
                         <tr>
                             <td>Rotational speed [rpm]</td>
                             <td>Input feature</td>
-                            <td>Machine rotational behavior.</td>
+                            <td>Machine rotational speed.</td>
                         </tr>
-
                         <tr>
                             <td>Torque [Nm]</td>
                             <td>Input feature</td>
-                            <td>Mechanical operating load.</td>
+                            <td>Mechanical torque measurement.</td>
                         </tr>
-
                         <tr>
                             <td>Tool wear [min]</td>
                             <td>Input feature</td>
                             <td>Accumulated tool wear.</td>
                         </tr>
-
                         <tr>
                             <td>Machine failure</td>
                             <td>Target</td>
-                            <td>Outcome to predict.</td>
+                            <td>Failure outcome to predict.</td>
                         </tr>
-
                     </tbody>
-
                 </table>
+            </div>
+        </div>
 
+        <div class="dp-card">
+            <h3>Excluded Variables</h3>
+            <p>
+                Identification columns and failure mode indicators
+                are excluded from the model input features. The training
+                script removes these columns before constructing the
+                feature matrix.
+            </p>
+
+            <div class="dp-table-wrapper">
+                <table class="dp-table">
+                    <thead>
+                        <tr>
+                            <th>Excluded variable</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UDI</td>
+                            <td>Record identification field.</td>
+                        </tr>
+                        <tr>
+                            <td>Product ID</td>
+                            <td>Product identification field.</td>
+                        </tr>
+                        <tr>
+                            <td>TWF</td>
+                            <td>Failure mode indicator.</td>
+                        </tr>
+                        <tr>
+                            <td>HDF</td>
+                            <td>Failure mode indicator.</td>
+                        </tr>
+                        <tr>
+                            <td>PWF</td>
+                            <td>Failure mode indicator.</td>
+                        </tr>
+                        <tr>
+                            <td>OSF</td>
+                            <td>Failure mode indicator.</td>
+                        </tr>
+                        <tr>
+                            <td>RNF</td>
+                            <td>Failure mode indicator.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
+            <div class="dp-code">target = "Machine failure"
+
+columns_to_remove = [
+    "UDI",
+    "Product ID",
+    "Machine failure",
+    "TWF",
+    "HDF",
+    "PWF",
+    "OSF",
+    "RNF"
+]
+
+X = data.drop(
+    columns=columns_to_remove,
+    errors="ignore"
+)
+
+y = data[target]</div>
+        </div>
+
+        <div class="dp-card">
+            <h3>Feature Engineering Decisions</h3>
+            <p>
+                The current implementation does not create additional
+                mathematical variables, interaction terms, or derived
+                operating indicators. Instead, it uses the six selected
+                original features and applies the preprocessing
+                transformations required by the machine learning models.
+            </p>
+            <p>
+                This approach keeps the input structure consistent
+                with the prediction interface, which receives the
+                same six variables.
+            </p>
         </div>
 
         <div class="dp-note">
-
             <p>
                 <strong>Information leakage prevention:</strong>
-                Failure mode indicators such as TWF, HDF, PWF,
-                OSF, and RNF are not used as input features in
-                the prediction interface. These variables describe
-                failure information and could reveal information
-                about the target if included improperly.
+                Failure mode indicators are not used as input features
+                because they describe failure-related outcomes. Excluding
+                them helps prevent the model from receiving information
+                that would not be appropriate as a prediction input.
             </p>
-
         </div>
-
     </section>
 
     <!-- 05. TRANSFORMATION -->
-
     <section class="dp-section">
-
-        <h2 class="dp-section-title">05. Data Transformation</h2>
+        <h2 class="dp-section-title">05. Data Transformation and Preprocessing</h2>
 
         <div class="dp-card">
-
-            <h3>Preparing Variables for the Model</h3>
-
+            <h3>Categorical Feature Encoding</h3>
             <p>
-                Data transformation involves adapting the selected
-                variables to the format expected by the Machine
-                Learning algorithm.
-
-                The machine Type variable is categorical and
-                requires an appropriate numerical representation
-                if the selected model implementation expects
-                numerical inputs. The remaining operating
-                measurements are numerical variables.
+                The Type variable is categorical. The training pipeline
+                applies OneHotEncoder with handle_unknown="ignore"
+                to represent its categories numerically.
+            </p>
+            <p>
+                This configuration allows the transformation to
+                handle categories that were not observed during
+                fitting without raising an encoding error.
             </p>
 
-            <ul class="dp-list">
+            <div class="dp-code">OneHotEncoder(
+    handle_unknown="ignore"
+)</div>
+        </div>
 
-                <li>
-                    Verify that numerical measurements use
-                    appropriate numeric data types.
-                </li>
+        <div class="dp-card">
+            <h3>Numerical Feature Scaling</h3>
+            <p>
+                Numerical operating measurements are processed
+                using StandardScaler. This transformation standardizes
+                numerical features based on the mean and standard
+                deviation learned from the training data.
+            </p>
 
-                <li>
-                    Encode the categorical Type variable using
-                    the same method applied during model training.
-                </li>
+            <div class="dp-code">StandardScaler()</div>
+        </div>
 
-                <li>
-                    Preserve the original measurement units.
-                </li>
+        <div class="dp-card">
+            <h3>ColumnTransformer and Pipeline</h3>
+            <p>
+                A ColumnTransformer applies the appropriate
+                transformation to categorical and numerical variables.
+                Both transformations are integrated with the classifier
+                in a single Scikit-learn Pipeline.
+            </p>
 
-                <li>
-                    Apply the same transformations to training
-                    data and future prediction inputs.
-                </li>
+            <div class="dp-code">preprocessor = ColumnTransformer(
+    transformers=[
+        (
+            "categorical",
+            OneHotEncoder(handle_unknown="ignore"),
+            categorical_features
+        ),
+        (
+            "numerical",
+            StandardScaler(),
+            numerical_features
+        )
+    ]
+)
 
-            </ul>
-
+pipeline = Pipeline(
+    steps=[
+        ("preprocessor", preprocessor),
+        ("classifier", classifier)
+    ]
+)</div>
         </div>
 
         <div class="dp-note">
-
             <p>
-                <strong>Consistency requirement:</strong>
-                The transformation used during training must be
-                reproduced in the prediction module. Do not
-                introduce scaling, encoding, or other transformations
-                unless they are part of the actual training pipeline.
+                <strong>Why use a Pipeline?</strong>
+                The preprocessing steps and classifier are managed
+                together. During training and cross-validation,
+                transformations are fitted within each training
+                partition. This helps prevent information leakage
+                from validation or test observations.
             </p>
-
         </div>
-
     </section>
 
-    <!-- 06. TARGET PREPARATION -->
-
+    <!-- 06. TARGET -->
     <section class="dp-section">
-
         <h2 class="dp-section-title">06. Target Variable Preparation</h2>
 
         <div class="dp-card">
-
             <h3>Machine Failure Classification</h3>
-
             <p>
-                The target variable selected for the predictive
-                model is Machine failure. It represents whether
-                a machine failure occurred in each observation.
-
-                The task is formulated as binary classification,
-                with two possible outcomes: failure and non-failure.
+                The target variable is Machine failure. The prediction
+                task is defined as binary classification, with two
+                possible outcomes: no machine failure (0) and
+                machine failure (1).
             </p>
 
-            <!-- NO FAILURE -->
-
             <div class="dp-chart-row">
-
                 <div class="dp-chart-label">
                     <span>No machine failure (0)</span>
                     <strong>96.61% · 9,661 records</strong>
                 </div>
-
                 <div class="dp-progress">
-
                     <div class="dp-progress-fill"
                          style="width: 96.61%; background: #668879;">
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- FAILURE -->
-
             <div class="dp-chart-row">
-
                 <div class="dp-chart-label">
                     <span>Machine failure (1)</span>
                     <strong>3.39% · 339 records</strong>
                 </div>
-
                 <div class="dp-progress">
-
                     <div class="dp-progress-fill"
                          style="width: 3.39%; background: #c58b55;">
                     </div>
-
                 </div>
-
             </div>
 
-            <p class="dp-chart-caption">
-                Target distribution based on all 10,000 observations
-                in the AI4I 2020 dataset.
-            </p>
-
-            <div class="dp-table-wrapper" style="margin-top: 18px;">
-
+            <div class="dp-table-wrapper">
                 <table class="dp-table">
-
                     <thead>
                         <tr>
                             <th>Target value</th>
@@ -781,169 +784,324 @@ print(df.describe())</div>
                             <th>Percentage</th>
                         </tr>
                     </thead>
-
                     <tbody>
-
                         <tr>
                             <td>0</td>
                             <td>No Failure</td>
                             <td>9,661</td>
                             <td>96.61%</td>
                         </tr>
-
                         <tr>
                             <td>1</td>
                             <td>Failure</td>
                             <td>339</td>
                             <td>3.39%</td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
 
         <div class="dp-note">
-
             <p>
                 <strong>Class imbalance:</strong>
-                The dataset contains considerably more non-failure
-                observations than failure observations. This
-                imbalance must be considered during model training
-                and evaluation. Accuracy alone is not sufficient
-                to assess failure detection performance.
+                The dataset contains substantially more non-failure
+                observations than failure observations. This imbalance
+                is considered during model development. The three
+                classifiers use class_weight="balanced", and evaluation
+                includes Precision, Recall, F1-score, and ROC-AUC rather
+                than relying on accuracy alone.
             </p>
-
         </div>
-
     </section>
 
-    <!-- 07. TRAIN TEST SPLIT -->
-
+    <!-- 07. DATA PARTITIONING -->
     <section class="dp-section">
-
         <h2 class="dp-section-title">07. Training and Testing Split</h2>
 
         <div class="dp-card">
-
             <h3>Dataset Partitioning</h3>
-
             <p>
-                The dataset was divided into separate subsets
-                to evaluate how well the model performs on
-                observations that were not used during training.
-
-                The training subset is used to fit the model,
-                while the testing subset is reserved for the
-                final evaluation of predictive performance.
+                The dataset is divided into training and testing
+                subsets before model fitting. The training subset
+                is used for model development, while the testing
+                subset is reserved for final independent performance
+                evaluation.
             </p>
 
-            <ul class="dp-list">
-
-                <li>
-                    Training set: 8,000 observations (80%).
-                </li>
-
-                <li>
-                    Testing set: 2,000 observations (20%).
-                </li>
-
-                <li>
-                    Stratification preserves the target class
-                    proportions in both subsets.
-                </li>
-
-                <li>
-                    Random state ensures reproducibility.
-                </li>
-
-            </ul>
-
-        </div>
-
-        <div class="dp-visual-grid">
-
-            <div class="dp-visual-stat">
-                <strong>8,000</strong>
-                <span>Training records · 80%</span>
+            <div class="dp-stat-grid">
+                <div class="dp-stat">
+                    <strong>8,000</strong>
+                    <span>Training records · 80%</span>
+                </div>
+                <div class="dp-stat">
+                    <strong>2,000</strong>
+                    <span>Testing records · 20%</span>
+                </div>
+                <div class="dp-stat">
+                    <strong>42</strong>
+                    <span>Random state</span>
+                </div>
+                <div class="dp-stat">
+                    <strong>Yes</strong>
+                    <span>Stratified split</span>
+                </div>
             </div>
 
-            <div class="dp-visual-stat">
-                <strong>2,000</strong>
-                <span>Testing records · 20%</span>
-            </div>
-
-            <div class="dp-visual-stat">
-                <strong>42</strong>
-                <span>Random state</span>
-            </div>
-
-            <div class="dp-visual-stat">
-                <strong>Yes</strong>
-                <span>Stratified split</span>
-            </div>
-
-        </div>
-
-        <div class="dp-note">
-
-            <p>
-                <strong>Partitioning configuration:</strong>
-                The dataset was divided using an 80/20 split,
-                test_size=0.20, random_state=42, and stratify=y.
-                This preserves the target class proportions in
-                the training and testing subsets.
-            </p>
-
-        </div>
-
-        <div class="dp-code">X_train, X_test, y_train, y_test = train_test_split(
+            <div class="dp-code">X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
     test_size=0.20,
     random_state=42,
     stratify=y
 )</div>
+        </div>
 
+        <div class="dp-note">
+            <p>
+                <strong>Partitioning configuration:</strong>
+                The training script uses test_size=0.20,
+                random_state=42, and stratify=y. Stratification
+                preserves approximately the same target class
+                proportions in both subsets, and the random state
+                supports reproducibility.
+            </p>
+        </div>
     </section>
 
-    <!-- 08. SUMMARY -->
-
+    <!-- 08. CROSS VALIDATION -->
     <section class="dp-section">
+        <h2 class="dp-section-title">08. Cross-Validation Preparation</h2>
 
-        <h2 class="dp-section-title">08. Preparation Summary</h2>
+        <div class="dp-card">
+            <h3>Stratified K-Fold Configuration</h3>
+            <p>
+                After the training and testing split, the training
+                subset is used for five-fold stratified cross-validation.
+                This procedure evaluates model performance across
+                multiple training and validation partitions.
+            </p>
 
-        <div class="dp-highlight">
+            <div class="dp-stat-grid">
+                <div class="dp-stat">
+                    <strong>5</strong>
+                    <span>Cross-validation folds</span>
+                </div>
+                <div class="dp-stat">
+                    <strong>Yes</strong>
+                    <span>Shuffling enabled</span>
+                </div>
+                <div class="dp-stat">
+                    <strong>42</strong>
+                    <span>Random state</span>
+                </div>
+                <div class="dp-stat">
+                    <strong>F1</strong>
+                    <span>Model selection metric</span>
+                </div>
+            </div>
 
-            <h3>Stage Conclusion</h3>
+            <div class="dp-code">cv = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)</div>
 
             <p>
-                The Data Engineering stage defines the operations
-                required to convert the original AI4I 2020 dataset
-                into a suitable structure for predictive modeling.
+                The preprocessing pipeline is evaluated within each
+                fold. This means the encoder and scaler learn their
+                parameters from the corresponding training partition
+                rather than from the complete dataset.
+            </p>
+        </div>
 
-                It establishes the input features, target variable,
-                data quality checks, transformation requirements,
-                and training and testing partitioning strategy.
+        <div class="dp-note">
+            <p>
+                <strong>Important distinction:</strong>
+                Cross-validation is performed on the training subset.
+                The independent test subset is not used during this
+                process and remains reserved for the final evaluation.
+            </p>
+        </div>
+    </section>
 
-                The initial inspection confirmed that the dataset
-                contains 10,000 observations and 14 columns, with
-                no missing values or duplicate records.
+    <!-- 09. LEAKAGE PREVENTION -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">09. Preprocessing and Leakage Prevention</h2>
 
-                The target variable presents an imbalanced
-                distribution, with 96.61% non-failure observations
-                and 3.39% failure observations.
+        <div class="dp-card">
+            <h3>Training-Only Preprocessing</h3>
+            <p>
+                The preprocessing transformations are included inside
+                the model Pipeline. When the pipeline is fitted,
+                OneHotEncoder and StandardScaler learn their
+                transformation parameters from the data supplied
+                to the fitting process.
+            </p>
+            <p>
+                During cross-validation, Scikit-learn evaluates
+                separate pipeline instances across the training
+                folds. For final model fitting, the pipeline is
+                fitted using X_train and y_train. The independent
+                X_test subset is used only after training for
+                final evaluation.
+            </p>
 
-                The prepared data is used in the next stage:
-                Model Engineering, where the classification
-                algorithm is developed and trained.
+            <div class="dp-code"># Fit the selected pipeline on training data
+pipeline.fit(X_train, y_train)
+
+# Evaluate on the independent test data
+predictions = pipeline.predict(X_test)</div>
+        </div>
+
+        <div class="dp-highlight">
+            <h3>Data Leakage Control</h3>
+            <p>
+                The test subset is not used to fit preprocessing
+                transformations or train the final model. Keeping
+                preprocessing inside the Pipeline provides a
+                consistent and reproducible workflow and helps
+                reduce the risk of data leakage.
+            </p>
+        </div>
+    </section>
+
+    <!-- 10. BEFORE AND AFTER -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">10. Transformation Summary: Before and After</h2>
+
+        <div class="dp-card">
+            <h3>Original Data and Prepared Model Inputs</h3>
+            <p>
+                The following table documents the transformation
+                applied to each data element before it is passed
+                to the machine learning classifier.
+            </p>
+
+            <div class="dp-table-wrapper">
+                <table class="dp-table">
+                    <thead>
+                        <tr>
+                            <th>Data element</th>
+                            <th>Before preparation</th>
+                            <th>Preparation method</th>
+                            <th>After preparation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Type</td>
+                            <td>Categorical values</td>
+                            <td>OneHotEncoder</td>
+                            <td>Numerical encoded representation</td>
+                        </tr>
+                        <tr>
+                            <td>Temperature measurements</td>
+                            <td>Numerical values in Kelvin</td>
+                            <td>StandardScaler</td>
+                            <td>Standardized numerical values</td>
+                        </tr>
+                        <tr>
+                            <td>Rotational speed</td>
+                            <td>Numerical values in rpm</td>
+                            <td>StandardScaler</td>
+                            <td>Standardized numerical values</td>
+                        </tr>
+                        <tr>
+                            <td>Torque</td>
+                            <td>Numerical values in Nm</td>
+                            <td>StandardScaler</td>
+                            <td>Standardized numerical values</td>
+                        </tr>
+                        <tr>
+                            <td>Tool wear</td>
+                            <td>Numerical values in minutes</td>
+                            <td>StandardScaler</td>
+                            <td>Standardized numerical values</td>
+                        </tr>
+                        <tr>
+                            <td>Machine failure</td>
+                            <td>Binary target</td>
+                            <td>Target separation</td>
+                            <td>Classification outcome (0 or 1)</td>
+                        </tr>
+                        <tr>
+                            <td>Identification and failure indicators</td>
+                            <td>Original dataset columns</td>
+                            <td>Column exclusion</td>
+                            <td>Not included as model inputs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="dp-note">
+                <p>
+                    <strong>Evidence clarification:</strong>
+                    This table documents the transformations defined
+                    in the training pipeline. The current script does
+                    not generate a separate before-and-after comparison
+                    report or save a transformed dataset file. The
+                    transformed representations are produced internally
+                    by the pipeline during model training and prediction.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. SUMMARY -->
+    <section class="dp-section">
+        <h2 class="dp-section-title">11. Data Engineering Summary</h2>
+
+        <div class="dp-highlight">
+            <h3>Phase Conclusion</h3>
+
+            <p>
+                The Data Engineering phase established the preparation
+                workflow for the AI4I 2020 dataset. The process includes
+                data inspection, feature selection, categorical encoding,
+                numerical scaling, target preparation, and an 80/20
+                stratified partition.
+            </p>
+
+            <p style="margin-top: 12px;">
+                The training implementation uses ColumnTransformer
+                and Pipeline to apply OneHotEncoder and StandardScaler
+                consistently. These transformations are fitted within
+                the training process, helping prevent information
+                leakage into validation and test data.
+            </p>
+
+            <p style="margin-top: 12px;">
+                Five-fold Stratified K-Fold cross-validation is applied
+                to the training subset to compare model performance.
+                The independent test subset remains reserved for
+                final evaluation.
+            </p>
+
+            <p style="margin-top: 12px;">
+                The dataset contains 10,000 observations, with
+                9,661 non-failure records and 339 failure records.
+                Its class imbalance is considered during model
+                development and evaluation.
+            </p>
+
+            <p style="margin-top: 12px;">
+                No additional derived features, dedicated outlier
+                treatment procedure, or separate before-and-after
+                transformation report have been implemented in the
+                current training script. These are identified as
+                possible future improvements.
+            </p>
+
+            <p style="margin-top: 12px;">
+                The prepared data and preprocessing pipeline provide
+                the foundation for the next phase:
+                Model Engineering.
             </p>
 
         </div>
 
-    
+    </section>
 
 {% endblock %}

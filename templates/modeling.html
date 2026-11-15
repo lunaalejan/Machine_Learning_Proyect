@@ -12,8 +12,9 @@
     font-family: 'Inter', sans-serif;
     color: #49382d;
     max-width: 1200px;
+    width: calc(100% - 48px);
     margin: 0 auto;
-    padding: 35px 25px 60px;
+    padding: 35px 0 60px;
 }
 
 .mo-header {
@@ -47,12 +48,12 @@
     color: #837365;
     font-size: 14px;
     line-height: 1.8;
-    max-width: 850px;
+    max-width: 900px;
     margin: 0;
 }
 
 .mo-section {
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 }
 
 .mo-section-title {
@@ -60,6 +61,7 @@
     font-size: 20px;
     color: #624a37;
     margin-bottom: 17px;
+    line-height: 1.5;
 }
 
 .mo-card {
@@ -82,7 +84,11 @@
     color: #76685c;
     font-size: 13px;
     line-height: 1.85;
-    margin: 0;
+    margin: 0 0 12px;
+}
+
+.mo-card p:last-child {
+    margin-bottom: 0;
 }
 
 .mo-grid {
@@ -127,6 +133,7 @@
 .mo-table-wrapper {
     width: 100%;
     overflow-x: auto;
+    margin-top: 15px;
 }
 
 .mo-table {
@@ -135,6 +142,7 @@
     border-spacing: 0;
     font-size: 13px;
     background: #fffdf9;
+    min-width: 600px;
 }
 
 .mo-table th {
@@ -144,6 +152,7 @@
     padding: 14px;
     font-weight: 700;
     border: none;
+    white-space: nowrap;
 }
 
 .mo-table td {
@@ -164,6 +173,7 @@
     border: 1px solid #e4d4c3;
     border-radius: 12px;
     padding: 23px;
+    margin-bottom: 18px;
 }
 
 .mo-highlight h3 {
@@ -177,7 +187,11 @@
     color: #76685c;
     font-size: 13px;
     line-height: 1.85;
-    margin: 0;
+    margin: 0 0 12px;
+}
+
+.mo-highlight p:last-child {
+    margin-bottom: 0;
 }
 
 .mo-note {
@@ -272,6 +286,7 @@
     color: #76685c;
     font-size: 12px;
     line-height: 1.7;
+    margin: 0;
 }
 
 .mo-phase-footer {
@@ -285,7 +300,8 @@
 
 @media (max-width: 700px) {
     .mo-container {
-        padding: 25px 15px 40px;
+        width: calc(100% - 30px);
+        padding: 25px 0 40px;
     }
 
     .mo-header h1 {
@@ -303,84 +319,81 @@
     .mo-card {
         padding: 19px;
     }
+
+    .mo-section-title {
+        font-size: 18px;
+    }
 }
 </style>
 
 <div class="mo-container">
 
     <!-- HEADER -->
-
     <header class="mo-header">
         <span class="mo-label">CRISP-ML · PHASE 03</span>
-
         <h1>Model Engineering</h1>
-
         <p>
-            This stage describes the development of the Machine
-            Learning model for the Predictive Maintenance System.
-            It covers the classification approach, algorithm
-            selection, preprocessing pipeline, training process,
-            hyperparameter configuration, validation, and
-            model serialization.
+            This phase describes the development of the Machine Learning
+            models for the Predictive Maintenance System. It covers
+            algorithm selection, model configuration, training,
+            preprocessing integration, cross-validation, experimental
+            comparison, model selection, and model serialization.
         </p>
     </header>
 
     <!-- 01. OVERVIEW -->
-
     <section class="mo-section">
         <h2 class="mo-section-title">01. Modeling Overview</h2>
 
         <div class="mo-card">
             <h3>Purpose of Model Engineering</h3>
-
             <p>
-                Model Engineering focuses on developing a Machine
-                Learning solution capable of identifying patterns
-                in industrial equipment operating data and using
-                those patterns to estimate the possibility of
-                machine failure.
-
-                The development process uses the prepared AI4I 2020
-                dataset and the selected input variables established
-                during the previous Data Engineering stage.
-
-                The objective is to build a classification model
-                that can be integrated into the Flask application
-                and generate predictions from equipment operating
-                conditions.
+                Model Engineering focuses on developing Machine Learning
+                solutions capable of identifying patterns in industrial
+                equipment operating data and estimating the probability
+                of machine failure.
+            </p>
+            <p>
+                The development process uses the AI4I 2020 dataset and
+                six selected input variables established during the
+                Data Engineering stage.
+            </p>
+            <p>
+                Three supervised classification algorithms were
+                implemented and compared to identify the most suitable
+                model for integration into the Flask application.
             </p>
         </div>
 
         <div class="mo-highlight">
             <h3>Modeling Objective</h3>
-
             <p>
-                Develop a supervised classification model that
-                learns from historical equipment observations
-                and predicts the binary target variable
-                Machine failure.
+                Develop, train, and compare supervised classification
+                models that learn from historical equipment observations
+                and predict the binary target variable Machine failure.
+                The selected model must provide a useful balance between
+                detecting failures and limiting false alarms.
             </p>
         </div>
     </section>
 
-    <!-- 02. ML APPROACH -->
-
+    <!-- 02. MACHINE LEARNING APPROACH -->
     <section class="mo-section">
         <h2 class="mo-section-title">02. Machine Learning Approach</h2>
 
         <div class="mo-card">
             <h3>Supervised Binary Classification</h3>
-
             <p>
                 The project uses supervised learning because the
                 AI4I 2020 dataset contains labeled observations.
                 Each observation includes operating measurements
                 and a corresponding machine failure indicator.
-
-                The model learns the relationship between input
-                variables and the target variable during training.
-                After learning these patterns, it can estimate
-                the failure class for new observations.
+            </p>
+            <p>
+                During training, the algorithms learn relationships
+                between the input variables and the target variable.
+                Once trained, the model can estimate the failure
+                probability for new equipment observations.
             </p>
 
             <ul class="mo-list">
@@ -389,89 +402,104 @@
                 <li><strong>Input:</strong> Machine operating conditions.</li>
                 <li><strong>Output:</strong> Failure or No Failure.</li>
                 <li><strong>Target:</strong> Machine failure.</li>
+                <li><strong>Dataset:</strong> AI4I 2020 Predictive Maintenance.</li>
             </ul>
+        </div>
+
+        <div class="mo-note">
+            <p>
+                <strong>Prediction scope:</strong>
+                The model estimates failure probability based on the
+                six available input features. It does not establish
+                the exact time when a failure will occur.
+            </p>
         </div>
     </section>
 
-    <!-- 03. MODEL SELECTION -->
-
+    <!-- 03. ALGORITHM SELECTION -->
     <section class="mo-section">
-        <h2 class="mo-section-title">03. Model Selection</h2>
+        <h2 class="mo-section-title">03. Algorithm Selection and Justification</h2>
 
         <div class="mo-card">
-            <h3>Selected Algorithm: Random Forest</h3>
-
+            <h3>Algorithms Evaluated</h3>
             <p>
-                Random Forest is the classification algorithm
-                implemented in the Predictive Maintenance System.
-
-                It is an ensemble learning method that combines
-                predictions from multiple decision trees to
-                produce a final classification.
-
-                This algorithm can model complex relationships
-                between numerical and categorical equipment
-                variables. It also supports class weighting,
-                which is useful when the target classes are
-                imbalanced.
+                Three classification algorithms were implemented
+                to compare their ability to identify equipment
+                failures. All models use the same training subset
+                and preprocessing strategy, allowing a consistent
+                comparison.
             </p>
         </div>
 
         <div class="mo-grid">
+            <div class="mo-model-card">
+                <h3>Logistic Regression</h3>
+                <p>
+                    A linear classification algorithm used as a
+                    baseline. It estimates the relationship between
+                    input variables and the probability of belonging
+                    to a failure class. It provides a reference
+                    against which more complex models can be compared.
+                </p>
+            </div>
 
             <div class="mo-model-card">
-                <h3>Decision Trees</h3>
+                <h3>Decision Tree</h3>
                 <p>
-                    Tree-based models divide observations
-                    according to variable conditions and
-                    generate predictions through a sequence
-                    of decision rules.
+                    A tree-based algorithm that divides observations
+                    according to feature conditions. It generates
+                    predictions through decision rules and can
+                    represent nonlinear relationships between
+                    operating measurements and failure outcomes.
                 </p>
             </div>
 
             <div class="mo-model-card">
                 <h3>Random Forest</h3>
                 <p>
-                    Random Forest combines multiple decision
-                    trees, helping reduce the instability
-                    associated with relying on a single tree.
-                    This is the algorithm implemented in
-                    the current project.
+                    An ensemble learning method that combines
+                    multiple decision trees. It can represent
+                    complex relationships and uses class weighting
+                    to account for the imbalance between failure
+                    and non-failure observations.
                 </p>
             </div>
 
+            <div class="mo-model-card">
+                <h3>Selection Strategy</h3>
+                <p>
+                    The three algorithms were compared using
+                    stratified five-fold cross-validation.
+                    The highest mean F1-score was selected as
+                    the primary model selection criterion.
+                </p>
+            </div>
         </div>
 
         <div class="mo-note">
             <p>
-                <strong>Model selection:</strong>
-                Random Forest is the implemented algorithm.
-                A comparison with other algorithms has not
-                been documented in the supplied training script.
-                Its performance is evaluated using the
-                independent testing subset.
+                <strong>Selection rationale:</strong>
+                Random Forest was selected because it achieved
+                the highest mean cross-validation F1-score among
+                the three evaluated algorithms.
             </p>
         </div>
     </section>
 
     <!-- 04. INPUT FEATURES -->
-
     <section class="mo-section">
         <h2 class="mo-section-title">04. Input Features and Target</h2>
 
         <div class="mo-card">
-            <h3>Variables Used by the Model</h3>
-
+            <h3>Variables Used by the Models</h3>
             <p>
-                The training script uses six input variables
-                describing the equipment type and its operating
-                conditions. The target variable represents
-                whether a failure occurred in the original
-                observation.
+                The training script uses six input variables describing
+                machine type and operating conditions. The target
+                variable represents whether a failure occurred in
+                the original observation.
             </p>
 
-            <div class="mo-table-wrapper" style="margin-top: 18px;">
-
+            <div class="mo-table-wrapper">
                 <table class="mo-table">
                     <thead>
                         <tr>
@@ -480,44 +508,37 @@
                             <th>Description</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
                             <td>Type</td>
                             <td>Input</td>
                             <td>Machine variant: L, M, or H.</td>
                         </tr>
-
                         <tr>
                             <td>Air temperature [K]</td>
                             <td>Input</td>
                             <td>Ambient temperature in Kelvin.</td>
                         </tr>
-
                         <tr>
                             <td>Process temperature [K]</td>
                             <td>Input</td>
                             <td>Process temperature in Kelvin.</td>
                         </tr>
-
                         <tr>
                             <td>Rotational speed [rpm]</td>
                             <td>Input</td>
-                            <td>Machine speed in rpm.</td>
+                            <td>Machine speed in revolutions per minute.</td>
                         </tr>
-
                         <tr>
                             <td>Torque [Nm]</td>
                             <td>Input</td>
-                            <td>Applied torque in Nm.</td>
+                            <td>Applied torque in Newton-meters.</td>
                         </tr>
-
                         <tr>
                             <td>Tool wear [min]</td>
                             <td>Input</td>
-                            <td>Accumulated wear in minutes.</td>
+                            <td>Accumulated tool wear in minutes.</td>
                         </tr>
-
                         <tr>
                             <td>Machine failure</td>
                             <td>Target</td>
@@ -525,7 +546,6 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
 
@@ -533,54 +553,47 @@
             <p>
                 <strong>Excluded variables:</strong>
                 UDI and Product ID are identification fields.
-                TWF, HDF, PWF, OSF, and RNF are failure-mode
-                indicators. They are excluded from the input
-                features to prevent the model from receiving
-                information that could reveal the target.
+                TWF, HDF, PWF, OSF, and RNF are failure-mode indicators.
+                These variables are excluded from the input features
+                to prevent the model from receiving information
+                that could reveal the target.
             </p>
         </div>
     </section>
 
     <!-- 05. TRAINING PROCESS -->
-
     <section class="mo-section">
         <h2 class="mo-section-title">05. Model Training Process</h2>
 
         <div class="mo-card">
             <h3>Actual Training Implementation</h3>
-
             <p>
                 The training procedure is implemented in
-                machine_learning/train_model.py. The script
-                loads the dataset, prepares the input features,
-                builds a preprocessing pipeline, separates
-                training and testing observations, trains
-                the Random Forest classifier, evaluates its
-                predictions, and saves the complete pipeline.
+                machine_learning/train_model.py. The script loads
+                the dataset, prepares input features, creates
+                preprocessing pipelines, compares classification
+                algorithms, performs cross-validation, selects
+                the best model, evaluates its predictions, and
+                saves the complete pipeline.
             </p>
 
             <div class="mo-stat-grid">
-
                 <div class="mo-stat">
                     <strong>10,000</strong>
                     <span>Total observations</span>
                 </div>
-
                 <div class="mo-stat">
                     <strong>6</strong>
                     <span>Input features</span>
                 </div>
-
                 <div class="mo-stat">
                     <strong>8,000</strong>
                     <span>Training records</span>
                 </div>
-
                 <div class="mo-stat">
                     <strong>2,000</strong>
                     <span>Testing records</span>
                 </div>
-
             </div>
         </div>
 
@@ -602,9 +615,8 @@
                 <div class="mo-step-content">
                     <strong>Select input features and target</strong>
                     <p>
-                        Exclude identifiers and failure-mode
-                        indicators. Define Machine failure
-                        as the target variable.
+                        Exclude identifiers and failure-mode indicators.
+                        Define Machine failure as the target variable.
                     </p>
                 </div>
             </div>
@@ -612,11 +624,10 @@
             <div class="mo-step">
                 <div class="mo-step-number">3</div>
                 <div class="mo-step-content">
-                    <strong>Configure preprocessing</strong>
+                    <strong>Split the dataset</strong>
                     <p>
-                        Apply OneHotEncoder to categorical
-                        features and passthrough to numerical
-                        features.
+                        Divide the observations into 80% training
+                        and 20% testing subsets using stratification.
                     </p>
                 </div>
             </div>
@@ -624,11 +635,11 @@
             <div class="mo-step">
                 <div class="mo-step-number">4</div>
                 <div class="mo-step-content">
-                    <strong>Split the dataset</strong>
+                    <strong>Configure preprocessing</strong>
                     <p>
-                        Divide the data into 80% training
-                        and 20% testing observations using
-                        stratification.
+                        Apply OneHotEncoder to categorical features
+                        and StandardScaler to numerical features
+                        inside a Scikit-learn Pipeline.
                     </p>
                 </div>
             </div>
@@ -636,10 +647,11 @@
             <div class="mo-step">
                 <div class="mo-step-number">5</div>
                 <div class="mo-step-content">
-                    <strong>Train Random Forest</strong>
+                    <strong>Compare classification algorithms</strong>
                     <p>
-                        Fit the preprocessing pipeline and
-                        classifier using the training data.
+                        Evaluate Logistic Regression, Decision Tree,
+                        and Random Forest using five-fold stratified
+                        cross-validation.
                     </p>
                 </div>
             </div>
@@ -647,23 +659,30 @@
             <div class="mo-step">
                 <div class="mo-step-number">6</div>
                 <div class="mo-step-content">
+                    <strong>Select and train the final model</strong>
+                    <p>
+                        Select the algorithm with the highest mean
+                        cross-validation F1-score and fit it using
+                        the complete training subset.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mo-step">
+                <div class="mo-step-number">7</div>
+                <div class="mo-step-content">
                     <strong>Evaluate and save</strong>
                     <p>
-                        Generate test predictions, calculate
-                        evaluation metrics, create visualizations,
-                        and serialize the trained pipeline.
+                        Generate test predictions, calculate evaluation
+                        metrics, create visualizations, and serialize
+                        the trained pipeline.
                     </p>
                 </div>
             </div>
         </div>
 
         <div class="mo-card">
-            <h3>Implementation Evidence: Dataset Split</h3>
-
-            <p>
-                The following configuration is taken directly
-                from train_model.py.
-            </p>
+            <h3>Dataset Split Configuration</h3>
 
             <div class="mo-code">X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -673,7 +692,7 @@
     stratify=y
 )</div>
 
-            <div class="mo-table-wrapper" style="margin-top: 18px;">
+            <div class="mo-table-wrapper">
                 <table class="mo-table">
                     <thead>
                         <tr>
@@ -681,33 +700,27 @@
                             <th>Implemented value</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
                             <td>test_size</td>
                             <td>0.20 (20%)</td>
                         </tr>
-
                         <tr>
                             <td>Training proportion</td>
                             <td>80%</td>
                         </tr>
-
                         <tr>
                             <td>random_state</td>
                             <td>42</td>
                         </tr>
-
                         <tr>
                             <td>stratify</td>
                             <td>y</td>
                         </tr>
-
                         <tr>
                             <td>Training observations</td>
                             <td>8,000</td>
                         </tr>
-
                         <tr>
                             <td>Testing observations</td>
                             <td>2,000</td>
@@ -720,31 +733,28 @@
         <div class="mo-note">
             <p>
                 <strong>Reproducibility:</strong>
-                The random state of 42 makes the partition
-                reproducible. Stratification preserves the
-                target class proportions in the training
-                and testing subsets.
+                The random state of 42 makes the partition reproducible.
+                Stratification preserves approximately the target
+                class proportions in the training and testing subsets.
             </p>
         </div>
     </section>
 
-    <!-- 06. PREPROCESSING AND HYPERPARAMETERS -->
-
+    <!-- 06. PREPROCESSING -->
     <section class="mo-section">
-        <h2 class="mo-section-title">06. Preprocessing and Hyperparameter Configuration</h2>
+        <h2 class="mo-section-title">06. Preprocessing and Pipeline Configuration</h2>
 
         <div class="mo-card">
             <h3>Data Preprocessing Pipeline</h3>
-
             <p>
-                The project uses a ColumnTransformer to apply
-                different preprocessing operations according
-                to the feature type. The categorical variable
-                Type is encoded, while numerical variables
-                are passed through without additional scaling.
+                The project uses a ColumnTransformer to apply different
+                preprocessing operations according to feature type.
+                The categorical variable Type is encoded using
+                OneHotEncoder, while numerical variables are
+                standardized using StandardScaler.
             </p>
 
-            <div class="mo-table-wrapper" style="margin-top: 18px;">
+            <div class="mo-table-wrapper">
                 <table class="mo-table">
                     <thead>
                         <tr>
@@ -753,18 +763,16 @@
                             <th>Configuration</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
                             <td>Categorical</td>
                             <td>OneHotEncoder</td>
                             <td>handle_unknown="ignore"</td>
                         </tr>
-
                         <tr>
                             <td>Numerical</td>
-                            <td>Passthrough</td>
-                            <td>Original numeric values</td>
+                            <td>StandardScaler</td>
+                            <td>Standardization of numerical features</td>
                         </tr>
                     </tbody>
                 </table>
@@ -779,7 +787,7 @@
         ),
         (
             "numerical",
-            "passthrough",
+            StandardScaler(),
             numerical_features
         )
     ]
@@ -788,44 +796,130 @@
 
         <div class="mo-card">
             <h3>Pipeline Implementation</h3>
-
             <p>
-                The preprocessing component and Random Forest
-                classifier are combined into a single Scikit-learn
-                Pipeline. This ensures that the transformations
-                are fitted using training data and consistently
-                applied to testing data and future predictions.
+                Each algorithm is combined with its preprocessing
+                component in a Scikit-learn Pipeline. This ensures
+                that preprocessing transformations are fitted
+                independently inside each training fold during
+                cross-validation and applied consistently to
+                testing observations.
             </p>
 
             <div class="mo-code">pipeline = Pipeline(
     steps=[
         ("preprocessor", preprocessor),
-        ("classifier", model)
+        ("classifier", classifier)
     ]
-)
+)</div>
+        </div>
 
-pipeline.fit(X_train, y_train)</div>
+        <div class="mo-note">
+            <p>
+                <strong>Data leakage prevention:</strong>
+                Because preprocessing is part of the Pipeline,
+                its transformations are fitted using the corresponding
+                training data. Validation and testing observations
+                are not used to fit preprocessing transformations.
+            </p>
+        </div>
+    </section>
 
-            <div class="mo-note">
-                <p>
-                    <strong>Data leakage prevention:</strong>
-                    Because preprocessing is part of the Pipeline,
-                    its fitting occurs during pipeline.fit()
-                    using X_train. The testing data is not used
-                    to fit the encoder.
-                </p>
+    <!-- 07. HYPERPARAMETERS -->
+    <section class="mo-section">
+        <h2 class="mo-section-title">07. Model Configuration and Hyperparameters</h2>
+
+        <div class="mo-card">
+            <h3>Logistic Regression Configuration</h3>
+
+            <div class="mo-table-wrapper">
+                <table class="mo-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>max_iter</td>
+                            <td>3000</td>
+                            <td>Maximum optimization iterations.</td>
+                        </tr>
+                        <tr>
+                            <td>class_weight</td>
+                            <td>balanced</td>
+                            <td>Adjusts class weights according to class frequency.</td>
+                        </tr>
+                        <tr>
+                            <td>random_state</td>
+                            <td>42</td>
+                            <td>Reproducibility.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
+            <div class="mo-code">LogisticRegression(
+    max_iter=3000,
+    class_weight="balanced",
+    random_state=42
+)</div>
         </div>
 
         <div class="mo-card">
-            <h3>Random Forest Hyperparameters</h3>
+            <h3>Decision Tree Configuration</h3>
 
+            <div class="mo-table-wrapper">
+                <table class="mo-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>max_depth</td>
+                            <td>12</td>
+                            <td>Maximum depth of the tree.</td>
+                        </tr>
+                        <tr>
+                            <td>min_samples_split</td>
+                            <td>5</td>
+                            <td>Minimum samples required to split a node.</td>
+                        </tr>
+                        <tr>
+                            <td>class_weight</td>
+                            <td>balanced</td>
+                            <td>Adjusts class weights according to class frequency.</td>
+                        </tr>
+                        <tr>
+                            <td>random_state</td>
+                            <td>42</td>
+                            <td>Reproducibility.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mo-code">DecisionTreeClassifier(
+    max_depth=12,
+    min_samples_split=5,
+    class_weight="balanced",
+    random_state=42
+)</div>
+        </div>
+
+        <div class="mo-card">
+            <h3>Random Forest Configuration</h3>
             <p>
-                The following values are the exact settings
-                implemented in the project's training script.
+                Random Forest was selected as the final model after
+                the cross-validation comparison.
             </p>
 
-            <div class="mo-table-wrapper" style="margin-top: 18px;">
+            <div class="mo-table-wrapper">
                 <table class="mo-table">
                     <thead>
                         <tr>
@@ -834,38 +928,32 @@ pipeline.fit(X_train, y_train)</div>
                             <th>Purpose</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
                             <td>n_estimators</td>
                             <td>200</td>
                             <td>Number of decision trees.</td>
                         </tr>
-
                         <tr>
                             <td>max_depth</td>
                             <td>12</td>
                             <td>Maximum depth of each tree.</td>
                         </tr>
-
                         <tr>
                             <td>min_samples_split</td>
                             <td>5</td>
                             <td>Minimum samples required to split a node.</td>
                         </tr>
-
                         <tr>
                             <td>class_weight</td>
                             <td>balanced</td>
                             <td>Adjusts class weights according to class frequency.</td>
                         </tr>
-
                         <tr>
                             <td>random_state</td>
                             <td>42</td>
                             <td>Reproducibility.</td>
                         </tr>
-
                         <tr>
                             <td>n_jobs</td>
                             <td>-1</td>
@@ -875,7 +963,7 @@ pipeline.fit(X_train, y_train)</div>
                 </table>
             </div>
 
-            <div class="mo-code">model = RandomForestClassifier(
+            <div class="mo-code">RandomForestClassifier(
     n_estimators=200,
     max_depth=12,
     min_samples_split=5,
@@ -887,96 +975,327 @@ pipeline.fit(X_train, y_train)</div>
 
         <div class="mo-note">
             <p>
-                <strong>Hyperparameter note:</strong>
-                These are the configured values in train_model.py.
-                The supplied script does not implement an automated
-                hyperparameter search or tuning procedure.
+                <strong>Hyperparameter optimization limitation:</strong>
+                The listed values are the configurations implemented
+                in the training script. The project does not currently
+                perform automated hyperparameter search using
+                GridSearchCV, RandomizedSearchCV, or another tuning
+                procedure. The comparison is therefore based on
+                the specified configurations.
             </p>
         </div>
     </section>
 
-    <!-- 07. VALIDATION -->
-
+    <!-- 08. MODEL EXPERIMENTS -->
     <section class="mo-section">
-        <h2 class="mo-section-title">07. Model Validation</h2>
+        <h2 class="mo-section-title">08. Model Experiments and Comparison</h2>
 
         <div class="mo-card">
-            <h3>Testing on Unseen Observations</h3>
-
+            <h3>Experimental Methodology</h3>
             <p>
-                After training, the model generates predictions
-                using the independent testing subset. These
-                predictions are compared with the actual target
-                values to measure classification performance.
-
-                The script calculates Accuracy, Precision,
-                Recall, F1-score, and ROC-AUC. It also generates
-                a confusion matrix and ROC curve.
+                The three algorithms were evaluated using stratified
+                five-fold cross-validation on the 8,000 training
+                observations. The following values represent the
+                mean scores across the five validation folds.
             </p>
 
-            <ul class="mo-list">
-                <li>Evaluate predictions on 2,000 testing observations.</li>
-                <li>Review correct and incorrect classifications.</li>
-                <li>Examine the model's ability to identify failure cases.</li>
-                <li>Generate classification metrics and visualizations.</li>
-            </ul>
+            <p>
+                The experiment uses the same input features,
+                preprocessing structure, training subset, and
+                evaluation metrics for each algorithm.
+            </p>
+
+            <div class="mo-table-wrapper">
+                <table class="mo-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-score</th>
+                            <th>ROC-AUC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Random Forest</strong></td>
+                            <td>97.19%</td>
+                            <td>56.72%</td>
+                            <td>73.06%</td>
+                            <td><strong>63.80%</strong></td>
+                            <td>96.61%</td>
+                        </tr>
+                        <tr>
+                            <td>Decision Tree</td>
+                            <td>96.80%</td>
+                            <td>53.14%</td>
+                            <td>63.12%</td>
+                            <td>57.22%</td>
+                            <td>81.02%</td>
+                        </tr>
+                        <tr>
+                            <td>Logistic Regression</td>
+                            <td>82.25%</td>
+                            <td>13.74%</td>
+                            <td>80.44%</td>
+                            <td>23.46%</td>
+                            <td>89.65%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="mo-card">
-            <h3>Validation Implementation</h3>
+            <h3>Cross-Validation Configuration</h3>
 
-            <div class="mo-code">predictions = pipeline.predict(X_test)
+            <ul class="mo-list">
+                <li>Validation method: Stratified K-Fold.</li>
+                <li>Number of folds: 5.</li>
+                <li>Shuffle: Enabled.</li>
+                <li>Random state: 42.</li>
+                <li>Primary selection metric: Mean F1-score.</li>
+                <li>Additional metrics: Accuracy, Precision, Recall, and ROC-AUC.</li>
+            </ul>
 
-probabilities = pipeline.predict_proba(X_test)[:, 1]
+            <div class="mo-code">cv = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)
 
-accuracy = accuracy_score(y_test, predictions)
-precision = precision_score(y_test, predictions)
-recall = recall_score(y_test, predictions)
-f1 = f1_score(y_test, predictions)
-roc_auc = roc_auc_score(y_test, probabilities)</div>
+scoring = {
+    "accuracy": "accuracy",
+    "precision": "precision",
+    "recall": "recall",
+    "f1": "f1",
+    "roc_auc": "roc_auc"
+}</div>
         </div>
 
         <div class="mo-highlight">
-            <h3>Connection with Model Evaluation</h3>
-
+            <h3>Experiment Conclusion: Random Forest</h3>
             <p>
-                The metrics and graphical results generated
-                during the training procedure are analyzed
-                in the next stage, Model Evaluation.
-
-                The project uses Accuracy, Precision, Recall,
-                F1-score, ROC-AUC, the confusion matrix,
-                and the ROC curve to examine classification
-                performance.
+                Random Forest obtained the highest mean
+                cross-validation F1-score of 63.80%, followed
+                by Decision Tree with 57.22% and Logistic
+                Regression with 23.46%.
+            </p>
+            <p>
+                Random Forest also achieved the highest mean
+                cross-validation ROC-AUC of 96.61%. It was therefore
+                selected for final training and independent testing
+                based on the predefined F1-score selection criterion.
             </p>
         </div>
 
         <div class="mo-note">
             <p>
-                <strong>Validation limitation:</strong>
-                The supplied training script uses a single
-                stratified train/test split. It does not
-                implement cross-validation. The testing subset
-                is used for the reported evaluation metrics.
+                <strong>Interpretation:</strong>
+                Logistic Regression achieved higher recall than the
+                other models during cross-validation, but its
+                precision and F1-score were substantially lower.
+                Random Forest provided a more balanced combination
+                of precision and recall according to the selected
+                F1-score criterion.
             </p>
         </div>
     </section>
 
-    <!-- 08. MODEL SAVING AND INTEGRATION -->
-
+    <!-- 09. MODEL SELECTION -->
     <section class="mo-section">
-        <h2 class="mo-section-title">08. Model Saving and Integration</h2>
+        <h2 class="mo-section-title">09. Model Selection and Final Training</h2>
+
+        <div class="mo-card">
+            <h3>Selection Criterion</h3>
+            <p>
+                The final algorithm is selected by sorting the
+                cross-validation comparison results according
+                to mean F1-score in descending order.
+            </p>
+
+            <div class="mo-code">comparison_df = comparison_df.sort_values(
+    by="CV F1-score",
+    ascending=False
+).reset_index(drop=True)
+
+best_model_name = comparison_df.iloc[0]["Model"]
+
+pipeline = models[best_model_name]
+
+pipeline.fit(X_train, y_train)</div>
+
+            <p>
+                Once selected, the Random Forest pipeline is fitted
+                again using the complete training subset of 8,000
+                observations. The independent test subset remains
+                reserved for the final evaluation.
+            </p>
+        </div>
+
+        <div class="mo-highlight">
+            <h3>Selected Model: Random Forest</h3>
+            <p>
+                Random Forest was selected because it achieved
+                the highest mean F1-score across the five
+                cross-validation folds. Its ensemble structure
+                and class weighting make it a suitable candidate
+                for the imbalanced classification task.
+            </p>
+        </div>
+    </section>
+
+    <!-- 10. VALIDATION -->
+    <section class="mo-section">
+        <h2 class="mo-section-title">10. Model Validation and Generalization</h2>
+
+        <div class="mo-card">
+            <h3>Independent Testing</h3>
+            <p>
+                After model selection, Random Forest was fitted
+                using the complete training subset and evaluated
+                on the independent testing subset containing
+                2,000 observations.
+            </p>
+            <p>
+                The test subset was not used during cross-validation,
+                model selection, or final model fitting.
+            </p>
+
+            <div class="mo-table-wrapper">
+                <table class="mo-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Final test result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Accuracy</td>
+                            <td>97.15%</td>
+                        </tr>
+                        <tr>
+                            <td>Precision</td>
+                            <td>55.91%</td>
+                        </tr>
+                        <tr>
+                            <td>Recall</td>
+                            <td>76.47%</td>
+                        </tr>
+                        <tr>
+                            <td>F1-score</td>
+                            <td>64.60%</td>
+                        </tr>
+                        <tr>
+                            <td>ROC-AUC</td>
+                            <td>96.56%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mo-grid">
+            <div class="mo-model-card">
+                <h3>Training Performance</h3>
+                <p>
+                    Training Accuracy: 98.80%.<br>
+                    Training F1-score: 84.95%.<br><br>
+                    These values describe performance on
+                    the observations used to fit the model.
+                </p>
+            </div>
+
+            <div class="mo-model-card">
+                <h3>Testing Performance</h3>
+                <p>
+                    Testing Accuracy: 97.15%.<br>
+                    Testing F1-score: 64.60%.<br><br>
+                    These values describe performance on
+                    observations excluded from model fitting.
+                </p>
+            </div>
+        </div>
+
+        <div class="mo-note">
+            <p>
+                <strong>Generalization analysis:</strong>
+                The difference between training and testing F1-score
+                is approximately 20.35 percentage points. This is
+                a possible signal of overfitting, not definitive
+                proof. Further evaluation with additional operational
+                data is necessary.
+            </p>
+        </div>
+    </section>
+
+    <!-- 11. DOMAIN KNOWLEDGE -->
+    <section class="mo-section">
+        <h2 class="mo-section-title">11. Domain Knowledge and Practical Considerations</h2>
+
+        <div class="mo-card">
+            <h3>Industrial Maintenance Context</h3>
+            <p>
+                Predictive maintenance aims to identify conditions
+                associated with equipment failure before an
+                unexpected breakdown occurs. The model uses
+                temperature, rotational speed, torque, machine
+                type, and tool wear as indicators of operating
+                conditions.
+            </p>
+            <p>
+                In a practical maintenance environment, the
+                interpretation of predictions should consider
+                equipment specifications, operating limits,
+                maintenance history, and the judgment of qualified
+                maintenance personnel.
+            </p>
+        </div>
+
+        <div class="mo-card">
+            <h3>Domain Expert Validation</h3>
+            <p>
+                A formal evaluation by an industrial maintenance
+                specialist has not yet been documented in this
+                project. Therefore, no expert approval or
+                professional validation is claimed.
+            </p>
+            <p>
+                A future validation activity should review whether
+                the selected input variables, model predictions,
+                false alarms, and missed failures are meaningful
+                for real equipment maintenance decisions.
+            </p>
+        </div>
+
+        <div class="mo-note">
+            <p>
+                <strong>Dataset limitation:</strong>
+                AI4I 2020 is a simulated predictive maintenance
+                dataset. Its results do not independently
+                demonstrate performance on real industrial
+                equipment. Operational validation is required
+                before using the model for maintenance decisions.
+            </p>
+        </div>
+    </section>
+
+    <!-- 12. SAVING AND INTEGRATION -->
+    <section class="mo-section">
+        <h2 class="mo-section-title">12. Model Saving and Integration</h2>
 
         <div class="mo-card">
             <h3>Model Serialization</h3>
-
             <p>
-                After training and evaluation, the complete
-                Pipeline is saved using the Joblib library.
+                After training and evaluation, the selected
+                pipeline is saved using the Joblib library.
                 Saving the complete pipeline preserves both
-                the preprocessing component and the trained
-                Random Forest classifier.
-
+                the fitted preprocessing component and the
+                trained Random Forest classifier.
+            </p>
+            <p>
                 This allows the prediction module to load
                 the same transformations and model without
                 repeating the training process.
@@ -987,43 +1306,42 @@ roc_auc = roc_auc_score(y_test, probabilities)</div>
 joblib.dump(pipeline, MODEL_PATH)</div>
 
             <div class="mo-stat-grid">
-
                 <div class="mo-stat">
                     <strong>Joblib</strong>
                     <span>Serialization library</span>
                 </div>
-
                 <div class="mo-stat">
                     <strong>Pipeline</strong>
                     <span>Saved artifact</span>
                 </div>
-
                 <div class="mo-stat">
                     <strong>.joblib</strong>
                     <span>File extension</span>
                 </div>
-
                 <div class="mo-stat">
                     <strong>Flask</strong>
                     <span>Application integration</span>
                 </div>
-
             </div>
 
             <div class="mo-code">machine_learning/
     model/
-        failure_model.joblib</div>
+        failure_model.joblib
+
+    results/
+        model_comparison.csv
+        evaluation_metrics.json</div>
         </div>
 
         <div class="mo-grid">
-
             <div class="mo-model-card">
                 <h3>Training Module</h3>
                 <p>
                     train_model.py loads the dataset, prepares
-                    the features, trains the pipeline, evaluates
-                    predictions, generates graphical evidence,
-                    and saves the model artifact.
+                    features, compares algorithms, trains the
+                    selected pipeline, evaluates predictions,
+                    generates graphical evidence, and saves
+                    the model artifact.
                 </p>
             </div>
 
@@ -1031,59 +1349,146 @@ joblib.dump(pipeline, MODEL_PATH)</div>
                 <h3>Prediction Module</h3>
                 <p>
                     predict.py loads the saved pipeline and
-                    generates predictions from the equipment
-                    values supplied through the Flask application.
+                    generates failure probability estimates
+                    from equipment values supplied through
+                    the Flask application.
                 </p>
             </div>
-
         </div>
 
         <div class="mo-note">
             <p>
                 <strong>Integration:</strong>
-                The saved artifact contains the fitted
-                preprocessing transformations and classifier.
-                Therefore, new prediction inputs must follow
-                the same feature structure used during training.
+                The saved artifact contains the fitted preprocessing
+                transformations and classifier. New prediction
+                inputs must follow the same six-feature structure
+                used during training.
             </p>
+        </div>
+    </section>
+
+    <!-- 13. LIMITATIONS -->
+    <section class="mo-section">
+        <h2 class="mo-section-title">13. Modeling Limitations and Future Improvements</h2>
+
+        <div class="mo-card">
+            <h3>Technical Limitations</h3>
+
+            <ul class="mo-list">
+                <li>
+                    The dataset contains an imbalanced distribution
+                    between failure and non-failure observations.
+                </li>
+
+                <li>
+                    Random Forest shows a noticeable difference
+                    between training and testing F1-score,
+                    suggesting possible overfitting.
+                </li>
+
+                <li>
+                    Precision indicates that some predicted
+                    failures are false alarms.
+                </li>
+
+                <li>
+                    The model comparison was performed using
+                    predefined configurations. Automated
+                    hyperparameter optimization was not performed.
+                </li>
+
+                <li>
+                    Additional validation with real industrial
+                    equipment data is required before operational use.
+                </li>
+
+                <li>
+                    Formal feedback from an industrial maintenance
+                    specialist remains a pending validation activity.
+                </li>
+            </ul>
+        </div>
+
+        <div class="mo-card">
+            <h3>Future Improvements</h3>
+
+            <ul class="mo-list">
+                <li>
+                    Evaluate additional model configurations through
+                    a documented hyperparameter search.
+                </li>
+
+                <li>
+                    Investigate strategies to improve the balance
+                    between precision and recall.
+                </li>
+
+                <li>
+                    Evaluate model performance with real equipment
+                    measurements and maintenance records.
+                </li>
+
+                <li>
+                    Collect domain expert feedback on the usefulness
+                    of model predictions.
+                </li>
+
+                <li>
+                    Monitor model performance and investigate
+                    retraining when justified by new data.
+                </li>
+            </ul>
         </div>
     </section>
 
     <!-- CONCLUSION -->
-
     <section class="mo-section">
-
         <div class="mo-highlight">
             <h3>Phase Conclusion</h3>
 
             <p>
-                The Model Engineering stage establishes the
-                actual development and training procedure
-                of the predictive classification model.
+                The Model Engineering stage established the
+                development and training procedure of the
+                predictive classification system.
+            </p>
 
-                The project implements a Random Forest classifier
-                integrated with a preprocessing pipeline.
-                The training procedure uses a stratified 80/20
-                split, OneHotEncoder for categorical data,
-                and passthrough for numerical variables.
+            <p>
+                Three supervised classification algorithms
+                were implemented and compared: Logistic
+                Regression, Decision Tree, and Random Forest.
+                The comparison used stratified five-fold
+                cross-validation on the training subset.
+            </p>
 
-                The classifier uses 200 estimators, a maximum
-                depth of 12, a minimum split of 5, balanced
-                class weights, and a random state of 42.
+            <p>
+                Random Forest was selected because it achieved
+                the highest mean cross-validation F1-score
+                of 63.80%.
+            </p>
 
-                The complete pipeline is saved using Joblib
-                and integrated into the prediction module
-                of the Flask application.
+            <p>
+                The selected model uses 200 estimators,
+                a maximum depth of 12, a minimum split of 5,
+                balanced class weights, a random state of 42,
+                and all available CPU cores.
+            </p>
 
+            <p>
+                The complete preprocessing and classification
+                pipeline is saved using Joblib and integrated
+                into the prediction module of the Flask application.
+            </p>
+
+            <p>
                 The next stage, Model Evaluation, examines
-                the model's predictive performance through
-                classification metrics, graphical evidence,
-                and analysis of its ability to identify
+                predictive performance through classification
+                metrics, graphical evidence, confusion matrix,
+                ROC analysis, and the model's ability to identify
                 machine failures.
             </p>
         </div>
-
+        
     </section>
-    
+
 
 {% endblock %}

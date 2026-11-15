@@ -6,364 +6,383 @@
 {% block content %}
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
-.mon-container {
-    width: min(1200px, calc(100% - 48px));
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 35px 0 60px;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    color: #49382d;
-}
-
-.mon-header {
-    margin-bottom: 35px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid #e7dcd0;
-}
-
-.mon-label {
-    display: inline-block;
-    color: #987452;
-    background: #f1e8dd;
-    padding: 7px 13px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    margin-bottom: 17px;
-}
-
-.mon-header h1,
-.mon-section-title,
-.mon-highlight h3 {
-    font-family: 'Libre Baskerville', serif;
-}
-
-.mon-header h1 {
-    font-size: 32px;
-    color: #49382d;
-    margin: 0 0 14px;
-}
-
-.mon-header p {
-    color: #837365;
-    font-size: 14px;
-    line-height: 1.8;
-    max-width: 900px;
-}
-
-.mon-section {
-    margin-bottom: 30px;
-}
-
-.mon-section-title {
-    font-size: 20px;
-    color: #624a37;
-    margin-bottom: 17px;
-}
-
-.mon-card {
-    background: #fffdf9;
-    border: 1px solid #e9ded2;
-    border-radius: 13px;
-    padding: 24px;
-    margin-bottom: 18px;
-    box-shadow: 0 3px 12px rgba(78,57,39,.035);
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.mon-card h3 {
-    font-size: 15px;
-    color: #795b40;
-    margin: 0 0 12px;
-}
-
-.mon-card p,
-.mon-highlight p {
-    color: #76685c;
-    font-size: 13px;
-    line-height: 1.85;
-}
-
-.mon-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.mon-list {
-    padding-left: 20px;
-    margin-top: 12px;
-}
-
-.mon-list li {
-    color: #76685c;
-    font-size: 13px;
-    line-height: 1.9;
-    margin-bottom: 7px;
-}
-
-.mon-highlight {
-    background: #f2e9df;
-    border: 1px solid #e4d4c3;
-    border-radius: 12px;
-    padding: 23px;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-}
-
-.mon-highlight h3 {
-    color: #674b34;
-    font-size: 17px;
-}
-
-.mon-table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.mon-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    background: #fffdf9;
-}
-
-.mon-table th {
-    background: #eee4d9;
-    color: #604832;
-    text-align: left;
-    padding: 14px;
-}
-
-.mon-table td {
-    padding: 13px 14px;
-    border-bottom: 1px solid #eee5dc;
-    color: #76685c;
-    line-height: 1.7;
-    vertical-align: top;
-}
-
-.mon-step {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 17px;
-    align-items: flex-start;
-}
-
-.mon-number {
-    min-width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #e8dccd;
-    color: #674b34;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.mon-step-content h4 {
-    margin: 0 0 6px;
-    font-size: 13px;
-    color: #674b34;
-}
-
-.mon-step-content p {
-    margin: 0;
-    font-size: 12px;
-    color: #76685c;
-    line-height: 1.8;
-}
-
-.mon-evidence {
-    border: 1px solid #e5d8c9;
-    border-radius: 12px;
-    background: #fffdf9;
-    padding: 20px;
-    margin: 18px 0;
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.mon-evidence strong {
-    display: block;
-    color: #795b40;
-    font-size: 13px;
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.mon-tag {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
-    background: #eee4d9;
-    color: #765638;
-    font-size: 10px;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.mon-footer {
-    border-top: 1px solid #e7dcd0;
-    margin-top: 35px;
-    padding-top: 23px;
-    color: #9a8878;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-/* Evidence images */
-
-.evidence-image {
-    width: 100%;
-    margin-top: 12px;
-    padding: 12px;
-    background: #faf6f0;
-    border: 1px solid #e5d8c9;
-    border-radius: 10px;
-    box-sizing: border-box;
-}
-
-.evidence-image img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 520px;
-    object-fit: contain;
-    border-radius: 6px;
-}
-
-/* Evidence 4 - Monitoring Report */
-
-.monitoring-report-card {
-    background: #f2e9df;
-    border: 1px solid #e3d3c2;
-    border-left: 4px solid #a9825d;
-    border-radius: 12px;
-    padding: 25px 28px;
-    margin: 18px 0 22px;
-    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.04);
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.monitoring-report-card h3 {
-    color: #674b34;
-    font-family: 'Libre Baskerville', serif;
-    font-size: 17px;
-    margin: 0 0 20px;
-}
-
-.monitoring-report-card h4 {
-    color: #795b40;
-    font-size: 13px;
-    margin: 20px 0 9px;
-}
-
-.monitoring-report-card p,
-.monitoring-report-card li {
-    color: #76685c;
-    font-size: 13px;
-    line-height: 1.8;
-}
-
-.monitoring-report-card ul {
-    padding-left: 22px;
-}
-
-/* Current Project Limitations */
-
-.current-limitations-card {
-    background: #fffdf9;
-    border: 1px solid #e9ded2;
-    border-radius: 12px;
-    padding: 24px;
-    margin: 0;
-    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.04);
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.current-limitations-card h3 {
-    color: #795b40;
-    margin: 0 0 13px;
-}
-
-.current-limitations-card p,
-.current-limitations-card li {
-    color: #76685c;
-    font-size: 13px;
-    line-height: 1.8;
-}
-
-/* Phase Conclusion */
-
-.phase-conclusion-card {
-    background: #f2e9df;
-    border: 1px solid #e3d3c2;
-    border-radius: 13px;
-    margin: 0;
-    padding: 28px 30px;
-    width: 100%;
-    box-sizing: border-box;
-    box-shadow: 0 3px 12px rgba(78, 57, 39, 0.04);
-}
-
-.phase-conclusion-card h3 {
-    color: #674b34;
-    font-family: 'Libre Baskerville', serif;
-    font-size: 17px;
-    margin: 0 0 16px;
-}
-
-.phase-conclusion-card p {
-    color: #76685c;
-    font-size: 13px;
-    line-height: 1.9;
-    margin: 0 0 14px;
-}
-
-.phase-conclusion-card p:last-child {
-    margin-bottom: 0;
-}
-
-/* Responsive layout */
-
-@media (max-width: 700px) {
     .mon-container {
-        width: calc(100% - 30px);
-        padding: 25px 0 40px;
+        width: min(1200px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 35px 0 60px;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+        color: #49382d;
+    }
+
+    .mon-header {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e7dcd0;
+    }
+
+    .mon-label {
+        display: inline-block;
+        color: #987452;
+        background: #f1e8dd;
+        padding: 7px 13px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        margin-bottom: 17px;
+    }
+
+    .mon-header h1,
+    .mon-section-title,
+    .mon-highlight h3,
+    .phase-conclusion-card h3 {
+        font-family: 'Libre Baskerville', serif;
     }
 
     .mon-header h1 {
-        font-size: 25px;
+        font-size: 32px;
+        color: #49382d;
+        margin: 0 0 14px;
+        line-height: 1.4;
     }
 
-    .mon-grid {
-        grid-template-columns: 1fr;
+    .mon-header p {
+        color: #837365;
+        font-size: 14px;
+        line-height: 1.8;
+        max-width: 900px;
+        margin: 0;
+    }
+
+    .mon-section {
+        margin-bottom: 30px;
+    }
+
+    .mon-section-title {
+        font-size: 20px;
+        color: #624a37;
+        margin-bottom: 17px;
+        line-height: 1.5;
     }
 
     .mon-card {
-        padding: 19px;
+        background: #fffdf9;
+        border: 1px solid #e9ded2;
+        border-radius: 13px;
+        padding: 24px;
+        margin-bottom: 18px;
+        box-shadow: 0 3px 12px rgba(78,57,39,.035);
+        box-sizing: border-box;
+        width: 100%;
     }
 
-    .monitoring-report-card,
-    .current-limitations-card,
-    .phase-conclusion-card {
-        padding: 20px 18px;
+    .mon-card h3 {
+        font-size: 15px;
+        color: #795b40;
+        margin: 0 0 12px;
+    }
+
+    .mon-card p,
+    .mon-highlight p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.85;
+        margin: 0 0 12px;
+    }
+
+    .mon-card p:last-child,
+    .mon-highlight p:last-child {
+        margin-bottom: 0;
+    }
+
+    .mon-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .mon-list {
+        padding-left: 20px;
+        margin: 12px 0 0;
+    }
+
+    .mon-list li {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.9;
+        margin-bottom: 7px;
+    }
+
+    .mon-highlight {
+        background: #f2e9df;
+        border: 1px solid #e4d4c3;
+        border-radius: 12px;
+        padding: 23px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    .mon-highlight h3 {
+        color: #674b34;
+        font-size: 17px;
+        margin: 0 0 12px;
+    }
+
+    .mon-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 15px;
     }
 
     .mon-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        background: #fffdf9;
         min-width: 600px;
     }
-}
+
+    .mon-table th {
+        background: #eee4d9;
+        color: #604832;
+        text-align: left;
+        padding: 14px;
+        white-space: nowrap;
+    }
+
+    .mon-table td {
+        padding: 13px 14px;
+        border-bottom: 1px solid #eee5dc;
+        color: #76685c;
+        line-height: 1.7;
+        vertical-align: top;
+    }
+
+    .mon-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .mon-step {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 17px;
+        align-items: flex-start;
+    }
+
+    .mon-number {
+        min-width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #e8dccd;
+        color: #674b34;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .mon-step-content h4 {
+        margin: 0 0 6px;
+        font-size: 13px;
+        color: #674b34;
+    }
+
+    .mon-step-content p {
+        margin: 0;
+        font-size: 12px;
+        color: #76685c;
+        line-height: 1.8;
+    }
+
+    .mon-evidence {
+        border: 1px solid #e5d8c9;
+        border-radius: 12px;
+        background: #fffdf9;
+        padding: 20px;
+        margin: 18px 0;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .mon-evidence strong {
+        display: block;
+        color: #795b40;
+        font-size: 13px;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+
+    .mon-evidence p {
+        color: #837365;
+        font-size: 12px;
+        line-height: 1.8;
+        margin: 12px 0 0;
+    }
+
+    .mon-tag {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: #eee4d9;
+        color: #765638;
+        font-size: 10px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .evidence-image {
+        width: 100%;
+        margin-top: 12px;
+        padding: 12px;
+        background: #faf6f0;
+        border: 1px solid #e5d8c9;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    .evidence-image img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 520px;
+        object-fit: contain;
+        border-radius: 6px;
+    }
+
+    .monitoring-report-card {
+        background: #f2e9df;
+        border: 1px solid #e3d3c2;
+        border-left: 4px solid #a9825d;
+        border-radius: 12px;
+        padding: 25px 28px;
+        margin: 18px 0 22px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .monitoring-report-card h3 {
+        color: #674b34;
+        font-family: 'Libre Baskerville', serif;
+        font-size: 17px;
+        margin: 0 0 20px;
+    }
+
+    .monitoring-report-card h4 {
+        color: #795b40;
+        font-size: 13px;
+        margin: 20px 0 9px;
+    }
+
+    .monitoring-report-card p,
+    .monitoring-report-card li {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .monitoring-report-card ul {
+        padding-left: 22px;
+    }
+
+    .current-limitations-card {
+        background: #fffdf9;
+        border: 1px solid #e9ded2;
+        border-radius: 12px;
+        padding: 24px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .current-limitations-card h3 {
+        color: #795b40;
+        margin: 0 0 13px;
+    }
+
+    .current-limitations-card p,
+    .current-limitations-card li {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .phase-conclusion-card {
+        background: #f2e9df;
+        border: 1px solid #e3d3c2;
+        border-radius: 13px;
+        padding: 28px 30px;
+        width: 100%;
+        box-sizing: border-box;
+        box-shadow: 0 3px 12px rgba(78,57,39,.04);
+    }
+
+    .phase-conclusion-card h3 {
+        color: #674b34;
+        font-size: 17px;
+        margin: 0 0 16px;
+    }
+
+    .phase-conclusion-card p {
+        color: #76685c;
+        font-size: 13px;
+        line-height: 1.9;
+        margin: 0 0 14px;
+    }
+
+    .phase-conclusion-card p:last-child {
+        margin-bottom: 0;
+    }
+
+    .mon-footer {
+        border-top: 1px solid #e7dcd0;
+        margin-top: 35px;
+        padding-top: 23px;
+        color: #9a8878;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    .mon-status {
+        display: inline-block;
+        background: #e8f2ec;
+        color: #426b50;
+        border-radius: 20px;
+        padding: 5px 10px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    @media (max-width: 700px) {
+        .mon-container {
+            width: calc(100% - 30px);
+            padding: 25px 0 40px;
+        }
+
+        .mon-header h1 {
+            font-size: 25px;
+        }
+
+        .mon-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .mon-card {
+            padding: 19px;
+        }
+
+        .monitoring-report-card,
+        .current-limitations-card,
+        .phase-conclusion-card {
+            padding: 20px 18px;
+        }
+
+        .mon-section-title {
+            font-size: 18px;
+        }
+    }
 </style>
 
 <div class="mon-container">
@@ -389,9 +408,8 @@
     <!-- 01. MONITORING OBJECTIVES -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            01. Monitoring Objectives
-        </h2>
+
+        <h2 class="mon-section-title">01. Monitoring Objectives</h2>
 
         <div class="mon-card">
             <h3>Purpose of Model Monitoring</h3>
@@ -399,7 +417,7 @@
             <p>
                 Once a Machine Learning model is integrated into
                 an application, its performance and reliability
-                must be reviewed regularly. Operating conditions,
+                should be reviewed regularly. Operating conditions,
                 equipment characteristics, and input data may
                 change over time. These changes can affect the
                 quality of predictions.
@@ -408,9 +426,9 @@
             <p>
                 The Predictive Maintenance System establishes
                 a monitoring strategy to verify that the model
-                continues to process equipment information
-                correctly and provides useful predictions
-                for maintenance decision support.
+                processes equipment information correctly and
+                provides useful predictions for maintenance
+                decision support.
             </p>
 
             <ul class="mon-list">
@@ -427,22 +445,21 @@
             <h3>Monitoring Strategy</h3>
 
             <p>
-                The monitoring process combines data quality
-                checks, prediction tracking, model performance
-                evaluation, and application reliability reviews.
-                These activities help identify problems early
-                and provide information for maintenance
-                and improvement decisions.
+                The monitoring process combines data quality checks,
+                prediction tracking, model performance evaluation,
+                and application reliability reviews. These activities
+                provide information to identify problems and support
+                future maintenance and improvement decisions.
             </p>
         </div>
+
     </section>
 
     <!-- 02. OPERATIONAL INDICATORS -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            02. Operational and Performance Indicators
-        </h2>
+
+        <h2 class="mon-section-title">02. Operational and Performance Indicators</h2>
 
         <div class="mon-card">
             <h3>Key Performance Indicators (KPIs)</h3>
@@ -451,8 +468,8 @@
                 The following indicators are proposed to evaluate
                 the behavior of the predictive maintenance
                 application and its Machine Learning model.
-                They provide a structured way to review
-                system activity and identify possible issues.
+                They provide a structured way to review system
+                activity and identify possible issues.
             </p>
 
             <div class="mon-table-wrapper">
@@ -468,116 +485,71 @@
                     <tbody>
                         <tr>
                             <td>Prediction Volume</td>
-                            <td>
-                                Number of predictions generated
-                                by the application during a
-                                specific period.
-                            </td>
-                            <td>
-                                Understand system usage and
-                                prediction activity.
-                            </td>
+                            <td>Number of predictions generated during a specific period.</td>
+                            <td>Understand system usage and prediction activity.</td>
                         </tr>
 
                         <tr>
                             <td>Predicted Failure Rate</td>
-                            <td>
-                                Percentage of predictions
-                                classified as potential failures.
-                            </td>
-                            <td>
-                                Identify changes in the
-                                frequency of high-risk
-                                predictions.
-                            </td>
+                            <td>Percentage of predictions classified as potential failures.</td>
+                            <td>Identify changes in the frequency of failure predictions.</td>
                         </tr>
 
                         <tr>
                             <td>Input Data Quality</td>
-                            <td>
-                                Presence of missing values,
-                                invalid measurements, and
-                                unexpected categories.
-                            </td>
-                            <td>
-                                Ensure that input information
-                                is suitable for prediction.
-                            </td>
+                            <td>Presence of missing values, invalid measurements, and unexpected categories.</td>
+                            <td>Ensure input information is suitable for prediction.</td>
                         </tr>
 
                         <tr>
                             <td>Model Precision</td>
-                            <td>
-                                Proportion of predicted failures
-                                that correspond to actual
-                                failures, when verified labels
-                                are available.
-                            </td>
-                            <td>
-                                Review false alarms.
-                            </td>
+                            <td>Proportion of predicted failures that correspond to actual failures, when verified labels are available.</td>
+                            <td>Review false alarms.</td>
                         </tr>
 
                         <tr>
                             <td>Model Recall</td>
-                            <td>
-                                Proportion of actual failures
-                                correctly identified by the model.
-                            </td>
-                            <td>
-                                Review the number of missed
-                                failures.
-                            </td>
+                            <td>Proportion of actual failures correctly identified by the model.</td>
+                            <td>Review the number of missed failures.</td>
                         </tr>
 
                         <tr>
                             <td>F1-score</td>
-                            <td>
-                                Harmonic mean of precision
-                                and recall.
-                            </td>
-                            <td>
-                                Evaluate the balance between
-                                false alarms and missed failures.
-                            </td>
+                            <td>Harmonic mean of Precision and Recall.</td>
+                            <td>Evaluate the balance between false alarms and missed failures.</td>
                         </tr>
 
                         <tr>
                             <td>Data Drift</td>
-                            <td>
-                                Changes in the statistical
-                                distribution of input variables
-                                compared with training data.
-                            </td>
-                            <td>
-                                Detect changes in the data
-                                received by the model.
-                            </td>
+                            <td>Changes in the statistical distribution of input variables compared with training data.</td>
+                            <td>Detect changes in the data received by the model.</td>
                         </tr>
 
                         <tr>
                             <td>Application Reliability</td>
-                            <td>
-                                Availability, prediction errors,
-                                and application response failures.
-                            </td>
-                            <td>
-                                Ensure the application
-                                operates correctly.
-                            </td>
+                            <td>Availability, prediction errors, and application response failures.</td>
+                            <td>Ensure the application operates correctly.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div class="mon-note">
+            <p>
+                These indicators form a proposed monitoring framework.
+                They are not all collected automatically by the current
+                application.
+            </p>
+        </div>
+
     </section>
 
     <!-- 03. DATA QUALITY MONITORING -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            03. Data Quality Monitoring
-        </h2>
+
+        <h2 class="mon-section-title">03. Data Quality Monitoring</h2>
 
         <div class="mon-card">
             <h3>Input Data Validation</h3>
@@ -586,25 +558,25 @@
                 The model depends on six input features:
                 machine type, air temperature, process temperature,
                 rotational speed, torque, and tool wear.
-                Each prediction must be based on valid and
+                Each prediction should be based on valid and
                 consistently formatted information.
             </p>
 
             <p>
                 Before generating a prediction, the application
-                should verify that the required values are present,
-                that numerical fields contain valid numbers,
-                and that the machine type belongs to the
-                expected categories.
+                should verify that required values are present,
+                numerical fields contain valid numbers, and
+                categorical values are compatible with the
+                model's expected input format.
             </p>
 
             <ul class="mon-list">
                 <li>Verify that all required input fields are completed.</li>
-                <li>Check that numerical measurements are valid numbers.</li>
-                <li>Verify that machine type belongs to L, M, or H.</li>
+                <li>Check that numerical measurements contain valid numbers.</li>
+                <li>Verify that machine type uses an expected category.</li>
                 <li>Identify unexpected or physically implausible measurements.</li>
                 <li>Prevent incomplete or invalid records from being processed.</li>
-                <li>Keep records of validation errors for later review.</li>
+                <li>Keep records of validation errors when logging is available.</li>
             </ul>
         </div>
 
@@ -618,7 +590,7 @@
                     <p>
                         Receive equipment measurements through
                         the application prediction form or
-                        connected data source.
+                        a connected data source.
                     </p>
                 </div>
             </div>
@@ -629,8 +601,8 @@
                     <h4>Input Validation</h4>
                     <p>
                         Check required fields, numerical formats,
-                        categorical values, and possible
-                        invalid measurements.
+                        categorical values, and possible invalid
+                        measurements.
                     </p>
                 </div>
             </div>
@@ -640,9 +612,8 @@
                 <div class="mon-step-content">
                     <h4>Prediction Processing</h4>
                     <p>
-                        Send valid input information to the
-                        saved preprocessing and classification
-                        pipeline.
+                        Send valid input information to the saved
+                        preprocessing and classification pipeline.
                     </p>
                 </div>
             </div>
@@ -652,9 +623,8 @@
                 <div class="mon-step-content">
                     <h4>Result Recording</h4>
                     <p>
-                        Record prediction information and
-                        relevant errors when logging is
-                        configured and enabled.
+                        Record prediction information and relevant
+                        errors when logging is configured and enabled.
                     </p>
                 </div>
             </div>
@@ -664,37 +634,36 @@
                 <div class="mon-step-content">
                     <h4>Periodic Review</h4>
                     <p>
-                        Review input quality and identify
-                        recurring validation problems.
+                        Review input quality and identify recurring
+                        validation problems.
                     </p>
                 </div>
             </div>
         </div>
+
     </section>
 
     <!-- 04. DATA DRIFT -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            04. Data Drift and Model Performance Degradation
-        </h2>
+
+        <h2 class="mon-section-title">04. Data Drift and Model Performance Degradation</h2>
 
         <div class="mon-card">
             <h3>Data Drift Detection</h3>
 
             <p>
-                Data drift occurs when the statistical
-                characteristics of incoming data change
-                compared with the data used during model
-                training. These changes may affect the
-                reliability of predictions.
+                Data drift occurs when the statistical characteristics
+                of incoming data change compared with the data used
+                during model training. These changes may affect
+                prediction reliability.
             </p>
 
             <p>
-                For this project, monitoring should focus
-                on the six model input variables:
-                Type, Air temperature, Process temperature,
-                Rotational speed, Torque, and Tool wear.
+                For this project, monitoring should focus on the
+                six model input variables: Type, Air temperature,
+                Process temperature, Rotational speed, Torque,
+                and Tool wear.
             </p>
 
             <ul class="mon-list">
@@ -710,23 +679,21 @@
             <h3>Model Performance Degradation</h3>
 
             <p>
-                Model performance degradation occurs when
-                predictions become less reliable over time.
-                It can be identified by comparing predictions
-                with verified real outcomes after equipment
-                inspections or maintenance reports become
-                available.
+                Model performance degradation occurs when predictions
+                become less reliable over time. It can be identified
+                by comparing predictions with verified real outcomes
+                after equipment inspections or maintenance reports
+                become available.
             </p>
 
             <p>
-                When actual failure labels are available,
-                the team should calculate precision, recall,
-                F1-score, and ROC-AUC using the new verified
-                observations.
+                When actual failure labels are available, the team
+                should calculate Precision, Recall, F1-score,
+                and ROC-AUC using the new verified observations.
             </p>
 
             <p>
-                Special attention should be given to recall,
+                Special attention should be given to Recall,
                 because missed equipment failures may lead
                 to unexpected operational interruptions.
             </p>
@@ -739,20 +706,19 @@
                 A prediction by itself does not confirm whether
                 a machine has actually failed. Model performance
                 cannot be measured reliably without verified
-                outcomes. Therefore, predictions should be
-                compared with maintenance inspections,
-                equipment reports, or other confirmed
-                failure records.
+                outcomes. Predictions should therefore be compared
+                with maintenance inspections, equipment reports,
+                or other confirmed failure records.
             </p>
         </div>
+
     </section>
 
-    <!-- 05. REVIEW FREQUENCY AND RESPONSIBILITIES -->
+    <!-- 05. REVIEW FREQUENCY -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            05. Monitoring Frequency and Responsibilities
-        </h2>
+
+        <h2 class="mon-section-title">05. Monitoring Frequency and Responsibilities</h2>
 
         <div class="mon-card">
             <h3>Monitoring Schedule</h3>
@@ -761,8 +727,8 @@
                 The following schedule is a proposed initial
                 monitoring plan. The review frequency can
                 be adjusted according to application usage,
-                the availability of operational data, and
-                project requirements.
+                operational data availability, and project
+                requirements.
             </p>
 
             <div class="mon-table-wrapper">
@@ -778,52 +744,31 @@
                     <tbody>
                         <tr>
                             <td>Daily / During use</td>
-                            <td>
-                                Review application errors,
-                                invalid inputs, and prediction
-                                execution problems.
-                            </td>
+                            <td>Review application errors, invalid inputs, and prediction execution problems.</td>
                             <td>System Administrator</td>
                         </tr>
 
                         <tr>
                             <td>Weekly</td>
-                            <td>
-                                Review prediction activity,
-                                input data quality, and
-                                generated alerts.
-                            </td>
+                            <td>Review prediction activity, input data quality, and generated alerts.</td>
                             <td>Project / Data Team</td>
                         </tr>
 
                         <tr>
                             <td>Monthly</td>
-                            <td>
-                                Review feature distributions,
-                                possible data drift, and
-                                model performance when
-                                verified labels are available.
-                            </td>
+                            <td>Review feature distributions, possible data drift, and model performance when verified labels are available.</td>
                             <td>Machine Learning Team</td>
                         </tr>
 
                         <tr>
                             <td>When an incident occurs</td>
-                            <td>
-                                Investigate prediction errors,
-                                data problems, or application
-                                failures.
-                            </td>
+                            <td>Investigate prediction errors, data problems, or application failures.</td>
                             <td>Responsible Technical Team</td>
                         </tr>
 
                         <tr>
                             <td>When necessary</td>
-                            <td>
-                                Evaluate retraining and
-                                deployment of an updated
-                                model.
-                            </td>
+                            <td>Evaluate retraining and deployment of an updated model.</td>
                             <td>Machine Learning Team</td>
                         </tr>
                     </tbody>
@@ -837,8 +782,8 @@
             <ul class="mon-list">
                 <li>
                     <strong>System Administrator:</strong>
-                    reviews application availability,
-                    errors, and technical operation.
+                    reviews application availability, errors,
+                    and technical operation.
                 </li>
 
                 <li>
@@ -849,25 +794,25 @@
 
                 <li>
                     <strong>Maintenance Personnel:</strong>
-                    verify equipment conditions and
-                    provide confirmed maintenance outcomes.
+                    verify equipment conditions and provide
+                    confirmed maintenance outcomes.
                 </li>
 
                 <li>
                     <strong>Project Team:</strong>
-                    documents monitoring activities,
-                    incidents, results, and system updates.
+                    documents monitoring activities, incidents,
+                    results, and system updates.
                 </li>
             </ul>
         </div>
+
     </section>
 
     <!-- 06. RETRAINING CRITERIA -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            06. Model Retraining and Update Criteria
-        </h2>
+
+        <h2 class="mon-section-title">06. Model Retraining and Update Criteria</h2>
 
         <div class="mon-card">
             <h3>When Should the Model Be Retrained?</h3>
@@ -876,9 +821,9 @@
                 Retraining should be considered when new,
                 verified operational data indicates that
                 the current model may no longer represent
-                equipment behavior adequately.
-                Retraining must be based on evidence
-                rather than on an arbitrary decision.
+                equipment behavior adequately. Retraining
+                must be based on evidence rather than on
+                an arbitrary decision.
             </p>
 
             <ul class="mon-list">
@@ -923,8 +868,7 @@
                     <p>
                         Apply the documented preprocessing
                         and training procedure using
-                        appropriate training and validation
-                        data.
+                        appropriate training and validation data.
                     </p>
                 </div>
             </div>
@@ -934,10 +878,9 @@
                 <div class="mon-step-content">
                     <h4>Evaluate the Candidate</h4>
                     <p>
-                        Compare the new model with the
-                        current model using consistent
-                        evaluation metrics and an
-                        independent test set.
+                        Compare the new model with the current
+                        model using consistent evaluation
+                        metrics and an independent test set.
                     </p>
                 </div>
             </div>
@@ -947,8 +890,8 @@
                 <div class="mon-step-content">
                     <h4>Approve and Deploy</h4>
                     <p>
-                        Deploy the updated model only
-                        after its performance, compatibility,
+                        Deploy the updated model only after
+                        its performance, compatibility,
                         and reliability have been reviewed.
                     </p>
                 </div>
@@ -966,14 +909,14 @@
                 </div>
             </div>
         </div>
+
     </section>
 
     <!-- 07. RISK MANAGEMENT -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            07. Risks and Quality Controls
-        </h2>
+
+        <h2 class="mon-section-title">07. Risks and Quality Controls</h2>
 
         <div class="mon-card">
             <h3>Potential Risks</h3>
@@ -991,75 +934,38 @@
                     <tbody>
                         <tr>
                             <td>Incorrect Input Data</td>
-                            <td>
-                                Unreliable or invalid predictions.
-                            </td>
-                            <td>
-                                Validate required fields,
-                                formats, and measurement values.
-                            </td>
+                            <td>Unreliable or invalid predictions.</td>
+                            <td>Validate required fields, formats, and measurement values.</td>
                         </tr>
 
                         <tr>
                             <td>Data Drift</td>
-                            <td>
-                                New operating conditions
-                                may reduce prediction reliability.
-                            </td>
-                            <td>
-                                Compare new data with
-                                training distributions.
-                            </td>
+                            <td>New operating conditions may reduce prediction reliability.</td>
+                            <td>Compare new data with training distributions.</td>
                         </tr>
 
                         <tr>
                             <td>False Negative Predictions</td>
-                            <td>
-                                Potential failures may
-                                remain undetected.
-                            </td>
-                            <td>
-                                Monitor recall and
-                                require equipment inspection.
-                            </td>
+                            <td>Potential failures may remain undetected.</td>
+                            <td>Monitor Recall and require equipment inspection.</td>
                         </tr>
 
                         <tr>
                             <td>False Positive Predictions</td>
-                            <td>
-                                Unnecessary inspections
-                                or maintenance activities.
-                            </td>
-                            <td>
-                                Review precision and
-                                confirm results with
-                                maintenance personnel.
-                            </td>
+                            <td>Unnecessary inspections or maintenance activities.</td>
+                            <td>Review Precision and confirm results with maintenance personnel.</td>
                         </tr>
 
                         <tr>
                             <td>Application Failure</td>
-                            <td>
-                                Users may be unable
-                                to generate predictions.
-                            </td>
-                            <td>
-                                Review application errors,
-                                logs, and deployment health.
-                            </td>
+                            <td>Users may be unable to generate predictions.</td>
+                            <td>Review application errors, logs, and deployment health.</td>
                         </tr>
 
                         <tr>
                             <td>Outdated Model</td>
-                            <td>
-                                The model may not
-                                represent current
-                                equipment behavior.
-                            </td>
-                            <td>
-                                Evaluate performance
-                                and retrain when justified.
-                            </td>
+                            <td>The model may not represent current equipment behavior.</td>
+                            <td>Evaluate performance and retrain when justified.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1071,24 +977,22 @@
 
             <p>
                 Machine Learning predictions must be treated
-                as decision-support information.
-                A high-risk prediction should lead to
-                equipment inspection or technical review,
-                not to an automatic conclusion that
-                a failure has occurred.
-                Final maintenance decisions should
-                remain under the responsibility of
-                qualified personnel.
+                as decision-support information. A high-risk
+                prediction should lead to equipment inspection
+                or technical review, not to an automatic
+                conclusion that a failure has occurred.
+                Final maintenance decisions should remain
+                under the responsibility of qualified personnel.
             </p>
         </div>
+
     </section>
 
-    <!-- 08. INCIDENT MANAGEMENT AND FEEDBACK -->
+    <!-- 08. INCIDENT MANAGEMENT -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            08. Incident Reporting and User Feedback
-        </h2>
+
+        <h2 class="mon-section-title">08. Incident Reporting and User Feedback</h2>
 
         <div class="mon-card">
             <h3>Incident Management Procedure</h3>
@@ -1106,9 +1010,9 @@
                 <div class="mon-step-content">
                     <h4>Incident Identification</h4>
                     <p>
-                        Identify prediction errors,
-                        invalid input data, application
-                        failures, or unexpected results.
+                        Identify prediction errors, invalid
+                        input data, application failures,
+                        or unexpected results.
                     </p>
                 </div>
             </div>
@@ -1130,9 +1034,9 @@
                 <div class="mon-step-content">
                     <h4>Technical Investigation</h4>
                     <p>
-                        Review input information,
-                        application logs, model behavior,
-                        and the circumstances of the event.
+                        Review input information, application
+                        logs, model behavior, and the
+                        circumstances of the event.
                     </p>
                 </div>
             </div>
@@ -1155,8 +1059,8 @@
                     <h4>Verification and Closure</h4>
                     <p>
                         Test the correction, document
-                        the outcome, and close the
-                        incident when the issue is resolved.
+                        the outcome, and close the incident
+                        when the issue is resolved.
                     </p>
                 </div>
             </div>
@@ -1187,36 +1091,35 @@
                 before it is used as training data.
             </p>
         </div>
+
     </section>
 
     <!-- 09. INITIAL MONITORING TEST -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            09. Initial Monitoring Test
-        </h2>
+
+        <h2 class="mon-section-title">09. Initial Monitoring Test</h2>
 
         <div class="mon-card">
-            <span class="mon-tag">INITIAL VALIDATION PROCEDURE</span>
+            <span class="mon-tag">INITIAL FUNCTIONAL VALIDATION</span>
 
             <h3>Monitoring Test Description</h3>
 
             <p>
-                An initial monitoring test should verify
+                An initial functional test was performed to verify
                 that the application can receive equipment
-                information, process valid inputs,
-                generate a prediction, and present
-                the result correctly.
+                information, process valid inputs, generate
+                a prediction, and display the result.
             </p>
 
             <p>
-                The test should also examine how the
-                application handles invalid or incomplete
-                input values and whether prediction
-                information can be reviewed afterward.
+                The test also examined how the application
+                handles an incomplete input and whether
+                prediction information can be reviewed
+                afterward.
             </p>
 
-            <h3>Test Cases</h3>
+            <h3 style="margin-top:22px;">Test Cases and Status</h3>
 
             <div class="mon-table-wrapper">
                 <table class="mon-table">
@@ -1224,59 +1127,39 @@
                         <tr>
                             <th>Test</th>
                             <th>Action</th>
-                            <th>Expected Result</th>
+                            <th>Observed Result / Status</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr>
                             <td>Valid Input</td>
-                            <td>
-                                Submit a complete set of
-                                valid machine measurements.
-                            </td>
-                            <td>
-                                The application generates
-                                a prediction and probability.
-                            </td>
+                            <td>Submit a complete set of equipment measurements.</td>
+                            <td>Executed successfully. A prediction was generated.</td>
                         </tr>
 
                         <tr>
                             <td>Missing Input</td>
-                            <td>
-                                Submit the form with
-                                a required value missing.
-                            </td>
-                            <td>
-                                The application prevents
-                                invalid submission or
-                                displays a validation message.
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Invalid Category</td>
-                            <td>
-                                Provide a machine type
-                                outside the expected
-                                categories.
-                            </td>
-                            <td>
-                                The application rejects
-                                the invalid category.
-                            </td>
+                            <td>Submit the form with a required value missing.</td>
+                            <td>Executed successfully. Browser validation prevented submission.</td>
                         </tr>
 
                         <tr>
                             <td>Prediction Review</td>
-                            <td>
-                                Review the generated
-                                prediction in the application.
-                            </td>
-                            <td>
-                                The prediction result
-                                can be viewed correctly.
-                            </td>
+                            <td>Review the generated prediction in the application.</td>
+                            <td>Executed successfully. The prediction appeared in Prediction History.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Invalid Category</td>
+                            <td>Provide a machine type outside the expected categories.</td>
+                            <td>Pending additional verification.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Long-Term Performance</td>
+                            <td>Compare predictions with verified operational outcomes over time.</td>
+                            <td>Not evaluated. Requires real operational data and verified labels.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1287,10 +1170,10 @@
             <h3>Test Evidence and Results</h3>
 
             <p>
-                The results of these tests are documented
-                using the evidence collected after execution.
-                A test case should only be considered successful
-                when its actual behavior has been verified.
+                The following screenshots document the initial
+                functional tests. They provide evidence of
+                prediction availability, input validation,
+                and prediction history.
             </p>
         </div>
 
@@ -1304,6 +1187,11 @@
                     src="{{ url_for('static', filename='images/Evidence1.png') }}"
                     alt="Valid Prediction Test">
             </div>
+
+            <p>
+                Evidence of a successful prediction generated
+                from valid equipment measurements.
+            </p>
         </div>
 
         <!-- EVIDENCE 2 -->
@@ -1316,6 +1204,12 @@
                     src="{{ url_for('static', filename='images/Evidence2.png') }}"
                     alt="Input Validation Test">
             </div>
+
+            <p>
+                Evidence that an empty required Torque field
+                triggered browser validation and prevented
+                form submission.
+            </p>
         </div>
 
         <!-- EVIDENCE 3 -->
@@ -1328,11 +1222,17 @@
                     src="{{ url_for('static', filename='images/Evidence3.png') }}"
                     alt="Prediction Record">
             </div>
+
+            <p>
+                Evidence that the generated prediction
+                appeared in the application's Prediction History.
+            </p>
         </div>
 
-        <!-- EVIDENCE 4 - WRITTEN MONITORING REPORT -->
+        <!-- EVIDENCE 4 -->
 
         <div class="monitoring-report-card">
+
             <h3>Evidence 4 — Initial Functional Monitoring Review</h3>
 
             <p><strong>System:</strong> Predictive Maintenance System</p>
@@ -1361,74 +1261,86 @@
 
             <h4>Observed Prediction</h4>
 
+            <p><strong>Input Type:</strong> M</p>
+            <p><strong>Air Temperature:</strong> 300 K</p>
+            <p><strong>Process Temperature:</strong> 310 K</p>
+            <p><strong>Rotational Speed:</strong> 1500 rpm</p>
+            <p><strong>Torque:</strong> 40 Nm</p>
+            <p><strong>Tool Wear:</strong> 100 min</p>
             <p><strong>Failure Probability:</strong> 0.08%</p>
             <p><strong>Risk Level:</strong> Low</p>
 
             <h4>Monitoring Findings</h4>
 
             <p>
-                The initial functional checks confirmed that the application
-                can receive valid equipment measurements, generate predictions,
-                reject incomplete submissions, and display prediction records.
+                The initial functional checks confirmed that
+                the application can receive valid equipment
+                measurements, generate predictions, reject
+                incomplete submissions through browser validation,
+                and display prediction records.
             </p>
 
             <h4>Limitations</h4>
 
             <p>
-                This initial review does not establish long-term model
-                performance or data drift. Additional verified operational
-                observations and maintenance outcomes are required.
+                This initial review does not establish long-term
+                model performance or detect data drift.
+                Additional verified operational observations
+                and maintenance outcomes are required.
             </p>
 
             <h4>Conclusion</h4>
 
             <p>
-                The initial monitoring review confirmed the basic functionality
-                of the prediction workflow and input validation. Continued
-                monitoring is necessary to evaluate data quality, model
+                The initial monitoring review confirmed the
+                basic functionality of the prediction workflow
+                and input validation. Continued monitoring
+                is necessary to evaluate data quality, model
                 performance, and application reliability over time.
             </p>
+
         </div>
+
     </section>
 
     <!-- 10. MONITORING LIMITATIONS -->
 
     <section class="mon-section">
-        <h2 class="mon-section-title">
-            10. Monitoring Limitations
-        </h2>
 
-        <div class="mon-card">
-            <div class="current-limitations-card">
-                <h3>Current Project Limitations</h3>
+        <h2 class="mon-section-title">10. Monitoring Limitations</h2>
 
-                <p>
-                    The current system is an academic predictive
-                    maintenance prototype developed using
-                    the AI4I 2020 simulated dataset.
-                    Its monitoring strategy describes the
-                    procedures required for future operation,
-                    but it does not imply that the application
-                    is already connected to real industrial
-                    equipment or continuous sensor streams.
-                </p>
+        <div class="current-limitations-card">
+            <h3>Current Project Limitations</h3>
 
-                <ul class="mon-list">
-                    <li>The training dataset contains simulated industrial observations.</li>
-                    <li>Real-time sensor monitoring is not assumed to be implemented.</li>
-                    <li>Performance monitoring requires verified failure outcomes.</li>
-                    <li>Data drift detection requires new operational data for comparison.</li>
-                    <li>Automatic retraining is not assumed to be implemented.</li>
-                    <li>Monitoring frequency and responsibilities are proposed for the project.</li>
-                </ul>
-            </div>
+            <p>
+                The current system is an academic predictive
+                maintenance prototype developed using the
+                AI4I 2020 simulated dataset. Its monitoring
+                strategy describes procedures for future
+                operation, but it does not imply that the
+                application is already connected to real
+                industrial equipment or continuous sensor streams.
+            </p>
+
+            <ul class="mon-list">
+                <li>The training dataset contains simulated industrial observations.</li>
+                <li>Real-time sensor monitoring is not implemented as part of the current prototype.</li>
+                <li>Long-term performance monitoring requires verified failure outcomes.</li>
+                <li>Data drift detection requires new operational data for comparison.</li>
+                <li>Automatic retraining is not implemented.</li>
+                <li>The monitoring frequency and responsibilities are proposed for the project.</li>
+                <li>The initial tests verify basic application functionality, not industrial reliability.</li>
+            </ul>
         </div>
+
     </section>
 
     <!-- 11. PHASE CONCLUSION -->
 
     <section class="mon-section">
+
         <div class="phase-conclusion-card">
+
             <h3>Phase Conclusion</h3>
 
             <p>
@@ -1452,15 +1364,27 @@
             </p>
 
             <p>
+                The initial functional tests confirmed that
+                the application can generate predictions,
+                validate required input fields, and display
+                prediction records. These tests provide
+                initial evidence of application functionality,
+                but do not replace long-term monitoring
+                or real industrial validation.
+            </p>
+
+            <p>
                 By defining these procedures, the project
                 provides a foundation for responsible
                 maintenance, continuous improvement,
                 and future validation using real industrial
                 operational data.
             </p>
+
         </div>
+
     </section>
 
-</div>
+    
 
 {% endblock %}

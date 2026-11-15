@@ -1,5 +1,6 @@
-
 from pathlib import Path
+import json
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 import joblib
 import pandas as pd
@@ -9,6 +10,9 @@ from matplotlib.colors import LinearSegmentedColormap
 
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -20,8 +24,13 @@ from sklearn.metrics import (
     ConfusionMatrixDisplay,
     roc_curve
 )
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
+
+from sklearn.model_selection import (
+    train_test_split,
+    StratifiedKFold,
+    cross_validate
+)
+
 from sklearn.pipeline import Pipeline
 
 
@@ -38,12 +47,13 @@ MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
 MODEL_PATH = MODEL_DIR / "failure_model.joblib"
 
-# Project root
 PROJECT_ROOT = BASE_DIR.parent
 
-# Evaluation images folder
 IMAGES_DIR = PROJECT_ROOT / "static" / "images"
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+
+RESULTS_DIR = BASE_DIR / "results"
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ==========================================
@@ -98,9 +108,6 @@ if target not in data.columns:
         f"Target column '{target}' was not found."
     )
 
-# Remove identifiers and failure-mode columns
-# to avoid data leakage.
-
 columns_to_remove = [
     "UDI",
     "Product ID",
@@ -119,10 +126,8 @@ X = data.drop(
 
 y = data[target]
 
-# Identify categorical and numerical features.
-
 categorical_features = X.select_dtypes(
-    include=["object"]
+    include=["str", "object", "category"]
 ).columns.tolist()
 
 numerical_features = X.select_dtypes(
@@ -134,26 +139,6 @@ print(X.columns.tolist())
 
 print("\nTarget distribution:")
 print(y.value_counts())
-
-
-# ==========================================
-# PREPROCESSING
-# ==========================================
-
-preprocessor = ColumnTransformer(
-    transformers=[
-        (
-            "categorical",
-            OneHotEncoder(handle_unknown="ignore"),
-            categorical_features
-        ),
-        (
-            "numerical",
-            "passthrough",
-            numerical_features
-        )
-    ]
-)
 
 
 # ==========================================
@@ -173,40 +158,216 @@ print("Testing records:", len(X_test))
 
 
 # ==========================================
-# MACHINE LEARNING MODEL
+# PIPELINE CREATION
 # ==========================================
 
-model = RandomForestClassifier(
-    n_estimators=200,
-    max_depth=12,
-    min_samples_split=5,
-    class_weight="balanced",
-    random_state=42,
-    n_jobs=-1
+def create_pipeline(classifier):
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            (
+                "categorical",
+                OneHotEncoder(handle_unknown="ignore"),
+                categorical_features
+            ),
+            (
+                "numerical",
+                StandardScaler(),
+                numerical_features
+            )
+        ]
+    )
+
+    return Pipeline(
+        steps=[
+            ("preprocessor", preprocessor),
+            ("classifier", classifier)
+        ]
+    )
+
+
+# ==========================================
+# MODEL DEFINITIONS
+# ==========================================
+
+models = {
+    "Logistic Regression": create_pipeline(
+        LogisticRegression(
+            max_iter=3000,
+            class_weight="balanced",
+            random_state=42
+        )
+    ),
+
+    "Decision Tree": create_pipeline(
+        DecisionTreeClassifier(
+            max_depth=12,
+            min_samples_split=5,
+            class_weight="balanced",
+            random_state=42
+        )
+    ),
+
+    "Random Forest": create_pipeline(
+        RandomForestClassifier(
+            n_estimators=200,
+            max_depth=12,
+            min_samples_split=5,
+            class_weight="balanced",
+            random_state=42,
+            n_jobs=-1
+        )
+    )
+}
+
+
+# ==========================================
+# CROSS-VALIDATION
+# ==========================================
+
+print("\n========== CROSS-VALIDATION ==========")
+
+cv = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
 )
 
-pipeline = Pipeline(
-    steps=[
-        ("preprocessor", preprocessor),
-        ("classifier", model)
-    ]
+scoring = {
+    "accuracy": "accuracy",
+    "precision": "precision",
+    "recall": "recall",
+    "f1": "f1",
+    "roc_auc": "roc_auc"
+}
+
+comparison_results = []
+
+for model_name, model_pipeline in models.items():
+
+    print(f"\nEvaluating: {model_name}")
+
+    cv_results = cross_validate(
+        model_pipeline,
+        X_train,
+        y_train,
+        cv=cv,
+        scoring=scoring,
+        return_train_score=True,
+        n_jobs=-1
+    )
+
+    result = {
+        "Model": model_name,
+
+        "CV Accuracy": cv_results[
+            "test_accuracy"
+        ].mean(),
+
+        "CV Precision": cv_results[
+            "test_precision"
+        ].mean(),
+
+        "CV Recall": cv_results[
+            "test_recall"
+        ].mean(),
+
+        "CV F1-score": cv_results[
+            "test_f1"
+        ].mean(),
+
+        "CV ROC-AUC": cv_results[
+            "test_roc_auc"
+        ].mean(),
+
+        "Train F1-score": cv_results[
+            "train_f1"
+        ].mean()
+    }
+
+    comparison_results.append(result)
+
+    print("CV Accuracy:", round(result["CV Accuracy"], 4))
+    print("CV Precision:", round(result["CV Precision"], 4))
+    print("CV Recall:", round(result["CV Recall"], 4))
+    print("CV F1-score:", round(result["CV F1-score"], 4))
+    print("CV ROC-AUC:", round(result["CV ROC-AUC"], 4))
+
+
+# ==========================================
+# MODEL COMPARISON
+# ==========================================
+
+comparison_df = pd.DataFrame(comparison_results)
+
+comparison_df = comparison_df.sort_values(
+    by="CV F1-score",
+    ascending=False
+).reset_index(drop=True)
+
+comparison_path = RESULTS_DIR / "model_comparison.csv"
+
+comparison_df.to_csv(
+    comparison_path,
+    index=False
 )
 
+print("\n========== MODEL COMPARISON ==========")
+print(comparison_df.to_string(index=False))
+
+print("\nComparison saved at:", comparison_path)
+
 
 # ==========================================
-# MODEL TRAINING
+# SELECT BEST MODEL
 # ==========================================
 
-print("\nTraining Random Forest model...")
+best_model_name = comparison_df.iloc[0]["Model"]
+
+print("\nSelected model:", best_model_name)
+print("Selection criterion: Highest mean cross-validation F1-score.")
+
+pipeline = models[best_model_name]
+
+
+# ==========================================
+# FINAL MODEL TRAINING
+# ==========================================
+
+print("\n========== FINAL MODEL TRAINING ==========")
 
 pipeline.fit(X_train, y_train)
 
-print("Training completed.")
+print("Final model training completed.")
 
 
 # ==========================================
-# MODEL EVALUATION
+# TRAINING PERFORMANCE
 # ==========================================
+
+train_predictions = pipeline.predict(X_train)
+
+train_f1 = f1_score(
+    y_train,
+    train_predictions,
+    zero_division=0
+)
+
+train_accuracy = accuracy_score(
+    y_train,
+    train_predictions
+)
+
+print("\n========== TRAINING PERFORMANCE ==========")
+print("Training Accuracy:", round(train_accuracy, 4))
+print("Training F1-score:", round(train_f1, 4))
+
+
+# ==========================================
+# FINAL TEST EVALUATION
+# ==========================================
+
+print("\n========== FINAL TEST EVALUATION ==========")
 
 predictions = pipeline.predict(X_test)
 
@@ -237,8 +398,7 @@ roc_auc = roc_auc_score(
     probabilities
 )
 
-print("\n========== MODEL EVALUATION ==========")
-
+print("Selected model:", best_model_name)
 print("Accuracy:", round(accuracy, 4))
 print("Precision:", round(precision, 4))
 print("Recall:", round(recall, 4))
@@ -286,7 +446,7 @@ disp.plot(
 )
 
 ax.set_title(
-    "Random Forest - Confusion Matrix",
+    f"{best_model_name} - Confusion Matrix",
     fontsize=14,
     color=COLORS["text"],
     pad=15
@@ -336,7 +496,7 @@ ax.plot(
     tpr,
     color=COLORS["dark"],
     linewidth=2.5,
-    label=f"Random Forest (AUC = {roc_auc:.4f})"
+    label=f"{best_model_name} (AUC = {roc_auc:.4f})"
 )
 
 ax.plot(
@@ -366,7 +526,7 @@ ax.set_ylabel(
 )
 
 ax.set_title(
-    "Random Forest - ROC Curve",
+    f"{best_model_name} - ROC Curve",
     fontsize=14,
     color=COLORS["text"],
     pad=15
@@ -392,7 +552,39 @@ print("ROC curve saved at:", roc_path)
 
 
 # ==========================================
-# SAVE TRAINED MODEL
+# SAVE EVALUATION METRICS
+# ==========================================
+
+evaluation_results = {
+    "selected_model": best_model_name,
+    "selection_criterion": "Highest mean cross-validation F1-score",
+    "training_records": len(X_train),
+    "testing_records": len(X_test),
+    "cross_validation_folds": 5,
+    "training_accuracy": float(train_accuracy),
+    "training_f1": float(train_f1),
+    "test_accuracy": float(accuracy),
+    "test_precision": float(precision),
+    "test_recall": float(recall),
+    "test_f1": float(f1),
+    "test_roc_auc": float(roc_auc),
+    "confusion_matrix": cm.tolist()
+}
+
+metrics_path = RESULTS_DIR / "evaluation_metrics.json"
+
+with open(metrics_path, "w", encoding="utf-8") as file:
+    json.dump(
+        evaluation_results,
+        file,
+        indent=4
+    )
+
+print("\nEvaluation metrics saved at:", metrics_path)
+
+
+# ==========================================
+# SAVE FINAL TRAINED MODEL
 # ==========================================
 
 joblib.dump(pipeline, MODEL_PATH)
@@ -407,12 +599,17 @@ print("Saved at:", MODEL_PATH)
 
 print("\n========== TRAINING PROCESS COMPLETED ==========")
 
+print("Selected model:", best_model_name)
+
 print("Accuracy:", round(accuracy * 100, 2), "%")
 print("Precision:", round(precision * 100, 2), "%")
 print("Recall:", round(recall * 100, 2), "%")
 print("F1-score:", round(f1 * 100, 2), "%")
 print("ROC-AUC:", round(roc_auc * 100, 2), "%")
 
-print("\nGenerated images:")
+print("\nGenerated files:")
 print(confusion_path)
 print(roc_path)
+print(comparison_path)
+print(metrics_path)
+print(MODEL_PATH)

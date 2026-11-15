@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Business and Data Understanding | Predictive Maintenance{% endblock %}
@@ -33,7 +34,9 @@
     margin-bottom: 17px;
 }
 
-.bu-header h1, .bu-section-title, .bu-highlight h3 {
+.bu-header h1,
+.bu-section-title,
+.bu-highlight h3 {
     font-family: 'Libre Baskerville', serif;
 }
 
@@ -41,13 +44,14 @@
     font-size: 32px;
     color: #49382d;
     margin: 0 0 14px;
+    line-height: 1.4;
 }
 
 .bu-header p {
     color: #837365;
     font-size: 14px;
     line-height: 1.8;
-    max-width: 850px;
+    max-width: 900px;
 }
 
 .bu-section {
@@ -75,7 +79,9 @@
     margin: 0 0 12px;
 }
 
-.bu-card p, .bu-objective p, .bu-highlight p {
+.bu-card p,
+.bu-objective p,
+.bu-highlight p {
     color: #76685c;
     font-size: 13px;
     line-height: 1.85;
@@ -121,6 +127,7 @@
 .bu-highlight h3 {
     color: #674b34;
     font-size: 17px;
+    margin-top: 0;
 }
 
 .bu-table-wrapper {
@@ -149,6 +156,62 @@
     line-height: 1.6;
 }
 
+.bu-note {
+    background: #fffaf2;
+    border-left: 4px solid #b18b65;
+    border-radius: 7px;
+    padding: 17px 20px;
+    margin-top: 17px;
+}
+
+.bu-note p {
+    color: #76685c;
+    font-size: 12px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.bu-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+}
+
+.bu-stat {
+    background: #f5eee6;
+    border: 1px solid #e9ded2;
+    border-radius: 12px;
+    padding: 20px 12px;
+    text-align: center;
+}
+
+.bu-stat strong {
+    display: block;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 23px;
+    color: #765638;
+    margin-bottom: 8px;
+}
+
+.bu-stat span {
+    color: #837365;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.bu-code {
+    background: #f5eee6;
+    border: 1px solid #e9ded2;
+    border-radius: 8px;
+    padding: 15px;
+    color: #674b34;
+    font-size: 12px;
+    overflow-x: auto;
+    line-height: 1.7;
+    margin-top: 14px;
+}
+
 .bu-phase-footer {
     border-top: 1px solid #e7dcd0;
     margin-top: 35px;
@@ -159,27 +222,45 @@
 }
 
 @media (max-width: 700px) {
-    .bu-container { padding: 25px 15px 40px; }
-    .bu-header h1 { font-size: 25px; }
-    .bu-grid { grid-template-columns: 1fr; }
-    .bu-card { padding: 19px; }
+    .bu-container {
+        padding: 25px 15px 40px;
+    }
+
+    .bu-header h1 {
+        font-size: 25px;
+    }
+
+    .bu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bu-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .bu-card {
+        padding: 19px;
+    }
 }
 </style>
 
 <div class="bu-container">
 
+    <!-- HEADER -->
     <header class="bu-header">
         <span class="bu-label">CRISP-ML · PHASE 01</span>
+
         <h1>Business and Data Understanding</h1>
+
         <p>
-            This phase establishes the business problem, project objectives,
-            stakeholders, dataset characteristics, and the feasibility of
-            developing a Machine Learning solution for predictive maintenance.
+            This phase defines the industrial maintenance problem,
+            business objectives, Machine Learning goals, stakeholders,
+            data characteristics, and feasibility of developing
+            a predictive maintenance solution.
         </p>
     </header>
 
-    <!-- BUSINESS UNDERSTANDING -->
-
+    <!-- 01 PROJECT CONTEXT -->
     <section class="bu-section">
         <h2 class="bu-section-title">01. Project Context</h2>
 
@@ -189,12 +270,14 @@
                 Predictive Maintenance System is a web-based application
                 designed to support industrial maintenance activities
                 through Machine Learning techniques.
-                The project uses equipment operating variables to estimate
-                the possibility of machine failure. It integrates a
-                predictive model developed in Python with a Flask
-                application, allowing users to register equipment,
-                manage maintenance records, review alerts, and obtain
-                failure predictions.
+            </p>
+            <p>
+                The project analyzes equipment operating variables
+                to estimate the probability of machine failure.
+                It integrates a predictive model developed in Python
+                with a Flask application, allowing users to register
+                equipment, manage maintenance records, review alerts,
+                and obtain failure predictions.
             </p>
         </div>
 
@@ -202,17 +285,21 @@
             <h3>Industrial Context</h3>
             <p>
                 Industrial equipment operates under different conditions
-                involving temperature, rotational speed, torque, and
-                component wear. Changes in these operating conditions
-                may be associated with equipment failures.
+                involving temperature, rotational speed, torque,
+                and component wear. Changes in these operating
+                conditions may be associated with equipment failures.
+            </p>
+            <p>
                 Unexpected failures can interrupt production processes,
                 increase maintenance expenses, and affect operational
-                efficiency. Predictive maintenance uses equipment data
-                to support more informed maintenance decisions.
+                efficiency. Predictive maintenance uses equipment
+                information to support more informed maintenance
+                decisions.
             </p>
         </div>
     </section>
 
+    <!-- 02 BUSINESS PROBLEM -->
     <section class="bu-section">
         <h2 class="bu-section-title">02. Business Problem</h2>
 
@@ -220,14 +307,17 @@
             <h3>Problem Statement</h3>
             <p>
                 Industrial maintenance teams may face difficulties
-                identifying potential equipment failures before they
-                occur. When maintenance activities depend mainly on
-                fixed schedules or responses after a failure, equipment
-                problems may remain undetected until they affect
-                operations.
+                identifying potential equipment failures before
+                they occur. When maintenance activities depend mainly
+                on fixed schedules or responses after a failure,
+                equipment problems may remain undetected until
+                they affect operations.
+            </p>
+            <p>
                 This project addresses the challenge by developing
                 a data-driven system capable of analyzing operating
-                conditions and estimating the likelihood of machine failure.
+                conditions and estimating the likelihood of
+                machine failure.
             </p>
         </div>
 
@@ -236,23 +326,26 @@
             <p>
                 Provide a technological tool that helps maintenance
                 personnel identify possible failure risks, review
-                equipment information, and support maintenance planning
-                using Machine Learning predictions.
+                equipment information, and support maintenance
+                planning using Machine Learning predictions.
             </p>
         </div>
     </section>
 
+    <!-- 03 BUSINESS OBJECTIVES -->
     <section class="bu-section">
-        <h2 class="bu-section-title">03. Project Objectives</h2>
+        <h2 class="bu-section-title">03. Business Objectives</h2>
 
         <div class="bu-grid">
+
             <div class="bu-objective">
                 <h3>General Objective</h3>
                 <p>
-                    Develop a predictive maintenance system that integrates
-                    Machine Learning and web technologies to estimate
-                    potential industrial equipment failures based on
-                    operating data and support maintenance decision-making.
+                    Develop a predictive maintenance system that
+                    integrates Machine Learning and web technologies
+                    to estimate potential industrial equipment
+                    failures based on operating data and support
+                    maintenance decision-making.
                 </p>
             </div>
 
@@ -261,26 +354,81 @@
                 <ul class="bu-list">
                     <li>Analyze the AI4I 2020 Predictive Maintenance Dataset.</li>
                     <li>Identify relevant variables associated with machine failure.</li>
-                    <li>Develop and train a classification model.</li>
-                    <li>Evaluate model performance using classification metrics.</li>
-                    <li>Integrate the predictive model into a Flask web application.</li>
+                    <li>Develop and train classification algorithms.</li>
+                    <li>Evaluate model performance using appropriate metrics.</li>
+                    <li>Integrate the selected model into a Flask application.</li>
                     <li>Provide equipment management, maintenance records, and alert functionalities.</li>
                 </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 04 BUSINESS TO ML -->
+    <section class="bu-section">
+        <h2 class="bu-section-title">04. Business Goals to Machine Learning Goals</h2>
+
+        <div class="bu-card">
+            <h3>Translation of Business Needs into ML Objectives</h3>
+            <p>
+                Business objectives are translated into measurable
+                Machine Learning tasks so that the predictive
+                component directly addresses the maintenance problem.
+            </p>
+
+            <div class="bu-table-wrapper">
+                <table class="bu-table">
+                    <thead>
+                        <tr>
+                            <th>Business Objective</th>
+                            <th>Machine Learning Objective</th>
+                            <th>Measurement</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Identify possible equipment failures.</td>
+                            <td>Classify operating observations as failure or non-failure.</td>
+                            <td>Recall, precision, F1-score.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Support maintenance planning.</td>
+                            <td>Estimate the probability of machine failure.</td>
+                            <td>Predicted failure probability.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Reduce the risk of missed failures.</td>
+                            <td>Evaluate the model's ability to detect failure cases.</td>
+                            <td>Recall and false negatives.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Provide a usable digital tool.</td>
+                            <td>Integrate the trained model into a Flask prediction workflow.</td>
+                            <td>Successful prediction requests.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
 
+    <!-- 05 ML OBJECTIVES -->
     <section class="bu-section">
-        <h2 class="bu-section-title">04. Machine Learning Objectives</h2>
+        <h2 class="bu-section-title">05. Machine Learning Objectives and Questions</h2>
 
         <div class="bu-card">
             <h3>Machine Learning Problem Definition</h3>
             <p>
-                The Machine Learning component is formulated as a supervised
-                binary classification problem. The model analyzes machine
-                operating conditions and predicts whether a machine failure
-                may occur.
+                The Machine Learning component is formulated as a
+                supervised binary classification problem. The model
+                analyzes machine operating conditions and predicts
+                whether a failure is associated with the observation.
             </p>
+
             <ul class="bu-list">
                 <li><strong>Learning type:</strong> Supervised Learning.</li>
                 <li><strong>Task:</strong> Binary Classification.</li>
@@ -292,69 +440,107 @@
         </div>
 
         <div class="bu-card">
+            <h3>Questions the Model Should Answer</h3>
+
+            <ul class="bu-list">
+                <li>Does the supplied operating information indicate a possible machine failure?</li>
+                <li>What probability does the model assign to the failure class?</li>
+                <li>How effectively can the model identify failure observations?</li>
+                <li>How reliably can it distinguish failure observations from non-failure observations?</li>
+            </ul>
+        </div>
+
+        <div class="bu-card">
             <h3>Expected Model Output</h3>
             <p>
-                The model returns a failure prediction and an estimated
-                failure probability. This information is used to indicate
-                a risk level and support maintenance decisions.
-                The prediction is intended as decision support and does
-                not replace professional equipment inspection.
+                The prediction module returns an estimated failure
+                probability and a risk classification. The application
+                uses this information to display Low, Medium, or High
+                risk levels.
+            </p>
+            <p>
+                These outputs are intended to support decision-making.
+                They do not establish that a machine will fail at a
+                specific future time and do not replace professional
+                equipment inspection.
             </p>
         </div>
     </section>
 
+    <!-- 06 STAKEHOLDERS -->
     <section class="bu-section">
-        <h2 class="bu-section-title">05. Stakeholders and Beneficiaries</h2>
+        <h2 class="bu-section-title">06. Stakeholders and Beneficiaries</h2>
 
-        <div class="bu-table-wrapper">
-            <table class="bu-table">
-                <thead>
-                    <tr>
-                        <th>Stakeholder</th>
-                        <th>Role</th>
-                        <th>Expected Benefit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Maintenance technicians</td>
-                        <td>Review equipment conditions and predictions.</td>
-                        <td>Support maintenance planning.</td>
-                    </tr>
-                    <tr>
-                        <td>Maintenance managers</td>
-                        <td>Coordinate maintenance activities.</td>
-                        <td>Improve maintenance decisions.</td>
-                    </tr>
-                    <tr>
-                        <td>Production teams</td>
-                        <td>Operate and monitor industrial equipment.</td>
-                        <td>Reduce unexpected interruptions.</td>
-                    </tr>
-                    <tr>
-                        <td>System administrators</td>
-                        <td>Manage application information and users.</td>
-                        <td>Centralize equipment records and alerts.</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="bu-card">
+            <div class="bu-table-wrapper">
+                <table class="bu-table">
+                    <thead>
+                        <tr>
+                            <th>Stakeholder</th>
+                            <th>Role</th>
+                            <th>Expected Benefit</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Maintenance technicians</td>
+                            <td>Review equipment conditions and predictions.</td>
+                            <td>Support maintenance planning and inspections.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Maintenance managers</td>
+                            <td>Coordinate maintenance activities.</td>
+                            <td>Improve maintenance-related decisions.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Production teams</td>
+                            <td>Operate and monitor industrial equipment.</td>
+                            <td>Support operational continuity.</td>
+                        </tr>
+
+                        <tr>
+                            <td>System administrators</td>
+                            <td>Manage application information and records.</td>
+                            <td>Centralize equipment data and alerts.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bu-note">
+                <p>
+                    These stakeholder groups represent the intended
+                    users and beneficiaries of the proposed system.
+                    Their participation in a real industrial
+                    implementation would need to be confirmed.
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- DATA UNDERSTANDING -->
-
+    <!-- 07 DATA SOURCE -->
     <section class="bu-section">
-        <h2 class="bu-section-title">06. Data Source</h2>
+        <h2 class="bu-section-title">07. Data Source</h2>
 
         <div class="bu-card">
             <h3>AI4I 2020 Predictive Maintenance Dataset</h3>
             <p>
                 The project uses the AI4I 2020 Predictive Maintenance
-                Dataset. It contains simulated industrial data designed
-                to represent equipment operating conditions and machine
-                failures. The dataset is used to develop and evaluate
-                the predictive classification model.
+                Dataset. It contains simulated industrial data
+                designed to represent equipment operating conditions
+                and machine failure events.
             </p>
+            <p>
+                The dataset provides a structured source for
+                developing and evaluating the predictive
+                classification model. However, its simulated
+                nature must be considered when interpreting
+                results and assessing real-world applicability.
+            </p>
+
             <ul class="bu-list">
                 <li><strong>Dataset file:</strong> ai4i2020.csv</li>
                 <li><strong>Number of observations:</strong> 10,000</li>
@@ -365,16 +551,18 @@
         </div>
     </section>
 
+    <!-- 08 DATASET STRUCTURE -->
     <section class="bu-section">
-        <h2 class="bu-section-title">07. Dataset Structure</h2>
+        <h2 class="bu-section-title">08. Dataset Structure</h2>
 
         <div class="bu-card">
-            <h3>Dataset Variables</h3>
+            <h3>Relevant Dataset Variables</h3>
             <p>
-                The dataset contains identifiers, machine characteristics,
-                operating measurements, and failure-related variables.
-                The following table describes the main variables used
-                by the prediction model.
+                The dataset contains identifiers, machine
+                characteristics, operating measurements, and
+                failure-related variables. The following table
+                describes the main variables used by the
+                prediction model.
             </p>
 
             <div class="bu-table-wrapper">
@@ -386,37 +574,44 @@
                             <th>Description</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr>
                             <td>Type</td>
                             <td>Categorical</td>
                             <td>Machine variant: L, M, or H.</td>
                         </tr>
+
                         <tr>
                             <td>Air temperature [K]</td>
                             <td>Numerical</td>
-                            <td>Ambient air temperature.</td>
+                            <td>Air temperature measurement.</td>
                         </tr>
+
                         <tr>
                             <td>Process temperature [K]</td>
                             <td>Numerical</td>
-                            <td>Temperature of the machine process.</td>
+                            <td>Machine process temperature.</td>
                         </tr>
+
                         <tr>
                             <td>Rotational speed [rpm]</td>
                             <td>Numerical</td>
                             <td>Machine rotational speed.</td>
                         </tr>
+
                         <tr>
                             <td>Torque [Nm]</td>
                             <td>Numerical</td>
                             <td>Rotational force applied to the machine.</td>
                         </tr>
+
                         <tr>
                             <td>Tool wear [min]</td>
                             <td>Numerical</td>
                             <td>Accumulated tool wear time.</td>
                         </tr>
+
                         <tr>
                             <td>Machine failure</td>
                             <td>Binary</td>
@@ -428,51 +623,58 @@
         </div>
     </section>
 
+    <!-- 09 INPUT VARIABLES -->
     <section class="bu-section">
-        <h2 class="bu-section-title">08. Variables Used by the Prediction Model</h2>
+        <h2 class="bu-section-title">09. Variables Used by the Prediction Model</h2>
 
         <div class="bu-card">
             <h3>Selected Input Features</h3>
             <p>
-                The prediction model receives six input variables that
-                describe the machine type and its operating conditions.
+                The prediction model receives six input variables
+                describing the machine type and its operating conditions.
             </p>
 
             <div class="bu-table-wrapper">
                 <table class="bu-table">
                     <thead>
                         <tr>
-                            <th>Input variable</th>
+                            <th>Input Variable</th>
                             <th>Unit / Format</th>
                             <th>Purpose</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr>
                             <td>Type</td>
                             <td>L / M / H</td>
                             <td>Identifies the machine variant.</td>
                         </tr>
+
                         <tr>
                             <td>Air temperature</td>
                             <td>Kelvin (K)</td>
-                            <td>Describes ambient temperature.</td>
+                            <td>Describes air temperature.</td>
                         </tr>
+
                         <tr>
                             <td>Process temperature</td>
                             <td>Kelvin (K)</td>
                             <td>Describes process temperature.</td>
                         </tr>
+
                         <tr>
                             <td>Rotational speed</td>
                             <td>Revolutions per minute (rpm)</td>
                             <td>Describes machine rotation.</td>
                         </tr>
+
                         <tr>
                             <td>Torque</td>
                             <td>Newton meters (Nm)</td>
                             <td>Describes applied rotational force.</td>
                         </tr>
+
                         <tr>
                             <td>Tool wear</td>
                             <td>Minutes (min)</td>
@@ -490,24 +692,26 @@
         </div>
     </section>
 
+    <!-- 10 DATA EXPLORATION -->
     <section class="bu-section">
-        <h2 class="bu-section-title">09. Initial Data Exploration</h2>
+        <h2 class="bu-section-title">10. Initial Data Exploration</h2>
 
         <div class="bu-card">
-            <h3>Exploratory Data Analysis (EDA)</h3>
+            <h3>Exploratory Data Analysis</h3>
             <p>
-                Initial data exploration helps understand the distribution
-                of the variables, identify patterns, examine relationships
-                between measurements, and detect possible data quality
-                problems before model development.
+                Initial data exploration helps understand the
+                distribution of the variables, examine operating
+                measurements, and identify characteristics that
+                may influence the modeling process.
             </p>
+
             <ul class="bu-list">
                 <li>Examine the distribution of machine failures and non-failures.</li>
-                <li>Analyze air and process temperature distributions.</li>
+                <li>Review air and process temperature measurements.</li>
                 <li>Examine rotational speed and torque values.</li>
                 <li>Analyze the distribution of tool wear.</li>
-                <li>Explore relationships between operating variables and machine failure.</li>
-                <li>Identify possible class imbalance in the target variable.</li>
+                <li>Explore the relationship between operating variables and machine failure.</li>
+                <li>Identify class imbalance in the target variable.</li>
             </ul>
         </div>
 
@@ -517,86 +721,125 @@
                 <p>
                     The dataset contains 9,661 observations without
                     machine failure and 339 observations with failure.
-                    This indicates an imbalanced target distribution.
+                    This represents an imbalanced target distribution.
                 </p>
             </div>
 
             <div class="bu-card">
                 <h3>Operating Variables</h3>
                 <p>
-                    Temperature, rotational speed, torque, and tool wear
-                    describe the operating conditions represented in
-                    the dataset.
+                    Temperature, rotational speed, torque, and
+                    tool wear describe the operating conditions
+                    represented in the dataset.
                 </p>
             </div>
         </div>
+
+        <div class="bu-note">
+            <p>
+                <strong>Interpretation:</strong>
+                The class imbalance makes it important to evaluate
+                failure detection using recall, precision, and
+                F1-score rather than accuracy alone.
+            </p>
+        </div>
     </section>
 
+    <!-- 11 DATA QUALITY -->
     <section class="bu-section">
-        <h2 class="bu-section-title">10. Data Quality Assessment</h2>
+        <h2 class="bu-section-title">11. Data Quality, Relevance and Sufficiency</h2>
 
         <div class="bu-card">
-            <h3>Data Quality Checks</h3>
-            <p>
-                Before model development, the dataset must be examined
-                to identify inconsistencies that could affect the results.
-                The following checks are considered during data inspection.
-            </p>
+            <h3>Data Quality Assessment</h3>
+
+            <div class="bu-stat-grid">
+                <div class="bu-stat">
+                    <strong>10,000</strong>
+                    <span>Observations</span>
+                </div>
+
+                <div class="bu-stat">
+                    <strong>14</strong>
+                    <span>Columns</span>
+                </div>
+
+                <div class="bu-stat">
+                    <strong>0</strong>
+                    <span>Missing values</span>
+                </div>
+
+                <div class="bu-stat">
+                    <strong>0</strong>
+                    <span>Duplicate records</span>
+                </div>
+            </div>
 
             <div class="bu-table-wrapper">
                 <table class="bu-table">
                     <thead>
                         <tr>
-                            <th>Quality Check</th>
-                            <th>Purpose</th>
-                            <th>Evidence</th>
+                            <th>Quality Aspect</th>
+                            <th>Finding</th>
+                            <th>Implication</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr>
-                            <td>Missing values</td>
-                            <td>Identify incomplete observations.</td>
-                            <td>Null-value count.</td>
+                            <td>Completeness</td>
+                            <td>No missing values detected.</td>
+                            <td>No missing-value imputation was required.</td>
                         </tr>
+
                         <tr>
-                            <td>Duplicate records</td>
-                            <td>Identify repeated observations.</td>
-                            <td>Duplicate count.</td>
+                            <td>Uniqueness</td>
+                            <td>No duplicated records detected.</td>
+                            <td>No duplicate removal was required.</td>
                         </tr>
+
                         <tr>
-                            <td>Data types</td>
-                            <td>Verify numerical and categorical formats.</td>
-                            <td>Column data types.</td>
+                            <td>Variable types</td>
+                            <td>Categorical and numerical features.</td>
+                            <td>Different preprocessing methods are necessary.</td>
                         </tr>
-                        <tr>
-                            <td>Value ranges</td>
-                            <td>Identify unusual or invalid values.</td>
-                            <td>Descriptive statistics.</td>
-                        </tr>
+
                         <tr>
                             <td>Target distribution</td>
-                            <td>Identify possible class imbalance.</td>
-                            <td>Class frequencies.</td>
+                            <td>3.39% failure observations.</td>
+                            <td>Class imbalance must be considered.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </section>
-
-    <section class="bu-section">
-        <h2 class="bu-section-title">11. Data Limitations and Feasibility</h2>
 
         <div class="bu-card">
-            <h3>Dataset Limitations</h3>
-            <ul class="bu-list">
-                <li>The dataset is based on simulated industrial operating conditions.</li>
-                <li>Its observations may not represent all types of real industrial equipment.</li>
-                <li>The failure patterns do not cover every possible real-world failure.</li>
-                <li>Model performance depends on the quality and representativeness of available data.</li>
-                <li>Additional testing with real operational data is necessary before production use.</li>
-            </ul>
+            <h3>Data Relevance</h3>
+            <p>
+                The selected variables are relevant to the project's
+                prediction task because they describe machine type
+                and operating conditions. These measurements provide
+                the information used by the classifier to estimate
+                the failure class.
+            </p>
         </div>
+
+        <div class="bu-card">
+            <h3>Data Sufficiency</h3>
+            <p>
+                The 10,000 observations provide a dataset for
+                developing, validating, and testing the classification
+                models. However, only 339 observations belong to
+                the failure class. This limits the number of positive
+                examples available and must be considered when
+                interpreting model performance.
+            </p>
+        </div>
+    </section>
+
+    <!-- 12 FEASIBILITY -->
+    <section class="bu-section">
+        <h2 class="bu-section-title">12. Feasibility, Limitations and Risks</h2>
 
         <div class="bu-card">
             <h3>Technical Feasibility</h3>
@@ -604,41 +847,191 @@
                 The project is technically feasible using Python,
                 Pandas, Scikit-learn, Flask, and the available dataset.
                 The trained model can be integrated into the web
-                application to process equipment measurements and
-                return predictions.
+                application to process equipment measurements
+                and return predictions.
+            </p>
+            <ul class="bu-list">
+                <li>Python provides the environment for data preparation and model development.</li>
+                <li>Scikit-learn supports preprocessing, training, and evaluation.</li>
+                <li>Flask provides the web application and prediction interface.</li>
+                <li>Joblib allows the trained pipeline to be saved and loaded.</li>
+            </ul>
+        </div>
+
+        <div class="bu-card">
+            <h3>Organizational Feasibility</h3>
+            <p>
+                The application is designed to support maintenance
+                technicians and managers by centralizing equipment
+                information and displaying predictive results.
+                A real organizational implementation would require
+                user training, agreement on maintenance workflows,
+                access to reliable equipment measurements, and
+                defined responsibilities for reviewing predictions.
+            </p>
+            <p>
+                These organizational arrangements are proposed
+                considerations. They have not been validated through
+                deployment in an industrial organization.
             </p>
         </div>
 
         <div class="bu-card">
-            <h3>Success Criteria</h3>
+            <h3>Dataset and Project Limitations</h3>
+            <ul class="bu-list">
+                <li>The dataset is based on simulated industrial operating conditions.</li>
+                <li>Its observations may not represent every type of real industrial equipment.</li>
+                <li>The failure patterns do not cover every possible real-world failure.</li>
+                <li>The minority failure class contains only 339 observations.</li>
+                <li>Model performance depends on the quality and representativeness of available data.</li>
+                <li>Additional testing with real operational data is necessary before production use.</li>
+            </ul>
+        </div>
+
+        <div class="bu-card">
+            <h3>Potential Risks and Mitigation</h3>
+
+            <div class="bu-table-wrapper">
+                <table class="bu-table">
+                    <thead>
+                        <tr>
+                            <th>Risk</th>
+                            <th>Potential Impact</th>
+                            <th>Proposed Mitigation</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>False negative predictions</td>
+                            <td>A possible failure may not be identified.</td>
+                            <td>Monitor recall and maintain professional inspections.</td>
+                        </tr>
+
+                        <tr>
+                            <td>False positive predictions</td>
+                            <td>Unnecessary inspections may be considered.</td>
+                            <td>Review precision and confirm predictions with technicians.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Simulated training data</td>
+                            <td>Results may not generalize to real equipment.</td>
+                            <td>Validate with real operational data before production use.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Changes in operating conditions</td>
+                            <td>Model performance may degrade.</td>
+                            <td>Monitor input data and periodically review model performance.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13 SUCCESS CRITERIA -->
+    <section class="bu-section">
+        <h2 class="bu-section-title">13. Measurable Success Criteria</h2>
+
+        <div class="bu-card">
+            <h3>Project Acceptance Criteria</h3>
             <p>
-                The project aims to develop a functional application
-                that can process equipment data, generate failure
-                predictions, present model evaluation results, and
-                support maintenance-related activities. Model quality
-                is assessed using classification metrics, including
-                precision, recall, F1-score, and ROC-AUC.
+                Project success is assessed through functional,
+                methodological, and predictive criteria. The
+                following indicators allow the development and
+                results to be verified.
+            </p>
+
+            <div class="bu-table-wrapper">
+                <table class="bu-table">
+                    <thead>
+                        <tr>
+                            <th>Criterion</th>
+                            <th>Measurement</th>
+                            <th>Verification</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Dataset preparation</td>
+                            <td>10,000 records and 14 original columns inspected.</td>
+                            <td>Data inspection and preparation scripts.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Model comparison</td>
+                            <td>Three classification algorithms evaluated.</td>
+                            <td>Cross-validation comparison table.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Model selection</td>
+                            <td>Highest mean five-fold CV F1-score.</td>
+                            <td>Model comparison results.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Independent evaluation</td>
+                            <td>Final test metrics reported on 2,000 records.</td>
+                            <td>Evaluation results and visualizations.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Prediction functionality</td>
+                            <td>New equipment inputs produce a prediction and probability.</td>
+                            <td>Flask application test.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Application deployment</td>
+                            <td>Published application can be accessed and used.</td>
+                            <td>Published application URL and functional tests.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bu-note">
+            <p>
+                <strong>Model evaluation criterion:</strong>
+                The model selection process uses the highest mean
+                F1-score across five stratified cross-validation
+                folds. The final independent test results are
+                reported separately and are not used to select
+                the model.
             </p>
         </div>
     </section>
 
+    <!-- CONCLUSION -->
     <section class="bu-section">
         <div class="bu-highlight">
             <h3>Phase Conclusion</h3>
             <p>
                 The Business and Data Understanding phase establishes
-                the industrial problem, project objectives, stakeholders,
-                data source, relevant variables, and dataset limitations.
-                The AI4I 2020 dataset provides the information required
-                to develop a supervised classification model for
-                predictive maintenance.
+                the industrial problem, business objectives,
+                Machine Learning goals, stakeholders, data source,
+                relevant variables, and project feasibility.
+            </p>
+            <p>
+                The AI4I 2020 dataset provides 10,000 observations
+                and 14 columns for developing a supervised
+                classification model. Its simulated nature and
+                imbalanced failure distribution are important
+                limitations to consider.
+            </p>
+            <p>
+                The project defines measurable criteria based on
+                data preparation, model comparison, independent
+                evaluation, and successful application functionality.
                 These findings provide the foundation for the next
-                phase: Data Engineering, where the dataset is cleaned,
-                transformed, and prepared for Machine Learning training.
+                phase: Data Engineering.
             </p>
         </div>
     </section>
-
-</div>
-
+    
 {% endblock %}
