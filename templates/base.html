@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
     <title>{% block title %}Predictive Maintenance System{% endblock %}</title>
     <link rel="icon"
       type="image/png"
-      href="{{ url_for('static', filename='images/logo.png') }}">
+      href="{{ url_for('static', filename='images/Logo.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -250,19 +249,24 @@
                 text-align: center;
             }
         }
-                .brand-logo {
+        .brand-logo {
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
+            flex-shrink: 0;
+            width: 200px;
+            height: 150px;
+            overflow: visible;
         }
 
         .brand-logo img {
-            width: 38px;
-            height: 38px;
+            width: 100%;
+            height: 100%;
+            display: block;
             object-fit: contain;
-            border-radius: 8px;
-        }
+            object-position: center;
+}
     </style>
 
     {% block head %}{% endblock %}
