@@ -1,13 +1,30 @@
-from datetime import date, timedelta
+import os
 import math
+from datetime import date, timedelta
+from functools import wraps
+
+import click
 
 from flask import (
     Flask,
     render_template,
-    render_template_string,
     request,
     redirect,
-    url_for
+    url_for,
+    abort
+)
+
+from flask_login import (
+    LoginManager,
+    login_required,
+    login_user,
+    logout_user,
+    current_user
+)
+
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
 )
 
 from sqlalchemy.exc import IntegrityError
@@ -27,19 +44,474 @@ from machine_learning.predict import predict_failure
 app = Flask(__name__)
 
 # ==============================
-# DATABASE CONFIGURATION
+# APPLICATION CONFIGURATION
 # ==============================
 
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "sqlite:///predictive_maintenance.db"
+app.config["SECRET_KEY"] = os.environ.get(
+    "SECRET_KEY",
+    "dev-only-change-this-secret-before-deployment"
 )
+
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL",
+    "sqlite:///predictive_maintenance.db"
+).replace("postgres://", "postgresql://", 1)
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
 
 # ==============================
-# HOME PAGE
+# FLASK-LOGIN CONFIGURATION
+# ==============================
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+login_manager.login_view = "login"
+login_manager.login_message = "Please log in to access this page."
+login_manager.login_message_category = "warning"
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, int(user_id))
+
+
+# ==============================
+# ROLE-BASED ACCESS CONTROL
+# ==============================
+
+def role_required(*allowed_roles):
+    """
+    Restrict access to users with specific roles.
+    """
+
+    def decorator(view_function):
+
+        @wraps(view_function)
+        @login_required
+        def wrapped_view(*args, **kwargs):
+
+            if current_user.role not in allowed_roles:
+                abort(403)
+
+            return view_function(*args, **kwargs)
+
+        return wrapped_view
+
+    return decorator
+
+
+def require_role_for_post(*allowed_roles):
+    """
+    Allow authenticated users to view a page,
+    but restrict POST operations to selected roles.
+    """
+
+    if (
+        request.method == "POST"
+        and current_user.role not in allowed_roles
+    ):
+        abort(403)
+
+
+# ==============================
+# AUTHENTICATION
+# ==============================
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+
+    error = None
+
+    if request.method == "POST":
+
+        email = request.form.get(
+            "email", ""
+        ).strip().lower()
+
+        password = request.form.get(
+            "password", ""
+        )
+
+        user = User.query.filter(
+            db.func.lower(User.email) == email
+        ).first()
+
+        if user and check_password_hash(
+            user.password_hash,
+            password
+        ):
+
+            login_user(user)
+
+            next_page = request.args.get("next")
+
+            if (
+                next_page
+                and next_page.startswith("/")
+                and not next_page.startswith("//")
+            ):
+                return redirect(next_page)
+
+            return redirect(url_for("dashboard"))
+
+        error = "Invalid email or password."
+
+    return render_template(
+        "login.html",
+        error=error,
+        active_page="login"
+    )
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+
+    error = None
+
+    if request.method == "POST":
+
+        full_name = request.form.get(
+            "full_name", ""
+        ).strip()
+
+        email = request.form.get(
+            "email", ""
+        ).strip().lower()
+
+        password = request.form.get(
+            "password", ""
+        )
+
+        confirm_password = request.form.get(
+            "confirm_password", ""
+        )
+
+        try:
+
+            if not full_name or not email:
+                raise ValueError(
+                    "Full name and email are required."
+                )
+
+            if len(full_name) > 120:
+                raise ValueError(
+                    "Full name is too long."
+                )
+
+            if len(email) > 150 or "@" not in email:
+                raise ValueError(
+                    "Please enter a valid email address."
+                )
+
+            if len(password) < 8:
+                raise ValueError(
+                    "Password must contain at least 8 characters."
+                )
+
+            if password != confirm_password:
+                raise ValueError(
+                    "Passwords do not match."
+                )
+
+            existing_user = User.query.filter(
+                db.func.lower(User.email) == email
+            ).first()
+
+            if existing_user:
+                raise ValueError(
+                    "An account with this email already exists."
+                )
+
+            new_user = User(
+                full_name=full_name,
+                email=email,
+                password_hash=generate_password_hash(password),
+                role="technician"
+            )
+
+            db.session.add(new_user)
+            db.session.commit()
+
+            login_user(new_user)
+
+            return redirect(url_for("dashboard"))
+
+        except ValueError as exc:
+            db.session.rollback()
+            error = str(exc)
+
+        except IntegrityError:
+            db.session.rollback()
+            error = "This email is already registered."
+
+        except Exception:
+            db.session.rollback()
+            app.logger.exception(
+                "User registration failed"
+            )
+            error = (
+                "An unexpected error occurred during registration."
+            )
+
+    return render_template(
+        "register.html",
+        error=error,
+        active_page="register"
+    )
+
+
+@app.route("/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+
+    logout_user()
+
+    return redirect(url_for("login"))
+
+
+# ==============================
+# CREATE FIRST ADMINISTRATOR
+# ==============================
+
+@app.cli.command("create-admin")
+def create_admin():
+    """Create or update an administrator account."""
+
+    email = click.prompt(
+        "Administrator email"
+    ).strip().lower()
+
+    full_name = click.prompt(
+        "Administrator full name"
+    ).strip()
+
+    password = click.prompt(
+        "Administrator password",
+        hide_input=True,
+        confirmation_prompt=True
+    )
+
+    if not email or "@" not in email:
+        click.echo("Please enter a valid email.")
+        return
+
+    if len(password) < 8:
+        click.echo(
+            "Password must contain at least 8 characters."
+        )
+        return
+
+    existing_user = User.query.filter(
+        db.func.lower(User.email) == email
+    ).first()
+
+    if existing_user:
+
+        existing_user.role = "admin"
+        existing_user.password_hash = generate_password_hash(
+            password
+        )
+        existing_user.full_name = full_name
+
+        db.session.commit()
+
+        click.echo(
+            "Existing account updated to administrator."
+        )
+
+    else:
+
+        admin_user = User(
+            full_name=full_name,
+            email=email,
+            password_hash=generate_password_hash(password),
+            role="admin"
+        )
+
+        db.session.add(admin_user)
+        db.session.commit()
+
+        click.echo(
+            "Administrator account created successfully."
+        )
+
+
+# ==============================
+# USER MANAGEMENT - ADMIN ONLY
+# ==============================
+
+@app.route("/users", methods=["GET", "POST"])
+@role_required("admin")
+def user_management():
+
+    error = None
+    success = None
+
+    if request.method == "POST":
+
+        try:
+
+            full_name = request.form.get(
+                "full_name", ""
+            ).strip()
+
+            email = request.form.get(
+                "email", ""
+            ).strip().lower()
+
+            password = request.form.get(
+                "password", ""
+            )
+
+            role = request.form.get(
+                "role", ""
+            ).strip().lower()
+
+            allowed_roles = [
+                "admin",
+                "supervisor",
+                "technician"
+            ]
+
+            if not full_name or not email or not password:
+                raise ValueError(
+                    "All fields are required."
+                )
+
+            if len(full_name) > 120:
+                raise ValueError(
+                    "Full name is too long."
+                )
+
+            if len(email) > 150 or "@" not in email:
+                raise ValueError(
+                    "Please enter a valid email address."
+                )
+
+            if len(password) < 8:
+                raise ValueError(
+                    "Password must contain at least 8 characters."
+                )
+
+            if role not in allowed_roles:
+                raise ValueError(
+                    "Please select a valid user role."
+                )
+
+            existing_user = User.query.filter(
+                db.func.lower(User.email) == email
+            ).first()
+
+            if existing_user:
+                raise ValueError(
+                    "This email is already registered."
+                )
+
+            new_user = User(
+                full_name=full_name,
+                email=email,
+                password_hash=generate_password_hash(password),
+                role=role
+            )
+
+            db.session.add(new_user)
+            db.session.commit()
+
+            return redirect(
+                url_for("user_management", created=1)
+            )
+
+        except ValueError as exc:
+            db.session.rollback()
+            error = str(exc)
+
+        except IntegrityError:
+            db.session.rollback()
+            error = "This email is already registered."
+
+        except Exception:
+            db.session.rollback()
+            app.logger.exception(
+                "Administrator user creation failed"
+            )
+            error = "An unexpected error occurred."
+
+    users = User.query.order_by(
+        User.created_at.desc()
+    ).all()
+
+    if request.args.get("created") == "1":
+        success = "User created successfully!"
+
+    if request.args.get("updated") == "1":
+        success = "User role updated successfully!"
+
+    return render_template(
+        "users.html",
+        users=users,
+        error=error,
+        success=success,
+        active_page="users"
+    )
+
+
+@app.route(
+    "/users/<int:user_id>/role",
+    methods=["POST"]
+)
+@role_required("admin")
+def update_user_role(user_id):
+
+    user = db.session.get(User, user_id)
+
+    if user is None:
+        abort(404)
+
+    new_role = request.form.get(
+        "role", ""
+    ).strip().lower()
+
+    allowed_roles = [
+        "admin",
+        "supervisor",
+        "technician"
+    ]
+
+    if new_role not in allowed_roles:
+        abort(400)
+
+    if user.id == current_user.id:
+        abort(403)
+
+    if user.role == "admin" and new_role != "admin":
+
+        admin_count = User.query.filter_by(
+            role="admin"
+        ).count()
+
+        if admin_count <= 1:
+            abort(403)
+
+    user.role = new_role
+    db.session.commit()
+
+    return redirect(
+        url_for("user_management", updated=1)
+    )
+
+
+# ==============================
+# HOME PAGE - PUBLIC
 # ==============================
 
 @app.route("/")
@@ -52,11 +524,12 @@ def home():
 
 
 # ==============================
-# PGC PAGE
+# PGC PAGE - PUBLIC
 # ==============================
 
 @app.route("/pgc")
 def pgc():
+
     return render_template(
         "pgc.html",
         active_page="pgc"
@@ -64,12 +537,7 @@ def pgc():
 
 
 # ==============================
-# CRISP-DM PAGE
-# ==============================
-
-
-# ==============================
-# CRISP-DM METHODOLOGY
+# CRISP-DM METHODOLOGY - PUBLIC
 # ==============================
 
 @app.route("/crisp-dm")
@@ -145,8 +613,9 @@ def deployment():
         active_page="crisp_dm"
     )
 
+
 # ==============================
-# PHASE 6 - Monitoring and Maintenance
+# PHASE 6 - MONITORING AND MAINTENANCE
 # ==============================
 
 @app.route("/monitoring_maintenance")
@@ -157,12 +626,16 @@ def monitoring_maintenance():
         active_page="crisp_dm"
     )
 
+
 # ==============================
 # EQUIPMENT REGISTRATION
 # ==============================
 
 @app.route("/application", methods=["GET", "POST"])
+@login_required
 def application():
+
+    require_role_for_post("admin", "technician")
 
     success = None
     error = None
@@ -170,14 +643,22 @@ def application():
     if request.method == "POST":
 
         try:
-            name = request.form.get("name", "").strip()
+
+            name = request.form.get(
+                "name", ""
+            ).strip()
 
             equipment_type = request.form.get(
                 "equipment_type", ""
             ).strip()
 
-            brand = request.form.get("brand", "").strip()
-            model = request.form.get("model", "").strip()
+            brand = request.form.get(
+                "brand", ""
+            ).strip()
+
+            model = request.form.get(
+                "model", ""
+            ).strip()
 
             serial_number = request.form.get(
                 "serial_number", ""
@@ -212,12 +693,16 @@ def application():
                 if installation_value else None
             )
 
-            if installation_date and installation_date > date.today():
+            if (
+                installation_date
+                and installation_date > date.today()
+            ):
                 raise ValueError(
                     "Installation date cannot be in the future."
                 )
 
             if serial_number:
+
                 existing_equipment = Equipment.query.filter_by(
                     serial_number=serial_number
                 ).first()
@@ -236,7 +721,8 @@ def application():
                 location=location or None,
                 installation_date=installation_date,
                 maintenance_interval_days=interval,
-                status="active"
+                status="active",
+                owner_id=current_user.id
             )
 
             db.session.add(new_equipment)
@@ -315,7 +801,6 @@ def update_automatic_alerts(
 
     changed = False
 
-    # Resolve alerts that no longer apply
     for alert in active_alerts:
 
         if (
@@ -335,7 +820,6 @@ def update_automatic_alerts(
                 current_alert.message = message
                 changed = True
 
-            # Resolve duplicate active alerts
             for duplicate in matching_alerts[1:]:
                 duplicate.status = "resolved"
                 changed = True
@@ -456,17 +940,17 @@ def synchronize_all_automatic_alerts():
     if alerts_changed:
         db.session.commit()
 
+
 # ==============================
 # MAINTENANCE DASHBOARD
 # ==============================
 
 @app.route("/dashboard")
+@login_required
 def dashboard():
 
-    # Synchronize automatic maintenance alerts
     synchronize_all_automatic_alerts()
 
-    # General system statistics
     total_equipment = Equipment.query.count()
     total_maintenance = MaintenanceRecord.query.count()
     total_predictions = Prediction.query.count()
@@ -475,7 +959,6 @@ def dashboard():
         status="active"
     ).count()
 
-    # Prediction risk statistics
     low_risk = Prediction.query.filter_by(
         risk_level="Low"
     ).count()
@@ -488,7 +971,6 @@ def dashboard():
         risk_level="High"
     ).count()
 
-    # Latest five predictions
     latest_predictions = (
         Prediction.query
         .order_by(Prediction.predicted_at.desc())
@@ -507,7 +989,7 @@ def dashboard():
         medium_risk=medium_risk,
         high_risk=high_risk,
         latest_predictions=latest_predictions
-    )        
+    )
 
 
 # ==============================
@@ -515,7 +997,10 @@ def dashboard():
 # ==============================
 
 @app.route("/maintenance", methods=["GET", "POST"])
+@login_required
 def maintenance():
+
+    require_role_for_post("admin", "technician")
 
     success = None
     error = None
@@ -523,6 +1008,7 @@ def maintenance():
     if request.method == "POST":
 
         try:
+
             equipment_id = request.form.get(
                 "equipment_id",
                 type=int
@@ -690,16 +1176,18 @@ def maintenance():
 # ==============================
 
 @app.route("/predictions", methods=["GET", "POST"])
+@login_required
 def predictions():
 
     result = None
     error = None
+    success = None
     selected_equipment_id = None
 
     if request.method == "POST":
 
         try:
-            # Get selected equipment
+
             equipment_id = request.form.get(
                 "equipment_id",
                 type=int
@@ -717,7 +1205,6 @@ def predictions():
                     "Please select valid registered equipment."
                 )
 
-            # Get machine type
             machine_type = request.form.get(
                 "machine_type",
                 ""
@@ -728,7 +1215,6 @@ def predictions():
                     "Please select a valid machine type."
                 )
 
-            # Convert input values
             air_temperature = float(
                 request.form.get("air_temperature", "")
             )
@@ -749,7 +1235,6 @@ def predictions():
                 request.form.get("tool_wear", "")
             )
 
-            # Validate numeric values
             values = [
                 air_temperature,
                 process_temperature,
@@ -758,7 +1243,10 @@ def predictions():
                 tool_wear
             ]
 
-            if not all(math.isfinite(value) for value in values):
+            if not all(
+                math.isfinite(value)
+                for value in values
+            ):
                 raise ValueError(
                     "Please enter valid numeric values."
                 )
@@ -773,7 +1261,6 @@ def predictions():
                     "Torque and tool wear cannot be negative."
                 )
 
-            # Prepare data for the trained model
             equipment_data = {
                 "Type": machine_type,
                 "Air temperature [K]": air_temperature,
@@ -783,10 +1270,8 @@ def predictions():
                 "Tool wear [min]": tool_wear
             }
 
-            # Generate prediction
             result = predict_failure(equipment_data)
 
-            # Save prediction in database
             new_prediction = Prediction(
                 equipment_id=selected_equipment.id,
                 failure_probability=result["failure_probability"],
@@ -815,12 +1300,14 @@ def predictions():
                 "generating the prediction."
             )
 
-    # Retrieve registered equipment
+    # Show the success message after an administrator deletes a prediction.
+    if request.args.get("deleted") == "1":
+        success = "Prediction deleted successfully!"
+
     equipment_list = Equipment.query.order_by(
         Equipment.name.asc()
     ).all()
 
-    # Retrieve prediction history
     prediction_history = (
         Prediction.query
         .order_by(Prediction.predicted_at.desc())
@@ -833,8 +1320,49 @@ def predictions():
         predictions=prediction_history,
         result=result,
         error=error,
+        success=success,
         selected_equipment_id=selected_equipment_id,
         active_page="predictions"
+    )
+
+
+# ==============================
+# DELETE PREDICTION - ADMIN ONLY
+# ==============================
+
+@app.route(
+    "/predictions/<int:prediction_id>/delete",
+    methods=["POST"]
+)
+@role_required("admin")
+def delete_prediction(prediction_id):
+    """
+    Only administrators can delete prediction records.
+    Supervisors and technicians receive HTTP 403.
+    """
+
+    prediction = db.session.get(
+        Prediction,
+        prediction_id
+    )
+
+    if prediction is None:
+        abort(404)
+
+    try:
+
+        db.session.delete(prediction)
+        db.session.commit()
+
+    except Exception:
+        db.session.rollback()
+        app.logger.exception(
+            "Prediction deletion failed"
+        )
+        abort(500)
+
+    return redirect(
+        url_for("predictions", deleted=1)
     )
 
 
@@ -843,6 +1371,7 @@ def predictions():
 # ==============================
 
 @app.route("/alerts")
+@login_required
 def alerts():
 
     synchronize_all_automatic_alerts()
@@ -872,6 +1401,7 @@ def alerts():
     "/alerts/<int:alert_id>/read",
     methods=["POST"]
 )
+@role_required("admin", "supervisor", "technician")
 def mark_alert_read(alert_id):
 
     alert = db.session.get(Alert, alert_id)
@@ -888,6 +1418,22 @@ def mark_alert_read(alert_id):
 
 
 # ==============================
+# FORBIDDEN ACCESS HANDLER
+# ==============================
+
+@app.errorhandler(403)
+def forbidden(error):
+
+    return (
+        render_template(
+            "403.html",
+            active_page="forbidden"
+        ),
+        403
+    )
+
+
+# ==============================
 # CREATE DATABASE TABLES
 # ==============================
 
@@ -900,4 +1446,7 @@ with app.app_context():
 # ==============================
 
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(
+        debug=os.environ.get("FLASK_DEBUG") == "1"
+    )

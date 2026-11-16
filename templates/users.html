@@ -1,0 +1,362 @@
+{% extends "base.html" %}
+
+{% block title %}User Management | Predictive Maintenance{% endblock %}
+
+{% block content %}
+
+<style>
+    .users-container {
+        max-width: 1200px;
+        margin: 45px auto;
+        padding: 20px;
+    }
+
+    .users-header {
+        margin-bottom: 30px;
+    }
+
+    .users-header h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        color: var(--primary-dark);
+    }
+
+    .users-card {
+        background: var(--surface);
+        padding: 25px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        margin-bottom: 30px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    .users-card h2 {
+        margin-top: 0;
+        margin-bottom: 22px;
+        color: var(--primary);
+        font-size: 21px;
+    }
+
+    .user-form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .user-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .user-field label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .user-field input,
+    .user-field select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: #F7F3ED;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 13px;
+    }
+
+    .user-submit {
+        margin-top: 22px;
+        padding: 12px 22px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    .user-submit:hover {
+        background: var(--secondary);
+    }
+
+    .user-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .user-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+    .user-table th,
+    .user-table td {
+        padding: 15px 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        font-size: 12px;
+    }
+
+    .user-table th {
+        background: var(--surface-secondary);
+        color: var(--primary-dark);
+    }
+
+    .user-table select {
+        padding: 8px;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        background: #F7F3ED;
+        font-family: inherit;
+    }
+
+    .update-button {
+        padding: 8px 12px;
+        background: var(--secondary);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    .update-button:hover {
+        background: var(--accent);
+    }
+
+    .current-account {
+        color: var(--secondary);
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .message {
+        padding: 14px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    .message-success {
+        background: #E2EBDD;
+        color: #315B35;
+    }
+
+    .message-error {
+        background: #F4E2DF;
+        color: #8B3030;
+    }
+
+    @media (max-width: 700px) {
+        .user-form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .users-header h1 {
+            font-size: 25px;
+        }
+
+        .users-card {
+            padding: 18px;
+        }
+    }
+</style>
+
+<section class="users-container">
+
+    <div class="users-header">
+        <h1>User Management</h1>
+        <p>Manage platform users, accounts and access permissions.</p>
+    </div>
+
+    {% if success %}
+        <div class="message message-success">
+            {{ success }}
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="message message-error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <!-- CREATE USER -->
+
+    <div class="users-card">
+
+        <h2>Create New User</h2>
+
+        <form method="POST" action="{{ url_for('user_management') }}">
+
+            <div class="user-form-grid">
+
+                <div class="user-field">
+                    <label for="full_name">Full Name</label>
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        maxlength="120"
+                        required
+                        placeholder="Enter full name"
+                    >
+                </div>
+
+                <div class="user-field">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        maxlength="150"
+                        required
+                        placeholder="Enter email address"
+                    >
+                </div>
+
+                <div class="user-field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        minlength="8"
+                        required
+                        placeholder="Minimum 8 characters"
+                    >
+                </div>
+
+                <div class="user-field">
+                    <label for="role">User Role</label>
+                    <select id="role" name="role" required>
+                        <option value="technician">Technician</option>
+                        <option value="supervisor">Supervisor</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="user-submit">
+                Create User
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- REGISTERED USERS -->
+
+    <div class="users-card">
+
+        <h2>Registered Users</h2>
+
+        <div class="user-table-wrapper">
+
+            <table class="user-table">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>{{ user.full_name }}</td>
+
+                        <td>{{ user.email }}</td>
+
+                        <td>{{ user.role|capitalize }}</td>
+
+                        <td>
+                            {{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}
+                        </td>
+
+                        <td>
+
+                            {% if user.id == current_user.id %}
+
+                                <span class="current-account">
+                                    Current Account
+                                </span>
+
+                            {% else %}
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('update_user_role', user_id=user.id) }}"
+                                >
+
+                                    <select name="role" required>
+
+                                        <option
+                                            value="technician"
+                                            {% if user.role == 'technician' %}selected{% endif %}
+                                        >
+                                            Technician
+                                        </option>
+
+                                        <option
+                                            value="supervisor"
+                                            {% if user.role == 'supervisor' %}selected{% endif %}
+                                        >
+                                            Supervisor
+                                        </option>
+
+                                        <option
+                                            value="admin"
+                                            {% if user.role == 'admin' %}selected{% endif %}
+                                        >
+                                            Administrator
+                                        </option>
+
+                                    </select>
+
+                                    <button
+                                        type="submit"
+                                        class="update-button"
+                                    >
+                                        Update
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="5">
+                            No users registered.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

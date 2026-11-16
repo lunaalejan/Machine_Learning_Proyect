@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}Predictive Maintenance System{% endblock %}</title>
-    <link rel="icon"
-      type="image/png"
-      href="{{ url_for('static', filename='images/Logo.png') }}">
+    <title>
+        {% block title %}Predictive Maintenance System{% endblock %}
+    </title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='images/Logo.png') }}"
+    >
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
+
         :root {
             --background: #D8D0C3;
             --surface: #E5DED3;
@@ -46,7 +57,9 @@
             flex-direction: column;
         }
 
-        /* HEADER AND NAVIGATION */
+        /* ==============================
+           HEADER AND NAVIGATION
+        ============================== */
 
         .header {
             background: var(--primary);
@@ -68,28 +81,23 @@
             gap: 20px;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #F0E9DF;
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .logo {
-            width: 42px;
-            height: 42px;
-            flex-shrink: 0;
-            background: var(--surface-secondary);
-            color: var(--primary-dark);
-            border-radius: 10px;
+        .brand-logo {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            text-decoration: none;
+            flex-shrink: 0;
+            width: 200px;
+            height: 150px;
+            overflow: visible;
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            object-position: center;
         }
 
         .nav-links {
@@ -128,7 +136,58 @@
             cursor: pointer;
         }
 
-        /* CRISP-ML DROPDOWN */
+        /* ==============================
+           NAVIGATION BUTTONS
+        ============================== */
+
+        .nav-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 14px;
+            border-radius: 5px;
+            background: var(--secondary);
+            color: #FFFFFF !important;
+            text-decoration: none;
+            font-size: 11px !important;
+            transition: 0.3s;
+        }
+
+        .nav-action:hover {
+            background: var(--accent);
+        }
+
+        .nav-logout-form {
+            display: inline-flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-logout-button {
+            background: var(--secondary);
+            color: #FFFFFF;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+
+        .nav-logout-button:hover {
+            background: var(--accent);
+        }
+
+        .nav-user {
+            color: #E5DED3;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        /* ==============================
+           CRISP-ML DROPDOWN
+        ============================== */
 
         .nav-dropdown {
             position: relative;
@@ -183,7 +242,9 @@
             color: var(--primary-dark);
         }
 
-        /* PAGE CONTENT */
+        /* ==============================
+           PAGE CONTENT
+        ============================== */
 
         main {
             flex: 1;
@@ -191,7 +252,9 @@
             min-width: 0;
         }
 
-        /* FOOTER */
+        /* ==============================
+           FOOTER
+        ============================== */
 
         .footer {
             background: var(--primary);
@@ -204,9 +267,11 @@
             font-size: 11px;
         }
 
-        /* RESPONSIVE NAVIGATION */
+        /* ==============================
+           RESPONSIVE NAVIGATION
+        ============================== */
 
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
 
             .navbar {
                 flex-wrap: wrap;
@@ -244,244 +309,366 @@
                 padding: 8px 0;
             }
 
+            .nav-logout-form {
+                width: 100%;
+            }
+
             .footer {
                 flex-direction: column;
                 text-align: center;
             }
         }
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            flex-shrink: 0;
-            width: 200px;
-            height: 150px;
-            overflow: visible;
+
+        @media (max-width: 600px) {
+
+            .brand-logo {
+                width: 155px;
+                height: 110px;
+            }
+
+            .navbar {
+                padding: 10px 5%;
+            }
         }
 
-        .brand-logo img {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: contain;
-            object-position: center;
-}
     </style>
 
     {% block head %}{% endblock %}
+
 </head>
 
 <body>
 
-<header class="header">
+    <!-- ==============================
+         HEADER
+    ============================== -->
 
-    <div class="navbar">
+    <header class="header">
 
-        <!-- BRAND -->
+        <div class="navbar">
 
-        <a href="{{ url_for('home') }}" class="brand-logo">
-            <img src="{{ url_for('static', filename='images/Logo.png') }}"
-                alt="Predictive Maintenance Logo">
-        </a>
+            <!-- BRAND LOGO -->
 
-        <!-- MOBILE MENU BUTTON -->
+            <a href="{{ url_for('home') }}" class="brand-logo">
 
-        <button
-            class="menu-toggle"
-            type="button"
-            aria-label="Open navigation menu"
-            aria-expanded="false"
-            onclick="toggleMenu(this)">
-            ☰
-        </button>
+                <img
+                    src="{{ url_for('static', filename='images/Logo.png') }}"
+                    alt="Predictive Maintenance Logo"
+                >
 
-        <!-- MAIN NAVIGATION -->
-
-        <nav class="nav-links" id="navLinks">
-
-            <!-- HOME -->
-
-            <a href="{{ url_for('home') }}"
-               class="{% if request.endpoint == 'home' %}active{% endif %}">
-                Home
             </a>
 
-            <!-- PGC -->
+            <!-- MOBILE MENU BUTTON -->
 
-            <a href="{{ url_for('pgc') }}"
-               class="{% if request.endpoint == 'pgc' %}active{% endif %}">
-                PGC
-            </a>
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                onclick="toggleMenu(this)"
+            >
+                ☰
+            </button>
 
-            <!-- CRISP-ML DROPDOWN -->
+            <!-- MAIN NAVIGATION -->
 
-            <div class="nav-dropdown">
+            <nav class="nav-links" id="navLinks">
 
-                <button
-                    type="button"
-                    class="nav-dropdown-btn {% if request.endpoint in ['business_data_understanding', 'data_preparation', 'modeling', 'evaluation', 'deployment', 'monitoring'] %}active{% endif %}"
-                    id="crispButton"
-                    aria-expanded="false"
-                    aria-controls="crispMenu"
-                    onclick="toggleCrispMenu(event)">
+                <!-- HOME -->
 
-                    CRISP-ML
-                    <span>⌄</span>
+                <a
+                    href="{{ url_for('home') }}"
+                    class="{% if request.endpoint == 'home' %}active{% endif %}"
+                >
+                    Home
+                </a>
 
-                </button>
+                <!-- PGC -->
 
-                <div class="nav-dropdown-content" id="crispMenu">
+                <a
+                    href="{{ url_for('pgc') }}"
+                    class="{% if request.endpoint == 'pgc' %}active{% endif %}"
+                >
+                    PGC
+                </a>
 
-                    <a href="{{ url_for('business_data_understanding') }}">
-                        1. Business and Data Understanding
-                    </a>
+                <!-- CRISP-ML DROPDOWN -->
 
-                    <a href="{{ url_for('data_preparation') }}">
-                        2. Data Engineering
-                    </a>
+                <div class="nav-dropdown">
 
-                    <a href="{{ url_for('modeling') }}">
-                        3. Model Engineering
-                    </a>
+                    <button
+                        type="button"
+                        class="nav-dropdown-btn
+                        {% if request.endpoint in [
+                            'crisp_dm',
+                            'business_data_understanding',
+                            'data_preparation',
+                            'modeling',
+                            'evaluation',
+                            'deployment',
+                            'monitoring_maintenance'
+                        ] %}active{% endif %}"
+                        id="crispButton"
+                        aria-expanded="false"
+                        aria-controls="crispMenu"
+                        onclick="toggleCrispMenu(event)"
+                    >
 
-                    <a href="{{ url_for('evaluation') }}">
-                        4. Model Evaluation
-                    </a>
+                        CRISP-ML
+                        <span>⌄</span>
 
-                    <a href="{{ url_for('deployment') }}">
-                        5. Model Deployment
-                    </a>
+                    </button>
 
-                    <a href="{{ url_for('monitoring_maintenance') }}">
-                        6. Monitoring and Maintenance
-                    </a>
+                    <div
+                        class="nav-dropdown-content"
+                        id="crispMenu"
+                    >
+
+                        <a href="{{ url_for('crisp_dm') }}">
+                            CRISP-ML Methodology
+                        </a>
+
+                        <a href="{{ url_for('business_data_understanding') }}">
+                            1. Business and Data Understanding
+                        </a>
+
+                        <a href="{{ url_for('data_preparation') }}">
+                            2. Data Engineering
+                        </a>
+
+                        <a href="{{ url_for('modeling') }}">
+                            3. Model Engineering
+                        </a>
+
+                        <a href="{{ url_for('evaluation') }}">
+                            4. Model Evaluation
+                        </a>
+
+                        <a href="{{ url_for('deployment') }}">
+                            5. Model Deployment
+                        </a>
+
+                        <a href="{{ url_for('monitoring_maintenance') }}">
+                            6. Monitoring and Maintenance
+                        </a>
+
+                    </div>
 
                 </div>
 
-            </div>
+                <!-- AUTHENTICATED USER MENU -->
 
-            <!-- APPLICATION -->
+                {% if current_user.is_authenticated %}
 
-            <a href="{{ url_for('application') }}"
-               class="{% if request.endpoint == 'application' %}active{% endif %}">
-                Application
-            </a>
+                    <!-- APPLICATION -->
 
-            <!-- PREDICTIONS -->
+                    <a
+                        href="{{ url_for('application') }}"
+                        class="{% if request.endpoint == 'application' %}active{% endif %}"
+                    >
+                        Application
+                    </a>
 
-            <a href="{{ url_for('predictions') }}"
-               class="{% if active_page == 'predictions' %}active{% endif %}">
-                Predictions
-            </a>
+                    <!-- PREDICTIONS -->
 
-            <!-- ALERTS -->
+                    <a
+                        href="{{ url_for('predictions') }}"
+                        class="{% if request.endpoint == 'predictions' %}active{% endif %}"
+                    >
+                        Predictions
+                    </a>
 
-            <a href="{{ url_for('alerts') }}"
-               class="{% if request.endpoint in ['alerts', 'mark_alert_read'] %}active{% endif %}">
-                Alerts
-            </a>
+                    <!-- ALERTS -->
 
-            <!-- DASHBOARD -->
+                    <a
+                        href="{{ url_for('alerts') }}"
+                        class="{% if request.endpoint in ['alerts', 'mark_alert_read'] %}active{% endif %}"
+                    >
+                        Alerts
+                    </a>
 
-            <a href="{{ url_for('dashboard') }}"
-               class="{% if active_page == 'dashboard' %}active{% endif %}">
-                Dashboard
-            </a>
+                    <!-- DASHBOARD -->
 
-            <!-- MAINTENANCE -->
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="{% if request.endpoint == 'dashboard' %}active{% endif %}"
+                    >
+                        Dashboard
+                    </a>
 
-            <a href="{{ url_for('maintenance') }}"
-               class="{% if request.endpoint == 'maintenance' %}active{% endif %}">
-                Maintenance
-            </a>
+                    <!-- MAINTENANCE -->
 
-        </nav>
+                    <a
+                        href="{{ url_for('maintenance') }}"
+                        class="{% if request.endpoint == 'maintenance' %}active{% endif %}"
+                    >
+                        Maintenance
+                    </a>
 
-    </div>
+                    <!-- USER MANAGEMENT: ADMIN ONLY -->
 
-</header>
+                    {% if current_user.role == 'admin' %}
 
-<!-- MAIN CONTENT -->
+                        <a
+                            href="{{ url_for('user_management') }}"
+                            class="{% if request.endpoint in ['user_management', 'update_user_role'] %}active{% endif %}"
+                        >
+                            User Management
+                        </a>
 
-<main>
-    {% block content %}
-    {% endblock %}
-</main>
+                    {% endif %}
 
-<!-- FOOTER -->
+                    <!-- CURRENT USER -->
 
-<footer class="footer">
+                    <span class="nav-user">
+                        {{ current_user.full_name }}
+                    </span>
 
-    <span>Predictive Maintenance System · Academic Project</span>
+                    <!-- LOGOUT -->
 
-    <span>Universidad de Cundinamarca · Chía, Colombia</span>
+                    <form
+                        action="{{ url_for('logout') }}"
+                        method="POST"
+                        class="nav-logout-form"
+                    >
 
-</footer>
+                        <button
+                            type="submit"
+                            class="nav-logout-button"
+                        >
+                            Logout
+                        </button>
 
-<!-- JAVASCRIPT -->
+                    </form>
 
-<script>
+                {% else %}
 
-    // MOBILE NAVIGATION
+                    <!-- LOGIN -->
 
-    function toggleMenu(button) {
+                    <a
+                        href="{{ url_for('login') }}"
+                        class="{% if request.endpoint == 'login' %}active{% endif %}"
+                    >
+                        Login
+                    </a>
 
-        const nav = document.getElementById("navLinks");
+                    <!-- REGISTER -->
 
-        nav.classList.toggle("show");
+                    <a
+                        href="{{ url_for('register') }}"
+                        class="nav-action"
+                    >
+                        Register
+                    </a>
 
-        const isOpen = nav.classList.contains("show");
+                {% endif %}
 
-        button.setAttribute("aria-expanded", isOpen);
+            </nav>
 
-    }
+        </div>
 
+    </header>
 
-    // CRISP-ML DROPDOWN
+    <!-- ==============================
+         MAIN CONTENT
+    ============================== -->
 
-    function toggleCrispMenu(event) {
+    <main>
 
-        event.stopPropagation();
+        {% block content %}
+        {% endblock %}
 
-        const menu = document.getElementById("crispMenu");
+    </main>
 
-        const button = document.getElementById("crispButton");
+    <!-- ==============================
+         FOOTER
+    ============================== -->
 
-        if (!menu || !button) return;
+    <footer class="footer">
 
-        const isOpen = menu.classList.toggle("show");
+        <span>
+            Predictive Maintenance System · Academic Project
+        </span>
 
-        button.setAttribute("aria-expanded", isOpen);
+        <span>
+            Universidad de Cundinamarca · Chía, Colombia
+        </span>
 
-    }
+    </footer>
 
+    <!-- ==============================
+         JAVASCRIPT
+    ============================== -->
 
-    // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+    <script>
 
-    document.addEventListener("click", function(event) {
+        // MOBILE NAVIGATION
 
-        const dropdown = document.querySelector(".nav-dropdown");
+        function toggleMenu(button) {
 
-        const menu = document.getElementById("crispMenu");
+            const nav = document.getElementById("navLinks");
 
-        const button = document.getElementById("crispButton");
+            nav.classList.toggle("show");
 
-        if (dropdown && menu && !dropdown.contains(event.target)) {
+            const isOpen = nav.classList.contains("show");
 
-            menu.classList.remove("show");
-
-            if (button) {
-                button.setAttribute("aria-expanded", "false");
-            }
+            button.setAttribute("aria-expanded", isOpen);
 
         }
 
-    });
+        // CRISP-ML DROPDOWN
 
-</script>
+        function toggleCrispMenu(event) {
 
-{% block scripts %}{% endblock %}
+            event.stopPropagation();
+
+            const menu = document.getElementById("crispMenu");
+
+            const button = document.getElementById("crispButton");
+
+            if (!menu || !button) return;
+
+            const isOpen = menu.classList.toggle("show");
+
+            button.setAttribute("aria-expanded", isOpen);
+
+        }
+
+        // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+
+        document.addEventListener("click", function(event) {
+
+            const dropdown = document.querySelector(".nav-dropdown");
+
+            const menu = document.getElementById("crispMenu");
+
+            const button = document.getElementById("crispButton");
+
+            if (
+                dropdown &&
+                menu &&
+                !dropdown.contains(event.target)
+            ) {
+
+                menu.classList.remove("show");
+
+                if (button) {
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+
+            }
+
+        });
+
+    </script>
+
+    {% block scripts %}{% endblock %}
 
 </body>
+
 </html>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container" style="max-width: 800px; margin: 80px auto; text-align: center; padding: 40px 20px;">
+
+    <h1 style="font-size: 64px; color: #8b5e3c;">403</h1>
+
+    <h2>Access Denied</h2>
+
+    <p style="margin: 20px 0; color: #777;">
+        You do not have permission to access this page or perform this action.
+    </p>
+
+    <a href="{{ url_for('dashboard') }}"
+       style="display: inline-block; padding: 12px 24px; background: #6b705c; color: white; text-decoration: none; border-radius: 6px;">
+        Return to Dashboard
+    </a>
+
+</section>
+{% endblock %}
